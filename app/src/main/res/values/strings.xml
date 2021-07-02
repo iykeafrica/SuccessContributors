@@ -7,4 +7,9 @@
     <string name="mobile_number_header">&#160;&#160;&#160;&#160;&#160;5. Mobile Number</string>
     <string name="address_header">&#160;&#160;&#160;&#160;&#160;6. Address</string>
     <string name="whatsapp_number_header">&#160;&#160;&#160;&#160;&#160;7. <i>Whatsapp Number</i></string>
+    <string name="password_header">&#160;&#160;&#160;&#160;&#160;8. Password</string>
+    <string name="submit">Submit</string>
+    <string name="password">Password</string>
+    <string name="required">Required</string>
+    <string name="confirm_password">Confirm password</string>
 </resources>
