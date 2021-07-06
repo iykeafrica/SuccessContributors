@@ -59,11 +59,67 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="20dp"
                 android:padding="2dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/gradient_line"
                 android:text="Pending"
                 android:textColor="@color/primary_dark"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/loan_id_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:visibility="gone"
+                android:background="@drawable/custom_constraint_layout"
+                android:padding="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/status_header">
+
+                <TextView
+                    android:id="@+id/loan_id_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Loan Id"
+                    android:textColor="@color/primary_dark"
+                    android:textColorHint="@color/primary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/loan_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/roboto"
+                    android:text="Zaqteubxmutyendgdfraeqoklew"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loan_id_title" />
+
+                <ImageView
+                    android:id="@+id/copy_loan_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_copy"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,7 +130,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/status_header">
+                app:layout_constraintTop_toBottomOf="@id/loan_id_header">
 
                 <TextView
                     android:id="@+id/user_header"
@@ -121,7 +177,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:inputType="none"
+                            android:inputType="number"
                             app:backgroundTint="@color/accent" />
 
                         <LinearLayout
@@ -335,7 +391,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:inputType="none"
+                            android:inputType="text"
                             app:backgroundTint="@color/accent" />
 
                         <LinearLayout
@@ -469,6 +525,19 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:textStyle="bold"/>
 
+                <TextView
+                    android:id="@+id/guarantor_t_and_c"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/guarantor_t_and_c"
+                    android:textColor="@color/primary_dark"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="10sp"
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_header"
+                    android:textStyle="bold"/>
+
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/guarantor_one_confirmation_header"
@@ -481,7 +550,7 @@
                     android:layout_marginEnd="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/guarantor_header">
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_t_and_c">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -502,22 +571,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginStart="20dp">
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp">
 
                             <EditText
                                 android:id="@+id/guarantor_one_confirmation"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:hint="@string/name_and_sap_no"
                                 android:layout_weight="3"
                                 android:inputType="text"
                                 app:backgroundTint="@color/accent" />
-
-                            <ImageView
-                                android:id="@+id/guarantor_one_confirmation_list_users"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_list" />
 
                         </LinearLayout>
 
@@ -578,22 +642,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginStart="20dp">
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp">
 
                             <EditText
                                 android:id="@+id/guarantor_two_confirmation"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
+                                android:hint="@string/name_and_sap_no"
                                 android:inputType="text"
                                 app:backgroundTint="@color/accent" />
-
-                            <ImageView
-                                android:id="@+id/guarantor_two_confirmation_list_users"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_list" />
 
                         </LinearLayout>
 
@@ -699,22 +758,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginStart="20dp">
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp">
 
                             <EditText
                                 android:id="@+id/official_one"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
+                                android:hint="@string/name_and_sap_no"
                                 android:inputType="text"
                                 app:backgroundTint="@color/accent" />
-
-                            <ImageView
-                                android:id="@+id/official_one_list_users"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_list" />
 
                         </LinearLayout>
 
@@ -775,6 +829,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:layout_marginEnd="20dp"
                             android:layout_marginStart="20dp">
 
                             <EditText
@@ -782,15 +837,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
+                                android:hint="@string/name_and_sap_no"
                                 android:inputType="text"
                                 app:backgroundTint="@color/accent" />
-
-                            <ImageView
-                                android:id="@+id/official_two_list_users"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_list" />
 
                         </LinearLayout>
 
@@ -850,6 +899,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:layout_marginEnd="20dp"
                             android:layout_marginStart="20dp">
 
                             <EditText
@@ -857,15 +907,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
+                                android:hint="@string/name_and_sap_no"
                                 android:inputType="text"
                                 app:backgroundTint="@color/accent" />
-
-                            <ImageView
-                                android:id="@+id/official_three_list_users"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_list" />
 
                         </LinearLayout>
 
@@ -926,6 +970,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:layout_marginEnd="20dp"
                             android:layout_marginStart="20dp">
 
                             <EditText
@@ -933,15 +978,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
+                                android:hint="@string/name_and_sap_no"
                                 android:inputType="text"
                                 app:backgroundTint="@color/accent" />
-
-                            <ImageView
-                                android:id="@+id/president_list_users"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_list" />
 
                         </LinearLayout>
 

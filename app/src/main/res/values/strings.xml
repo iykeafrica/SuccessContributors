@@ -18,6 +18,7 @@
     <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="user_section"><u>User Section:</u></string>
     <string name="guarantor_section"><u>Guarantor Section:</u></string>
+    <string name="guarantor_t_and_c"><font color='#FF0000'>*</font>&#160;I here by guarantee the loan of the above named user with consciousness <br> that if he/she defaults I will pay half of the loan.</br></string>
     <string name="official_section"><u>Official Section:</u></string>
     <string name="_1_amount">&#160;&#160;&#160;&#160;&#160;1. Amount</string>
     <string name="_2_guarantor_one">&#160;&#160;&#160;&#160;&#160;2. Guarantor One</string>
@@ -33,4 +34,5 @@
     <string name="_5_date_approved_rejected">&#160;&#160;&#160;&#160;&#160;5. Date Approved/Rejected</string>
     <string name="disable_loan_edit">Disable Loan Edit</string>
     <string name="loan_request_form">Loan Request Form</string>
+    <string name="name_and_sap_no">Name and Sap No.</string>
 </resources>

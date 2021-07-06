@@ -11,6 +11,9 @@ import com.example.successcontribution.ui.activity.admin.SearchUserLoanActivity;
 import com.example.successcontribution.ui.activity.admin.UpdateUserLoanStatusActivity;
 import com.example.successcontribution.ui.activity.admin.UpdateUserSavingsActivity;
 
+import static com.example.successcontribution.utils.Constant.APPROVE_LOAN_KEY;
+import static com.example.successcontribution.utils.Constant.APPROVE_LOAN_VALUE;
+
 public class AdminActivity extends AppCompatActivity {
 
     ActivityAdminBinding mBinding;
@@ -36,7 +39,8 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void searchUserLoan() {
-        startActivity(new Intent(this, SearchUserLoanActivity.class));
-        finish();
+        Intent intent = new Intent(this, SearchUserLoanActivity.class);
+        intent.putExtra(APPROVE_LOAN_KEY, APPROVE_LOAN_VALUE);
+        startActivity(intent);
     }
 }
