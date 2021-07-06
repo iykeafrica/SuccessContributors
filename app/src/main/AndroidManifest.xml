@@ -9,14 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SuccessContribution">
-        <activity android:name=".SplashScreenActivity"></activity>
-        <activity android:name=".RegistrationActivity">
+        <activity android:name=".ui.activity.AdminActivity"></activity>
+        <activity android:name=".ui.activity.admin.ApproveLoanActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.ForgetPasswordActivity" />
+        <activity android:name=".ui.activity.admin.UpdateUserLoanStatusActivity" />
+        <activity android:name=".ui.activity.admin.UpdateUserSavingsActivity" />
+        <activity android:name=".ui.activity.admin.SearchUserLoanActivity" />
+        <activity android:name=".ui.activity.DashBoardActivity" />
+        <activity android:name=".ui.activity.LoginActivity">
+
+        </activity>
+        <activity android:name=".ui.activity.SplashScreenActivity" />
+        <activity android:name=".ui.activity.RegistrationActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

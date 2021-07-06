@@ -1,0 +1,1086 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_two"
+    android:fillViewport="true"
+    tools:context=".ui.activity.admin.ApproveLoanActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="Loan Approval Page"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/gradient_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/gradient_line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_header" />
+
+            <TextView
+                android:id="@+id/status_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                app:layout_constraintEnd_toStartOf="@id/status"
+                app:layout_constraintTop_toBottomOf="@id/gradient_line"
+                android:text="Status: "
+                android:textColor="@color/primary_dark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:padding="2dp"
+                app:layout_constraintTop_toBottomOf="@id/gradient_line"
+                android:text="Pending"
+                android:textColor="@color/primary_dark"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/user_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/status_header">
+
+                <TextView
+                    android:id="@+id/user_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/user_section"
+                    android:textColor="@color/primary_dark"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/amount_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_1_amount"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:inputType="none"
+                            app:backgroundTint="@color/accent" />
+
+                        <LinearLayout
+                            android:id="@+id/amount_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/amount_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/guarantor_one_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/amount_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_2_guarantor_one"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/guarantor_one"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/guarantor_one_list_users"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/guarantor_one_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/guarantor_one_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/guarantor_two_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_one_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_3_guarantor_two"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/guarantor_two"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/guarantor_two_list_users"
+                                android:layout_width="0dp"
+                                android:layout_height="40dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/guarantor_two_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/guarantor_two_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/reason_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_two_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_4_reason"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/reason"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:inputType="none"
+                            app:backgroundTint="@color/accent" />
+
+                        <LinearLayout
+                            android:id="@+id/reason_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/reason_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/date_applied_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/reason_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_5_date_applied"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/date_applied"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:inputType="date"
+                            app:backgroundTint="@color/accent" />
+
+                        <LinearLayout
+                            android:id="@+id/date_applied_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/date_applied_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/user_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/custom_button"
+                    android:text="@string/submit"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/date_applied_header" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/gradient_line"
+                    app:layout_constraintTop_toBottomOf="@id/user_submit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/guarantor_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_section">
+
+                <TextView
+                    android:id="@+id/guarantor_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/guarantor_section"
+                    android:textColor="@color/primary_dark"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textStyle="bold"/>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/guarantor_one_confirmation_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_1_guarantor_one_confirmation"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="20dp">
+
+                            <EditText
+                                android:id="@+id/guarantor_one_confirmation"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/guarantor_one_confirmation_list_users"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/guarantor_one_confirmation_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/guarantor_one_confirmation_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/guarantor_two_confirmation_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_one_confirmation_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_2_guarantor_two_confirmation"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="20dp">
+
+                            <EditText
+                                android:id="@+id/guarantor_two_confirmation"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/guarantor_two_confirmation_list_users"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/guarantor_two_confirmation_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/guarantor_two_confirmation_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <Button
+                    android:id="@+id/guarantor_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/custom_button"
+                    android:text="@string/submit"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_two_confirmation_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/gradient_line"
+                    app:layout_constraintTop_toBottomOf="@id/guarantor_submit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/official_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guarantor_section">
+
+                <TextView
+                    android:id="@+id/official_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/official_section"
+                    android:textColor="@color/primary_dark"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/official_one_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/official_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_1_official_one"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="20dp">
+
+                            <EditText
+                                android:id="@+id/official_one"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/official_one_list_users"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/official_one_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/official_one_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/official_two_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/official_one_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_2_official_two"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="20dp">
+
+                            <EditText
+                                android:id="@+id/official_two"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/official_two_list_users"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/official_two_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/official_two_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/official_three_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/official_two_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_3_official_three"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="20dp">
+
+                            <EditText
+                                android:id="@+id/official_three"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/official_three_list_users"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/official_three_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/official_three_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/president_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/official_three_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_4_president"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="20dp">
+
+                            <EditText
+                                android:id="@+id/president"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:inputType="text"
+                                app:backgroundTint="@color/accent" />
+
+                            <ImageView
+                                android:id="@+id/president_list_users"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_list" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/president_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/president_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/date_status_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/president_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_5_date_approved_rejected"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/date_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:inputType="none"
+                            app:backgroundTint="@color/accent" />
+
+                        <LinearLayout
+                            android:id="@+id/date_status_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/date_status_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/editable_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/date_status_header"
+                    android:textSize="25sp"
+                    android:padding="5dp"
+                    android:textColor="@color/primary_dark"
+                    android:text="@string/disable_loan_edit"
+                    android:layout_marginTop="20dp"/>
+
+                <CheckBox
+                    android:id="@+id/disable_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/editable_header"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/editable_header"
+                    android:layout_marginEnd="20dp"/>
+
+                <Button
+                    android:id="@+id/official_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/custom_button"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/submit"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editable_header" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toBottomOf="@id/official_submit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</ScrollView>

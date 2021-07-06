@@ -5,7 +5,9 @@
     <color name="primary">#5A2C11</color>
     <color name="primary_light_2">#8A624A</color>
     <color name="primary_light">#BF760B</color>
-    <color name="accent">#9E9E9E</color>
+    <color name="primary_light_one">#DDA450</color>
+    <color name="accent">#C6964F</color>
+    <color name="accent_one">#95D5D3D0</color>
     <color name="accent_dark">#C6964F</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

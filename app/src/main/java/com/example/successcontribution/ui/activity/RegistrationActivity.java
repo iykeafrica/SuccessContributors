@@ -1,4 +1,4 @@
-package com.example.successcontribution;
+package com.example.successcontribution.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivityRegistrationBinding;
 
 import java.util.Objects;
@@ -48,7 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
             } else {
                 mBinding.nameRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.nameRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mName = mBinding.name.getText().toString();
+                mName = mBinding.name.getText().toString().trim();
             }
 
             if (mBinding.gender.getText().toString().trim().isEmpty()) {
@@ -57,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
             } else {
                 mBinding.genderRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.genderRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mGender = mBinding.genderRequiredText.getText().toString();
+                mGender = mBinding.genderRequiredText.getText().toString().trim();
             }
 
             if (mBinding.sapNumber.getText().toString().trim().isEmpty()) {
@@ -66,7 +67,7 @@ public class RegistrationActivity extends AppCompatActivity {
             } else {
                 mBinding.sapNumberRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.sapNumberRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mSapNumber = mBinding.sapNumberRequiredText.getText().toString();
+                mSapNumber = mBinding.sapNumberRequiredText.getText().toString().trim();
             }
 
             if (mBinding.email.getText().toString().trim().isEmpty()) {
@@ -75,7 +76,7 @@ public class RegistrationActivity extends AppCompatActivity {
             } else {
                 mBinding.emailRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.emailRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mEmail = mBinding.emailRequiredText.getText().toString();
+                mEmail = mBinding.emailRequiredText.getText().toString().trim();
             }
 
             if (mBinding.mobileNumber.getText().toString().trim().isEmpty()) {
@@ -84,7 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
             } else {
                 mBinding.mobileNumberRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.mobileNumberRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mMobileNumber = mBinding.mobileNumberRequiredText.getText().toString();
+                mMobileNumber = mBinding.mobileNumberRequiredText.getText().toString().trim();
             }
 
             if (mBinding.address.getText().toString().trim().isEmpty()) {
@@ -93,7 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
             } else {
                 mBinding.addressRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.addressRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mAddress = mBinding.addressRequiredText.getText().toString();
+                mAddress = mBinding.addressRequiredText.getText().toString().trim();
             }
 
             if (mBinding.whatsappNumber.getText().toString().trim().isEmpty()) {
@@ -102,7 +103,7 @@ public class RegistrationActivity extends AppCompatActivity {
             } else {
                 mBinding.whatsappNumberRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.whatsappNumberRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mWhatsapp = mBinding.whatsappNumberRequiredText.getText().toString();
+                mWhatsapp = mBinding.whatsappNumberRequiredText.getText().toString().trim();
             }
 
             if (mBinding.passwordOne.getText().toString().trim().isEmpty()) {
@@ -153,8 +154,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        if (mName != null && mGender != null & mSapNumber != null && mEmail != null &&
-                mMobileNumber != null && mAddress != null && mWhatsapp != null && mPassword != null) {
+        if (!mName.isEmpty() && !mGender.isEmpty() & !mSapNumber.isEmpty() && !mEmail.isEmpty() &&
+                !mMobileNumber.isEmpty() && !mAddress.isEmpty() && !mWhatsapp.isEmpty() && !mPassword.isEmpty()) {
             Toast.makeText(this, "Submit successful!", Toast.LENGTH_SHORT).show();
         }
     }

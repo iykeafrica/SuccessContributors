@@ -12,4 +12,24 @@
     <string name="password">Password</string>
     <string name="required">Required</string>
     <string name="confirm_password">Confirm password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_up">Sign up</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
+    <string name="user_section"><u>User Section:</u></string>
+    <string name="guarantor_section"><u>Guarantor Section:</u></string>
+    <string name="official_section"><u>Official Section:</u></string>
+    <string name="_1_amount">&#160;&#160;&#160;&#160;&#160;1. Amount</string>
+    <string name="_2_guarantor_one">&#160;&#160;&#160;&#160;&#160;2. Guarantor One</string>
+    <string name="_3_guarantor_two">&#160;&#160;&#160;&#160;&#160;3. Guarantor Two</string>
+    <string name="_4_reason">&#160;&#160;&#160;&#160;&#160;4. Reason</string>
+    <string name="_5_date_applied">&#160;&#160;&#160;&#160;&#160;5. Date Applied</string>
+    <string name="_1_guarantor_one_confirmation">&#160;&#160;&#160;&#160;&#160;1. Guarantor One Confirmation</string>
+    <string name="_2_guarantor_two_confirmation">&#160;&#160;&#160;&#160;&#160;2. Guarantor Two Confirmation</string>
+    <string name="_1_official_one">&#160;&#160;&#160;&#160;&#160;1. Official One</string>
+    <string name="_2_official_two">&#160;&#160;&#160;&#160;&#160;2. Official Two</string>
+    <string name="_3_official_three">&#160;&#160;&#160;&#160;&#160;3. Official Three</string>
+    <string name="_4_president">&#160;&#160;&#160;&#160;&#160;4. President</string>
+    <string name="_5_date_approved_rejected">&#160;&#160;&#160;&#160;&#160;5. Date Approved/Rejected</string>
+    <string name="disable_loan_edit">Disable Loan Edit</string>
 </resources>
