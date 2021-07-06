@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.successcontribution.R;
 
-public class ApproveLoanActivity extends AppCompatActivity {
+public class LoanRequestFormActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_approve_loan);
+        setContentView(R.layout.activity_loan_request_form);
     }
 }

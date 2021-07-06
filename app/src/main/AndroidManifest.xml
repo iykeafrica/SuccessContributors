@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SuccessContribution">
         <activity android:name=".ui.activity.AdminActivity"></activity>
-        <activity android:name=".ui.activity.admin.ApproveLoanActivity">
+        <activity android:name=".ui.activity.admin.LoanRequestFormActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

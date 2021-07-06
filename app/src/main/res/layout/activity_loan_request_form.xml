@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_two"
     android:fillViewport="true"
-    tools:context=".ui.activity.admin.ApproveLoanActivity">
+    tools:context=".ui.activity.admin.LoanRequestFormActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
-                android:text="Loan Approval Page"
+                android:text="@string/loan_request_form"
                 android:textStyle="bold"
                 android:textColor="@color/primary_dark"
                 android:textSize="25sp"

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivitySearchUserLoanBinding;
 
 public class SearchUserLoanActivity extends AppCompatActivity {
@@ -40,7 +39,7 @@ public class SearchUserLoanActivity extends AppCompatActivity {
     }
 
     private void successful() {
-        Intent intent = new Intent(this, ApproveLoanActivity.class);
+        Intent intent = new Intent(this, LoanRequestFormActivity.class);
         startActivity(intent);
     }
 }

@@ -32,4 +32,5 @@
     <string name="_4_president">&#160;&#160;&#160;&#160;&#160;4. President</string>
     <string name="_5_date_approved_rejected">&#160;&#160;&#160;&#160;&#160;5. Date Approved/Rejected</string>
     <string name="disable_loan_edit">Disable Loan Edit</string>
+    <string name="loan_request_form">Loan Request Form</string>
 </resources>
