@@ -144,7 +144,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/amount_header"
+                    android:id="@+id/name_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -155,6 +155,67 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/user_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_1_name"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:padding="10dp"
+                            android:layout_marginEnd="20dp"
+                            app:backgroundTint="@color/accent" />
+
+                        <LinearLayout
+                            android:id="@+id/name_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/name_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/amount_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/name_header">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -451,8 +512,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
+                            android:hint="@string/dd_mm_yyyy"
                             android:layout_marginEnd="20dp"
-                            android:inputType="date"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:inputType="none"
                             app:backgroundTint="@color/accent" />
 
                         <LinearLayout
@@ -479,6 +543,70 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/repayment_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/date_applied_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/primary"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|center"
+                            android:text="@string/_7_repayment_date"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/repayment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:hint="@string/dd_mm_yyyy"
+                            android:layout_marginEnd="20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:inputType="none"
+                            app:backgroundTint="@color/accent" />
+
+                        <LinearLayout
+                            android:id="@+id/repayment_required"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/required"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/repayment_required_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:fontFamily="@font/roboto"
+                                android:text="@string/required"
+                                android:textAllCaps="false" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
                 <Button
                     android:id="@+id/user_submit"
                     android:layout_width="match_parent"
@@ -491,7 +619,7 @@
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/date_applied_header" />
+                    app:layout_constraintTop_toBottomOf="@id/repayment_header" />
 
                 <View
                     android:layout_width="match_parent"
@@ -1042,6 +1170,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:hint="@string/dd_mm_yyyy"
                             android:inputType="none"
                             app:backgroundTint="@color/accent" />
 

@@ -20,11 +20,13 @@
     <string name="guarantor_section"><u>Guarantor Section:</u></string>
     <string name="guarantor_t_and_c"><font color='#FF0000'>*</font>&#160;I here by guarantee the loan of the above named user with consciousness <br> that if he/she defaults I will pay half of the loan.</br></string>
     <string name="official_section"><u>Official Section:</u></string>
-    <string name="_1_amount">&#160;&#160;&#160;&#160;&#160;1. Amount</string>
-    <string name="_2_guarantor_one">&#160;&#160;&#160;&#160;&#160;2. Guarantor One</string>
-    <string name="_3_guarantor_two">&#160;&#160;&#160;&#160;&#160;3. Guarantor Two</string>
-    <string name="_4_reason">&#160;&#160;&#160;&#160;&#160;4. Reason</string>
-    <string name="_5_date_applied">&#160;&#160;&#160;&#160;&#160;5. Date Applied</string>
+    <string name="_1_name">&#160;&#160;&#160;&#160;&#160;1. Name</string>
+    <string name="_1_amount">&#160;&#160;&#160;&#160;&#160;2. Amount</string>
+    <string name="_2_guarantor_one">&#160;&#160;&#160;&#160;&#160;3. Guarantor One</string>
+    <string name="_3_guarantor_two">&#160;&#160;&#160;&#160;&#160;4. Guarantor Two</string>
+    <string name="_4_reason">&#160;&#160;&#160;&#160;&#160;5. Reason</string>
+    <string name="_5_date_applied">&#160;&#160;&#160;&#160;&#160;6. Date Applied</string>
+    <string name="_7_repayment_date">&#160;&#160;&#160;&#160;&#160;7. Repayment Date</string>
     <string name="_1_guarantor_one_confirmation">&#160;&#160;&#160;&#160;&#160;1. Guarantor One Confirmation</string>
     <string name="_2_guarantor_two_confirmation">&#160;&#160;&#160;&#160;&#160;2. Guarantor Two Confirmation</string>
     <string name="_1_official_one">&#160;&#160;&#160;&#160;&#160;1. Official One</string>
@@ -35,4 +37,5 @@
     <string name="disable_loan_edit">Disable Loan Edit</string>
     <string name="loan_request_form">Loan Request Form</string>
     <string name="name_and_sap_no">Name and Sap No.</string>
+    <string name="dd_mm_yyyy">DD-MM-YYYY</string>
 </resources>
