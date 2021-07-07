@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivityAdminBinding;
 import com.example.successcontribution.ui.activity.admin.SearchUserLoanActivity;
 import com.example.successcontribution.ui.activity.admin.UpdateUserLoanStatusActivity;
 import com.example.successcontribution.ui.activity.admin.UpdateUserSavingsActivity;
 
-import static com.example.successcontribution.utils.Constant.APPROVE_LOAN_KEY;
-import static com.example.successcontribution.utils.Constant.APPROVE_LOAN_VALUE;
+import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_VALUE;
 
 public class AdminActivity extends AppCompatActivity {
 

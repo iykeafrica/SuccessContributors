@@ -89,74 +89,74 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                <Button
-                    android:id="@+id/loan_applications"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginEnd="40dp"
-                    android:background="@drawable/custom_button"
-                    android:text="Loan Applications"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <Button
-                    android:id="@+id/request_loan"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:background="@drawable/custom_button"
-                    android:text="Request Loan"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/loan_applications" />
+                    <Button
+                        android:id="@+id/loan_applications"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="60dp"
+                        android:layout_marginEnd="40dp"
+                        android:background="@drawable/custom_button"
+                        android:text="Loan Applications"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/guarantee_loan"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:background="@drawable/custom_button"
-                    android:text="Guarantee Loan"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/request_loan" />
+                    <Button
+                        android:id="@+id/request_loan"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:background="@drawable/custom_button"
+                        android:text="Request Loan"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/loan_applications" />
 
-                <Button
-                    android:id="@+id/contributors"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:background="@drawable/custom_button"
-                    android:text="Contributors"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/guarantee_loan" />
+                    <Button
+                        android:id="@+id/guarantee_loan"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:background="@drawable/custom_button"
+                        android:text="Guarantee Loan"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/request_loan" />
 
-                <Button
-                    android:id="@+id/profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:background="@drawable/custom_button"
-                    android:text="My Profile"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/contributors" />
+                    <Button
+                        android:id="@+id/contributors"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:background="@drawable/custom_button"
+                        android:text="Contributors"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/guarantee_loan" />
+
+                    <Button
+                        android:id="@+id/profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:background="@drawable/custom_button"
+                        android:text="My Profile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/contributors" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -165,11 +165,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginStart="40dp"
-                    android:visibility="gone"
                     android:layout_marginTop="40dp"
                     android:layout_marginEnd="40dp"
                     android:background="@drawable/custom_button"
-                    android:text="Admin"
+                    android:text="Go To Admin Page"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/user_signed_in" />
@@ -177,9 +177,9 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    app:layout_constraintTop_toBottomOf="@id/admin"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/admin" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

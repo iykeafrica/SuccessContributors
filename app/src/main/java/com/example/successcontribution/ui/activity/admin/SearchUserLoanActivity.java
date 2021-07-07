@@ -1,6 +1,5 @@
 package com.example.successcontribution.ui.activity.admin;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,15 +10,15 @@ import android.widget.Toast;
 
 import com.example.successcontribution.databinding.ActivitySearchUserLoanBinding;
 import com.example.successcontribution.ui.activity.ListUsersActivity;
+import com.example.successcontribution.ui.activity.LoanRequestFormActivity;
 
-import static com.example.successcontribution.utils.Constant.APPROVE_LOAN_KEY;
-import static com.example.successcontribution.utils.Constant.APPROVE_LOAN_VALUE;
-import static com.example.successcontribution.utils.Constant.GUARANTEE_LOAN_KEY;
-import static com.example.successcontribution.utils.Constant.GUARANTEE_LOAN_VALUE;
-import static com.example.successcontribution.utils.Constant.REQUEST_LOAN_KEY;
-import static com.example.successcontribution.utils.Constant.SEARCH_USER_REQUEST_CODE;
-import static com.example.successcontribution.utils.Constant.USER_ID_FROM_INTENT;
-import static com.example.successcontribution.utils.Constant.USER_NAME_FROM_INTENT;
+import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_VALUE;
+import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_VALUE;
+import static com.example.successcontribution.shared.Constant.SEARCH_USER_REQUEST_CODE;
+import static com.example.successcontribution.shared.Constant.USER_ID_FROM_INTENT;
+import static com.example.successcontribution.shared.Constant.USER_NAME_FROM_INTENT;
 
 public class SearchUserLoanActivity extends AppCompatActivity {
 

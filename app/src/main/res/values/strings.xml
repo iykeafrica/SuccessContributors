@@ -34,8 +34,11 @@
     <string name="_3_official_three">&#160;&#160;&#160;&#160;&#160;3. Official Three</string>
     <string name="_4_president">&#160;&#160;&#160;&#160;&#160;4. President</string>
     <string name="_5_date_approved_rejected">&#160;&#160;&#160;&#160;&#160;5. Date Approved/Rejected</string>
+    <string name="_6_status_update">&#160;&#160;&#160;&#160;&#160;6. Status Update</string>
     <string name="disable_loan_edit">Disable Loan Edit</string>
     <string name="loan_request_form">Loan Request Form</string>
     <string name="name_and_sap_no">Name and Sap No.</string>
     <string name="dd_mm_yyyy">DD-MM-YYYY</string>
+    <string name="user_id_email_phone_no_sap_no">User ID/Email/Phone No./Sap No.</string>
+
 </resources>
