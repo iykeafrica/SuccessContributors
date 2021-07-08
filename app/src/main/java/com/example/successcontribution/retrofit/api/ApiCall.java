@@ -24,19 +24,19 @@ public interface ApiCall {
     //listUserLoanApplications -> https://success-contribution.herokuapp.com/success-contribution/users/{userId}/loan-applications
     //listUserLoanApplications -> https://success-contribution.herokuapp.com/success-contribution/users/register
 
-    @POST("/success-contribution/users/login")
+    @POST("/success-contributions/users/login")
     Call<ResponseBody> login(@Body UserLoginRequestModel loginRequestModel);
 
-    @POST("/success-contribution/users/{userId}/loan-applications")
+    @POST("/success-contributions/users/{userId}/loan-applications")
     Call<LoanRest> requestLoan(@Path("userId") String userId, @Body LoanRequestModel loanRequestModel);
 
-    @GET("/success-contribution/users")
+    @GET("/success-contributions/users")
     Call<List<UserRest>> getUsers();
 
-    @GET("/success-contribution/users/{userId}/loan-applications")
+    @GET("/success-contributions/users/{userId}/loan-applications")
     Call<List<LoanRest>> getUserLoanApplications(@Path("userId") String userId);
 
-    @POST("/success-contribution/users/register")
+    @POST("/success-contributions/users/register")
     Call<UserRest> createUser(@Body UserDetailsRequestModel detailsRequestModel);
 
 }
