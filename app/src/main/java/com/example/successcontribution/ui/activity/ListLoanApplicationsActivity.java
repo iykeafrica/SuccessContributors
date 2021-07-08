@@ -10,49 +10,52 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.successcontribution.R;
-import com.example.successcontribution.databinding.ActivityListUsersBinding;
-import com.example.successcontribution.model.response.UserRest;
+import com.example.successcontribution.databinding.ActivityListLoanApplicationsBinding;
+import com.example.successcontribution.model.response.LoanRest;
+import com.example.successcontribution.ui.adapter.ListLoanApplicationsAdapter;
 import com.example.successcontribution.ui.adapter.ListUsersAdapter;
-import com.example.successcontribution.ui.viewmodel.ListUsersViewModel;
+import com.example.successcontribution.ui.viewmodel.ListUserLoanApplicationsViewModel;
 
 import java.util.List;
 
-public class ListUsersActivity extends AppCompatActivity {
+public class ListLoanApplicationsActivity extends AppCompatActivity {
 
-    private ActivityListUsersBinding mBinding;
-    private ListUsersAdapter mAdapter;
+    private ActivityListLoanApplicationsBinding mBinding;
+    private ListLoanApplicationsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBinding = ActivityListUsersBinding.inflate(getLayoutInflater());
+        mBinding = ActivityListLoanApplicationsBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
         mBinding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new ListUsersAdapter();
+        mAdapter = new ListLoanApplicationsAdapter();
         mBinding.recyclerview.setAdapter(mAdapter);
 
-        listUsers();
+        listUserLoans();
     }
 
-    private void listUsers() {
+    private void listUserLoans() {
         ViewModelProvider provider = new ViewModelProvider(getViewModelStore(),
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
 
-        ListUsersViewModel viewModel = provider.get(ListUsersViewModel.class);
+        ListUserLoanApplicationsViewModel viewModel = provider.get(ListUserLoanApplicationsViewModel.class);
+
         attemptConnection(viewModel);
     }
 
-    private void attemptConnection(ListUsersViewModel viewModel) {
+    private void attemptConnection(ListUserLoanApplicationsViewModel viewModel) {
+
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 
-        viewModel.getListUserRestLiveData().observe(this, new Observer<List<UserRest>>() {
+        viewModel.getListLiveData().observe(this, new Observer<List<LoanRest>>() {
             @Override
-            public void onChanged(List<UserRest> userRests) {
-                successConnection(userRests, progressDialog);
+            public void onChanged(List<LoanRest> loanRests) {
+                successConnection(loanRests, progressDialog);
             }
         });
 
@@ -62,16 +65,17 @@ public class ListUsersActivity extends AppCompatActivity {
                 errorConnection(errorMessage, progressDialog);
             }
         });
+
     }
 
-    private void successConnection(List<UserRest> userRests, ProgressDialog progressDialog) {
+    private void successConnection(List<LoanRest> loanRests, ProgressDialog progressDialog) {
         progressDialog.dismiss();
-        mAdapter.submitList(userRests);
+        mAdapter.submitList(loanRests);
 
-        mAdapter.setClickListener(new ListUsersAdapter.ClickListener() {
+        mAdapter.setClickListener(new ListLoanApplicationsAdapter.ClickListener() {
             @Override
-            public void selectUser(int position, UserRest userRest) {
-                Toast.makeText(ListUsersActivity.this, "" + userRest.getUserId(), Toast.LENGTH_SHORT).show();
+            public void selectLoan(int position, LoanRest loanRest) {
+                Toast.makeText(ListLoanApplicationsActivity.this, "" + loanRest.getLoanId(), Toast.LENGTH_SHORT).show();
             }
         });
         getViewModelStore().clear();

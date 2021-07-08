@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -72,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         mBinding.btnLogin.setOnClickListener(v -> {
+            hideKeyboard2(this);
+
             mUsername = mBinding.etUsername.getText().toString().trim();
             mPassword = mBinding.etPassword.getText().toString().trim();
 
@@ -142,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         mPreferences.edit().putString(LAST_NAME_KEY, lastName).apply();
 
         progressDialog.dismiss();
+        getViewModelStore().clear();
         Toast.makeText(getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), DashBoardActivity.class);
         intent.putExtra(LOGIN_ROLE_KEY, loginRole);
@@ -149,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra(FIRST_NAME_KEY, firstName);
         startActivity(intent);
         finish();
+        getViewModelStore().clear();
     }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
@@ -192,6 +198,15 @@ public class LoginActivity extends AppCompatActivity {
             InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             mgr.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
         });
+    }
+
+    public static void hideKeyboard2(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 

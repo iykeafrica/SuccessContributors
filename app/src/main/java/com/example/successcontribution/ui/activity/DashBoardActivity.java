@@ -79,7 +79,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     private void checkLoanApplications() {
         mBinding.loanApplications.setOnClickListener(v -> {
-
+            startActivity(new Intent(this, ListLoanApplicationsActivity.class));
         });
     }
 
@@ -99,7 +99,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     private void listUsers() {
         mBinding.contributors.setOnClickListener(v -> {
-
+            startActivity(new Intent(this, ListUsersActivity.class));
         });
     }
 

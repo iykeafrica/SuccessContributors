@@ -1,7 +1,8 @@
 package com.example.successcontribution.shared;
 
 public class Constant {
-    public static final String BASE_URL = "https://success-contribution.herokuapp.com";
+//    public static final String BASE_URL = "https://success-contribution.herokuapp.com";
+    public static final String BASE_URL = "https://success-contributions.herokuapp.com";
     public static final String LOGIN_ROLE_KEY = "com.example.successcontribution.utils_LOGIN_ROLE_KEY";
     public static final String LOGIN_ROLE_USER_KEY = "com.example.successcontribution.utils_LOGIN_ROLE_USER_KEY";
     public static final String SAVINGS_BALANCE_KEY = "com.example.successcontribution.utils_LOGIN_ROLE_SAVINGS_BALANCE_KEY";

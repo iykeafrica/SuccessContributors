@@ -57,7 +57,9 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private long mDateStatus;
     private String mName;
     private DatePicker mDatePicker;
-    private Calendar mCal;
+    private Calendar mCal1;
+    private Calendar mCal2;
+    private Calendar mCal3;
     private long mRepayment;
     private String mDateRepayment;
     private String mStatus;
@@ -74,7 +76,9 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
         mPreferences = getApplicationContext().getSharedPreferences(MY_PREF, 0);
-        mCal = Calendar.getInstance();
+        mCal1 = Calendar.getInstance();
+        mCal2 = Calendar.getInstance();
+        mCal3 = Calendar.getInstance();
         setDateApplied();
         setDateRepayment();
         setDateStatus();
@@ -97,17 +101,17 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     }
 
     private void setDateApplied() {
-        mDatePicker = new DatePicker(this, mCal, mBinding.dateApplied);
+        mDatePicker = new DatePicker(this, mCal1, mBinding.dateApplied);
         mDatePicker.setDateText();
     }
 
     private void setDateRepayment() {
-        mDatePicker = new DatePicker(this, mCal, mBinding.repayment);
+        mDatePicker = new DatePicker(this, mCal2, mBinding.repayment);
         mDatePicker.setDateText();
     }
 
     private void setDateStatus() {
-        mDatePicker = new DatePicker(this, mCal, mBinding.dateStatus);
+        mDatePicker = new DatePicker(this, mCal3, mBinding.dateStatus);
         mDatePicker.setDateText();
     }
 
@@ -168,11 +172,11 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
                 try {
                     Date date = dateFormat.parse(strDate);
-                    mCal.setTime(date);
+                    mCal1.setTime(date);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                mDateApplied = mCal.getTimeInMillis();
+                mDateApplied = mCal1.getTimeInMillis();
 
                 // DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
                 //Date date = new Date (milliseconds);
@@ -192,11 +196,11 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
                 try {
                     Date date = dateFormat.parse(strDate);
-                    mCal.setTime(date);
+                    mCal2.setTime(date);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                mRepayment = mCal.getTimeInMillis();
+                mRepayment = mCal2.getTimeInMillis();
             }
 
             clickSubmitLoanRequest();
@@ -275,6 +279,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
         progressDialog.dismiss();
         Toast.makeText(getApplicationContext(), "Loan request sent successfully!", Toast.LENGTH_LONG).show();
+        getViewModelStore().clear();
     }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
@@ -405,11 +410,11 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
                 try {
                     Date date = dateFormat.parse(strDate);
-                    mCal.setTime(date);
+                    mCal3.setTime(date);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                mDateStatus = mCal.getTimeInMillis();
+                mDateStatus = mCal3.getTimeInMillis();
             }
 
             if (mBinding.statusUpdate.getText().toString().trim().isEmpty()) {

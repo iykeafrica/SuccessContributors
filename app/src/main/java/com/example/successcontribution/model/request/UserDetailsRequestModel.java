@@ -27,6 +27,10 @@ public class UserDetailsRequestModel {
     @Expose
     private String email;
 
+    @SerializedName("department")
+    @Expose
+    private String department;
+
     @SerializedName("phoneNo")
     @Expose
     private String phoneNo;
@@ -81,6 +85,14 @@ public class UserDetailsRequestModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getPhoneNo() {

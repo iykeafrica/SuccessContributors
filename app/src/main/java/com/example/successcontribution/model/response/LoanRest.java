@@ -3,6 +3,8 @@ package com.example.successcontribution.model.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class LoanRest {
 
     @SerializedName("name")
@@ -207,5 +209,34 @@ public class LoanRest {
 
     public void setEditable(Boolean editable) {
         isEditable = editable;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LoanRest loanRest = (LoanRest) o;
+        return requestDate == loanRest.requestDate &&
+                repaymentDate == loanRest.repaymentDate &&
+                statusDate == loanRest.statusDate &&
+                Objects.equals(name, loanRest.name) &&
+                Objects.equals(loanId, loanRest.loanId) &&
+                Objects.equals(amount, loanRest.amount) &&
+                Objects.equals(reason, loanRest.reason) &&
+                Objects.equals(guarantorOne, loanRest.guarantorOne) &&
+                Objects.equals(guarantorTwo, loanRest.guarantorTwo) &&
+                Objects.equals(guarantorOneConfirmation, loanRest.guarantorOneConfirmation) &&
+                Objects.equals(guarantorTwoConfirmation, loanRest.guarantorTwoConfirmation) &&
+                Objects.equals(status, loanRest.status) &&
+                Objects.equals(officialOne, loanRest.officialOne) &&
+                Objects.equals(officialTwo, loanRest.officialTwo) &&
+                Objects.equals(officialThree, loanRest.officialThree) &&
+                Objects.equals(president, loanRest.president) &&
+                Objects.equals(isEditable, loanRest.isEditable);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, loanId, amount, reason, requestDate, repaymentDate, guarantorOne, guarantorTwo, guarantorOneConfirmation, guarantorTwoConfirmation, status, officialOne, officialTwo, officialThree, president, statusDate, isEditable);
     }
 }
