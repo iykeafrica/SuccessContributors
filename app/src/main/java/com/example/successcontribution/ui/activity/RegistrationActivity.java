@@ -5,12 +5,14 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,7 +27,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = RegistrationActivity.class.getSimpleName();
     private ActivityRegistrationBinding mBinding;
-    private String mName;
+    private String mFirstName;
+    private String mLastName;
     private String mDepartment;
     private String mSapNumber;
     private String mEmail;
@@ -40,20 +43,29 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mBinding = ActivityRegistrationBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        hideKeyBoard(mBinding.name);
+        hideOpeningKeyBoard(mBinding.firstName);
 
         getUserDetails();
     }
 
     private void getUserDetails() {
         mBinding.submit.setOnClickListener(v -> {
-            if (mBinding.name.getText().toString().trim().isEmpty()) {
-                mBinding.nameRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
-                mBinding.nameRequiredText.setTextColor(getResources().getColor(R.color.white));
+            if (mBinding.firstName.getText().toString().trim().isEmpty()) {
+                mBinding.firstNameRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+                mBinding.firstNameRequiredText.setTextColor(getResources().getColor(R.color.white));
             } else {
-                mBinding.nameRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
-                mBinding.nameRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mName = mBinding.name.getText().toString().trim();
+                mBinding.firstNameRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+                mBinding.firstNameRequiredText.setTextColor(getResources().getColor(R.color.black));
+                mFirstName = mBinding.firstName.getText().toString().trim();
+            }
+
+            if (mBinding.lastName.getText().toString().trim().isEmpty()) {
+                mBinding.lastNameRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+                mBinding.lastNameRequiredText.setTextColor(getResources().getColor(R.color.white));
+            } else {
+                mBinding.lastNameRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+                mBinding.lastNameRequiredText.setTextColor(getResources().getColor(R.color.black));
+                mLastName = mBinding.lastName.getText().toString().trim();
             }
 
             if (mBinding.departments.getText().toString().trim().isEmpty()) {
@@ -134,7 +146,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 mBinding.passwordTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.passwordTwoRequiredText.setTextColor(getResources().getColor(R.color.black));
                 mBinding.passwordTwoRequiredText.setText("Required");
-                mPassword = mBinding.passwordTwo.getText().toString();
+                mPassword = mBinding.passwordTwo.getText().toString().trim();
             } else if (!mBinding.passwordOne.getText().toString().trim().equals(mBinding.passwordTwo.getText().toString().trim())
                     && !mBinding.passwordOne.getText().toString().trim().isEmpty() || !mBinding.passwordTwo.getText().toString().trim().isEmpty()) {
                 mBinding.passwordOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
@@ -150,7 +162,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 mBinding.passwordTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
                 mBinding.passwordTwoRequiredText.setTextColor(getResources().getColor(R.color.white));
                 mBinding.passwordTwoRequiredText.setText("Required");
-                mPassword = mBinding.passwordTwoRequiredText.toString();
             }
 
             submit();
@@ -158,29 +169,37 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void submit() {
-        if (mName != null && mDepartment != null & mSapNumber != null && mEmail != null &&
-                mMobileNumber != null && mAddress != null && mWhatsapp != null && mPassword != null) {
+        if (!mBinding.firstName.getText().toString().trim().isEmpty() && !mBinding.lastName.getText().toString().trim().isEmpty() &&
+                !mBinding.departments.getText().toString().trim().isEmpty() && !mBinding.sapNumber.getText().toString().trim().isEmpty() &&
+                !mBinding.email.getText().toString().trim().isEmpty() && !mBinding.mobileNumber.getText().toString().trim().isEmpty() &&
+                !mBinding.address.getText().toString().trim().isEmpty() && !mBinding.whatsappNumber.getText().toString().trim().isEmpty() &&
+                !mBinding.passwordOne.getText().toString().trim().isEmpty() && !mBinding.passwordTwo.getText().toString().trim().isEmpty()
+                && mBinding.passwordOne.getText().toString().trim().equals(mBinding.passwordTwo.getText().toString().trim())) {
 
             CreateUserViewModel viewModel = new ViewModelProvider(this).get(CreateUserViewModel.class);
             UserDetailsRequestModel requestModel = new UserDetailsRequestModel();
-            requestModel.setLastName(mName);
-            requestModel.setFirstName(mName);
+            requestModel.setFirstName(mFirstName);
+            requestModel.setLastName(mLastName);
             requestModel.setDepartment(mDepartment);
             requestModel.setSapNo(mSapNumber);
             requestModel.setEmail(mEmail);
             requestModel.setFcmToken("qejdnbdbdndndndb");
             requestModel.setPhoneNo(mMobileNumber);
             requestModel.setAddress(mAddress);
-            requestModel.setWhatsappNo(mAddress);
+            requestModel.setWhatsappNo(mWhatsapp);
             requestModel.setPassword(mPassword);
 
             viewModel.setUserDetailsRequestModelData(requestModel);
 
             attemptConnection(viewModel);
+
+        } else {
+            Toast.makeText(this, "Required field(s)", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void attemptConnection(CreateUserViewModel viewModel) {
+        hideKeyboard(this);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Authenticating please wait...");
@@ -217,7 +236,7 @@ public class RegistrationActivity extends AppCompatActivity {
         getViewModelStore().clear();
     }
 
-    private void hideKeyBoard(EditText editText) {
+    private void hideOpeningKeyBoard(EditText editText) {
         editText.setInputType(InputType.TYPE_NULL);
         editText.setOnClickListener(v -> {
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -225,5 +244,14 @@ public class RegistrationActivity extends AppCompatActivity {
             InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             mgr.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
         });
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

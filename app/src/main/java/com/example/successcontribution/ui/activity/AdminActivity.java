@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.successcontribution.databinding.ActivityAdminBinding;
-import com.example.successcontribution.ui.activity.admin.SearchUserLoanActivity;
 import com.example.successcontribution.ui.activity.admin.UpdateUserLoanStatusActivity;
 import com.example.successcontribution.ui.activity.admin.UpdateUserSavingsActivity;
 
@@ -38,7 +37,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void searchUserLoan() {
-        Intent intent = new Intent(this, SearchUserLoanActivity.class);
+        Intent intent = new Intent(this, GetUserLoanActivity.class);
         intent.putExtra(APPROVE_LOAN_KEY, APPROVE_LOAN_VALUE);
         startActivity(intent);
     }

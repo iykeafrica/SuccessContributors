@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        hideKeyBoard(mBinding.etUsername);
+        hideOpeningKeyBoard(mBinding.etUsername);
         mPreferences = getApplicationContext().getSharedPreferences(MY_PREF, 0);
         forgetPassword();
         signUp();
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login() {
         mBinding.btnLogin.setOnClickListener(v -> {
-            hideKeyboard2(this);
+            hideKeyboard(this);
 
             mUsername = mBinding.etUsername.getText().toString().trim();
             mPassword = mBinding.etPassword.getText().toString().trim();
@@ -160,10 +160,7 @@ public class LoginActivity extends AppCompatActivity {
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
         Toast.makeText(getApplicationContext(), "" + errorMessage, Toast.LENGTH_SHORT).show();
         progressDialog.dismiss();
-        if (errorMessage.equals(""))
-            Toast.makeText(LoginActivity.this, "Error: Incorrect credentials..." + errorMessage, Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(LoginActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "" + errorMessage , Toast.LENGTH_SHORT).show();
         getViewModelStore().clear();
     }
 
@@ -190,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void hideKeyBoard(EditText editText) {
+    private void hideOpeningKeyBoard(EditText editText) {
         editText.setInputType(InputType.TYPE_NULL);
         editText.setOnClickListener(v -> {
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -200,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public static void hideKeyboard2(Activity activity) {
+    public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
         if (view == null) {
@@ -208,6 +205,4 @@ public class LoginActivity extends AppCompatActivity {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
-
 }

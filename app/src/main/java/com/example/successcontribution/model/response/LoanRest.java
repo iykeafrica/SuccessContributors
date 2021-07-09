@@ -1,11 +1,14 @@
 package com.example.successcontribution.model.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
-public class LoanRest {
+public class LoanRest implements Parcelable {
 
     @SerializedName("name")
     @Expose
@@ -74,6 +77,39 @@ public class LoanRest {
     @SerializedName("editable")
     @Expose
     private Boolean isEditable;
+
+    protected LoanRest(Parcel in) {
+        name = in.readString();
+        loanId = in.readString();
+        amount = in.readString();
+        reason = in.readString();
+        requestDate = in.readLong();
+        repaymentDate = in.readLong();
+        guarantorOne = in.readString();
+        guarantorTwo = in.readString();
+        guarantorOneConfirmation = in.readString();
+        guarantorTwoConfirmation = in.readString();
+        status = in.readString();
+        officialOne = in.readString();
+        officialTwo = in.readString();
+        officialThree = in.readString();
+        president = in.readString();
+        statusDate = in.readLong();
+        byte tmpIsEditable = in.readByte();
+        isEditable = tmpIsEditable == 0 ? null : tmpIsEditable == 1;
+    }
+
+    public static final Creator<LoanRest> CREATOR = new Creator<LoanRest>() {
+        @Override
+        public LoanRest createFromParcel(Parcel in) {
+            return new LoanRest(in);
+        }
+
+        @Override
+        public LoanRest[] newArray(int size) {
+            return new LoanRest[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -238,5 +274,31 @@ public class LoanRest {
     @Override
     public int hashCode() {
         return Objects.hash(name, loanId, amount, reason, requestDate, repaymentDate, guarantorOne, guarantorTwo, guarantorOneConfirmation, guarantorTwoConfirmation, status, officialOne, officialTwo, officialThree, president, statusDate, isEditable);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(loanId);
+        dest.writeString(amount);
+        dest.writeString(reason);
+        dest.writeLong(requestDate);
+        dest.writeLong(repaymentDate);
+        dest.writeString(guarantorOne);
+        dest.writeString(guarantorTwo);
+        dest.writeString(guarantorOneConfirmation);
+        dest.writeString(guarantorTwoConfirmation);
+        dest.writeString(status);
+        dest.writeString(officialOne);
+        dest.writeString(officialTwo);
+        dest.writeString(officialThree);
+        dest.writeString(president);
+        dest.writeLong(statusDate);
+        dest.writeByte((byte) (isEditable == null ? 0 : isEditable ? 1 : 2));
     }
 }

@@ -1,9 +1,11 @@
 package com.example.successcontribution.shared;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
@@ -49,6 +51,7 @@ public class DatePicker {
                 new DatePickerDialog(mContext, mDate, mCal.get(Calendar.YEAR), mCal.get(Calendar.MONTH), mCal.get(Calendar.DAY_OF_MONTH)).show();
 
                 Log.d(TAG, "onClick: " + getDay() + " " + getMonth() + " " + getYear());
+                hideKeyboard((Activity) mContext);
             }
         });
     }
@@ -83,5 +86,14 @@ public class DatePicker {
 
     public String getDay() {
         return mDay;
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.successcontribution.model.request.GuarantorLoanRequestModel;
 import com.example.successcontribution.model.request.LoanRequestModel;
 import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.model.response.UserRest;
@@ -163,5 +164,86 @@ public class AuthRepository {
         return new ListLoanRestResponse(data, networkError);
     }
 
+    public LoanRestResponse getLoanApplication(String userId, String loanId) {
+        MutableLiveData<LoanRest> data = new MutableLiveData<>();
+        MutableLiveData<String> networkError = new MutableLiveData<>();
 
+        mClient.getApi().getUserLoanApplication(userId, loanId).enqueue(new Callback<LoanRest>() {
+            @Override
+            public void onResponse(Call<LoanRest> call, Response<LoanRest> response) {
+                if (response.isSuccessful()){
+                    Log.d(TAG, "onResponse: " + response.body());
+                    data.setValue(response.body());
+                } else {
+                    if (response.errorBody() != null) {
+                        try {
+                            String e = response.errorBody().string();
+                            Log.d(TAG, "onResponse: " + e);
+                            networkError.setValue(e);
+                        } catch (IOException e) {
+                            Log.d(TAG, "onResponse: " + e.getMessage());
+                        }
+                    } else {
+                        networkError.setValue("Unknown error, please try again");
+                        Log.d(TAG, "onResponse: Unknown error, please try again");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoanRest> call, Throwable t) {
+                if (t.getMessage() != null) {
+                    Log.d(TAG, "onFailure: " + t.getMessage());
+                    networkError.setValue(t.getMessage());
+                } else {
+                    networkError.setValue("Unknown Error from server!");
+                    Log.d(TAG, "onFailure: " + "Unknown Error from server!");
+                }
+            }
+        });
+
+        return new LoanRestResponse(data, networkError);
+    }
+
+
+    public LoanRestResponse updateUserLoanApplicationByGuarantor(String userId, String loanId, GuarantorLoanRequestModel guarantorLoanRequestModel) {
+        MutableLiveData<LoanRest> data = new MutableLiveData<>();
+        MutableLiveData<String> networkError = new MutableLiveData<>();
+
+        mClient.getApi().updateUserLoanApplicationByGuarantor(userId, loanId, guarantorLoanRequestModel).enqueue(new Callback<LoanRest>() {
+            @Override
+            public void onResponse(Call<LoanRest> call, Response<LoanRest> response) {
+                if (response.isSuccessful()){
+                    Log.d(TAG, "onResponse: " + response.body());
+                    data.setValue(response.body());
+                } else {
+                    if (response.errorBody() != null) {
+                        try {
+                            String e = response.errorBody().string();
+                            Log.d(TAG, "onResponse: " + e);
+                            networkError.setValue(e);
+                        } catch (IOException e) {
+                            Log.d(TAG, "onResponse: " + e.getMessage());
+                        }
+                    } else {
+                        networkError.setValue("Unknown error, please try again");
+                        Log.d(TAG, "onResponse: Unknown error, please try again");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoanRest> call, Throwable t) {
+                if (t.getMessage() != null) {
+                    Log.d(TAG, "onFailure: " + t.getMessage());
+                    networkError.setValue(t.getMessage());
+                } else {
+                    networkError.setValue("Unknown Error from server!");
+                    Log.d(TAG, "onFailure: " + "Unknown Error from server!");
+                }
+            }
+        });
+
+        return new LoanRestResponse(data, networkError);
+    }
 }

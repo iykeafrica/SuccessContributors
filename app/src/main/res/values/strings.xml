@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">Success Contribution</string>
-    <string name="name_header">&#160;&#160;&#160;&#160;&#160;1. Name</string>
-    <string name="department_header">&#160;&#160;&#160;&#160;&#160;2. Department</string>
-    <string name="sap_number_header">&#160;&#160;&#160;&#160;&#160;3. <i>SAP NUMBER</i></string>
-    <string name="e_mail_header">&#160;&#160;&#160;&#160;&#160;4. E-Mail</string>
-    <string name="mobile_number_header">&#160;&#160;&#160;&#160;&#160;5. Mobile Number</string>
-    <string name="address_header">&#160;&#160;&#160;&#160;&#160;6. Address</string>
-    <string name="whatsapp_number_header">&#160;&#160;&#160;&#160;&#160;7. <i>Whatsapp Number</i></string>
-    <string name="password_header">&#160;&#160;&#160;&#160;&#160;8. Password</string>
+    <string name="first_name_header">&#160;&#160;&#160;&#160;&#160;1. Firstname</string>
+    <string name="last_name_header">&#160;&#160;&#160;&#160;&#160;2. Lastname</string>
+    <string name="department_header">&#160;&#160;&#160;&#160;&#160;3. Department</string>
+    <string name="sap_number_header">&#160;&#160;&#160;&#160;&#160;4. <i>SAP NUMBER</i></string>
+    <string name="e_mail_header">&#160;&#160;&#160;&#160;&#160;5. E-Mail</string>
+    <string name="mobile_number_header">&#160;&#160;&#160;&#160;&#160;6. Mobile Number</string>
+    <string name="address_header">&#160;&#160;&#160;&#160;&#160;7. Address</string>
+    <string name="whatsapp_number_header">&#160;&#160;&#160;&#160;&#160;8. <i>Whatsapp Number</i></string>
+    <string name="password_header">&#160;&#160;&#160;&#160;&#160;9. Password</string>
     <string name="submit">Submit</string>
     <string name="password">Password</string>
     <string name="required">Required</string>
@@ -44,5 +45,6 @@
     <string name="amount">Amount: ₦</string>
     <string name="dept">Dept.&#160;</string>
     <string name="name">Name:&#160;</string>
+    <string name="loan_id">Loan Id</string>
 
 </resources>

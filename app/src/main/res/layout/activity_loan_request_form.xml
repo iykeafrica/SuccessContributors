@@ -95,7 +95,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Loan Id"
+                    android:text="@string/loan_id"
                     android:textColor="@color/primary_dark"
                     android:textColorHint="@color/primary"
                     android:textSize="12sp" />
@@ -109,9 +109,8 @@
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/roboto"
                     android:gravity="center_vertical"
-                    android:text="Zaqteubxmutyendgdfraeqoklew"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/loan_id_title" />
@@ -121,7 +120,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="10dp"
-                    android:padding="2dp"
                     android:src="@drawable/ic_copy"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -249,7 +247,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
-                            android:inputType="number"
+                            android:inputType="phone"
+                            android:digits="1234567890"
                             app:backgroundTint="@color/accent" />
 
                         <LinearLayout
@@ -311,14 +310,16 @@
                             android:layout_marginStart="20dp"
                             android:orientation="horizontal">
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/guarantor_one"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="3"
-                                android:inputType="none"
                                 android:hint="@string/select_from_list"
-                                app:backgroundTint="@color/accent" />
+                                android:layout_weight="3"
+                                android:padding="10dp"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="@color/accent"/>
 
                             <ImageView
                                 android:id="@+id/guarantor_one_list_users"
@@ -388,14 +389,16 @@
                             android:layout_marginStart="20dp"
                             android:orientation="horizontal">
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/guarantor_two"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="3"
                                 android:hint="@string/select_from_list"
-                                android:inputType="none"
-                                app:backgroundTint="@color/accent" />
+                                android:layout_weight="3"
+                                android:padding="10dp"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:backgroundTint="@color/accent"/>
 
                             <ImageView
                                 android:id="@+id/guarantor_two_list_users"
@@ -749,7 +752,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/guarantor_two_confirmation_header"

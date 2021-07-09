@@ -19,7 +19,7 @@
         <activity android:name=".ui.activity.ForgetPasswordActivity" />
         <activity android:name=".ui.activity.admin.UpdateUserLoanStatusActivity" />
         <activity android:name=".ui.activity.admin.UpdateUserSavingsActivity" />
-        <activity android:name=".ui.activity.admin.SearchUserLoanActivity" />
+        <activity android:name=".ui.activity.GetUserLoanActivity" />
         <activity android:name=".ui.activity.DashBoardActivity">
 
         </activity>

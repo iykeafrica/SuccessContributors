@@ -11,16 +11,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.successcontribution.databinding.ActivityDashBoardBinding;
-import com.example.successcontribution.ui.activity.admin.SearchUserLoanActivity;
 
 import static com.example.successcontribution.shared.Constant.FIRST_NAME_KEY;
+import static com.example.successcontribution.shared.Constant.FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
-import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_VALUE;
 import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_KEY;
 import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.MY_PREF;
-import static com.example.successcontribution.shared.Constant.REQUEST_LOAN_KEY;
-import static com.example.successcontribution.shared.Constant.REQUEST_LOAN_VALUE;
 import static com.example.successcontribution.shared.Constant.USER;
 
 public class DashBoardActivity extends AppCompatActivity {
@@ -99,13 +96,15 @@ public class DashBoardActivity extends AppCompatActivity {
 
     private void listUsers() {
         mBinding.contributors.setOnClickListener(v -> {
-            startActivity(new Intent(this, ListUsersActivity.class));
+            Intent intent = new Intent(this, ListUsersActivity.class);
+            intent.putExtra(FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY, true);
+            startActivity(intent);
         });
     }
 
     private void guaranteeLoan() {
         mBinding.guaranteeLoan.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SearchUserLoanActivity.class);
+            Intent intent = new Intent(this, GetUserLoanActivity.class);
             intent.putExtra(LOGIN_ROLE_KEY, mUserRole);
             intent.putExtra(GUARANTEE_LOAN_KEY, true);
             startActivity(intent);
