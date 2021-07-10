@@ -37,16 +37,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_PARCELABLE_EXTRA_KEY;
+import static com.example.successcontribution.shared.Constant.EXCO_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.FIRST_NAME_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_ONE_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_TWO_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.HAS_SUBMITTED_SAVED_INSTANCE_STATE;
+import static com.example.successcontribution.shared.Constant.LOAN_CHECKER_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SAVED_INSTANCE_STATE;
+import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_KEY;
 import static com.example.successcontribution.shared.Constant.NAME_SAVED_INSTANCE_STATE;
+import static com.example.successcontribution.shared.Constant.PRESIDENT_LOAN_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_REQUEST_CODE;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_STRING_EXTRA;
@@ -57,6 +63,7 @@ import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_USER_KE
 import static com.example.successcontribution.shared.Constant.MY_PREF;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_TWO_STRING_EXTRA;
 import static com.example.successcontribution.shared.Constant.STATUS_SAVED_INSTANCE_STATE;
+import static com.example.successcontribution.shared.Constant.USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE;
 
 public class LoanRequestFormActivity extends AppCompatActivity {
@@ -325,12 +332,14 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
         progressDialog.dismiss();
 
-        String specificMessage = errorMessage.substring(errorMessage.indexOf("message") + 10, errorMessage.length() - 2);
+        if (errorMessage.length() > 15) {
+            String specificMessage = errorMessage.substring(errorMessage.indexOf("message") + 10, errorMessage.length() - 2);
 
-        if (!errorMessage.contains(specificMessage)) {
-            return;
-        } else {
-            errorMessage = specificMessage;
+            if (!errorMessage.contains(specificMessage)) {
+                return;
+            } else {
+                errorMessage = specificMessage;
+            }
         }
 
         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
@@ -430,9 +439,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
 
     private void approveLoan() {
-
         mBinding.officialSubmit.setOnClickListener(v -> {
-
             mStatus = mBinding.status.getText().toString();
 
             if (mBinding.officialOne.getText().toString().trim().isEmpty()) {
@@ -501,6 +508,12 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             }
 
             clickOfficialSubmit();
+
+        });
+    }
+
+    private void approveLoanByPresident() {
+        mBinding.officialSubmit.setOnClickListener(v -> {
 
         });
     }
@@ -683,29 +696,45 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     requestLoan();
                 }
             } else {
-                mBinding.officialOne.setEnabled(true);
-                mBinding.officialTwo.setEnabled(true);
-                mBinding.officialThree.setEnabled(true);
-                mBinding.president.setEnabled(true);
-                mBinding.dateStatus.setEnabled(true);
-                mBinding.statusUpdate.setEnabled(true);
-                mBinding.disableEdit.setEnabled(true);
-                mBinding.officialSubmit.setEnabled(true);
-                mBinding.statusHeader.setVisibility(View.VISIBLE);
-                mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-                mBinding.officialSection.setVisibility(View.VISIBLE);
-                approveLoan();
+                setValues();
+                if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(PRESIDENT_LOAN_KEY)) {
+                    mBinding.officialOne.setEnabled(true);
+                    mBinding.officialTwo.setEnabled(true);
+                    mBinding.officialThree.setEnabled(true);
+                    mBinding.president.setEnabled(true);
+                    mBinding.dateStatus.setEnabled(true);
+                    mBinding.statusUpdate.setEnabled(true);
+                    mBinding.disableEdit.setEnabled(true);
+                    mBinding.officialSubmit.setEnabled(true);
+                    mBinding.statusHeader.setVisibility(View.VISIBLE);
+                    mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+                    mBinding.officialSection.setVisibility(View.VISIBLE);
+                    approveLoanByPresident();
+                } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(LOAN_CHECKER_ROLE_USER_KEY)) {
+                    mBinding.officialOne.setEnabled(true);
+                    mBinding.officialTwo.setEnabled(true);
+                    mBinding.officialThree.setEnabled(true);
+                    mBinding.officialSubmit.setEnabled(true);
+                    mBinding.statusHeader.setVisibility(View.VISIBLE);
+                    mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+                    mBinding.officialSection.setVisibility(View.VISIBLE);
+                    approveLoan();
+                } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(EXCO_ROLE_USER_KEY)) {
+                    mBinding.statusHeader.setVisibility(View.VISIBLE);
+                    mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+                    mBinding.officialSection.setVisibility(View.VISIBLE);
+                }
             }
         }
 
     }
 
     private void setValues() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+
         Intent intent = getIntent();
         if (intent.hasExtra(GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY)) {
             LoanRest loanRest = intent.getParcelableExtra(GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY);
-
-            DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
 
             mBinding.status.setText(loanRest.getStatus());
             mBinding.loanId.setText(loanRest.getLoanId());
@@ -721,6 +750,30 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
             mUserId = intent.getStringExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
             mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
+        } else if (intent.hasExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY)) {
+            LoanRest loanRest = intent.getParcelableExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY);
+
+            mBinding.status.setText(loanRest.getStatus());
+            mBinding.loanId.setText(loanRest.getLoanId());
+            mBinding.name.setText(loanRest.getName());
+            mBinding.amount.setText(loanRest.getAmount());
+            mBinding.guarantorOne.setText(loanRest.getGuarantorOne());
+            mBinding.guarantorTwo.setText(loanRest.getGuarantorTwo());
+            mBinding.reason.setText(loanRest.getReason());
+            mBinding.dateApplied.setText("" + dateFormat.format(new Date(loanRest.getRequestDate())));
+            mBinding.repayment.setText("" + dateFormat.format(new Date(loanRest.getRepaymentDate())));
+            mBinding.guarantorOneConfirmation.setText(loanRest.getGuarantorOneConfirmation());
+            mBinding.guarantorTwoConfirmation.setText(loanRest.getGuarantorTwoConfirmation());
+            mBinding.officialOne.setText(loanRest.getOfficialOne());
+            mBinding.officialTwo.setText(loanRest.getOfficialTwo());
+            mBinding.officialThree.setText(loanRest.getOfficialThree());
+            mBinding.president.setText(loanRest.getPresident());
+            mBinding.dateStatus.setText("" + dateFormat.format(new Date(loanRest.getStatusDate())));
+            mBinding.statusUpdate.setText(loanRest.getStatus());
+            mBinding.disableEdit.setEnabled(loanRest.getEditable());
+
+            mUserId = intent.getStringExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE);
+            mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE);
         }
     }
 

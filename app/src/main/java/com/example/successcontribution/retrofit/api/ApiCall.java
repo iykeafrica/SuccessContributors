@@ -2,9 +2,12 @@ package com.example.successcontribution.retrofit.api;
 
 import com.example.successcontribution.model.request.GuarantorLoanRequestModel;
 import com.example.successcontribution.model.request.LoanRequestModel;
+import com.example.successcontribution.model.request.PasswordResetModel;
+import com.example.successcontribution.model.request.PasswordResetRequestModel;
 import com.example.successcontribution.model.request.UserDetailsRequestModel;
 import com.example.successcontribution.model.request.UserLoginRequestModel;
 import com.example.successcontribution.model.response.LoanRest;
+import com.example.successcontribution.model.response.OperationStatusModel;
 import com.example.successcontribution.model.response.UserRest;
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 
@@ -23,11 +26,12 @@ public interface ApiCall {
     //loginUrl -> https://success-contributions.herokuapp.com/success-contributions/users/login
     //loanRequest -> https://success-contributions.herokuapp.com/success-contributions/users/userId/loan-applications
     //listUsers -> https://success-contributions.herokuapp.com/success-contributions/users
+    //listUsers -> https://success-contributions.herokuapp.com/success-contributions/users/{userId}
     //listUserLoanApplications -> https://success-contributions.herokuapp.com/success-contributions/users/{userId}/loan-applications
     //listUserLoanApplications -> https://success-contributions.herokuapp.com/success-contributions/users/register
     //selectSpecificLoan -> https://success-contributions.herokuapp.com/success-contributions/users/{userId}/loan-applications/{loanId}
     //updateLoanByGuarantor -> https://success-contributions.herokuapp.com/success-contributions/{userId}/loan-applications/{loanId}/update-loan-application-guarantor
-
+    //passwordResetRequest -> https://success-contributions.herokuapp.com/success-contributions/success-contributions/users/password-reset-request
 
 
 
@@ -43,6 +47,9 @@ public interface ApiCall {
     @GET("/success-contributions/users")
     Call<List<UserRest>> getUsers();
 
+    @GET("/success-contributions/users/{userId}")
+    Call<UserRest> getUser(@Path("userId") String userId);
+
     @GET("/success-contributions/users/{userId}/loan-applications")
     Call<List<LoanRest>> getUserLoanApplications(@Path("userId") String userId);
 
@@ -50,5 +57,9 @@ public interface ApiCall {
     Call<LoanRest> getUserLoanApplication(@Path("userId") String userId, @Path("loanId") String loanId);
 
     @PUT("/success-contributions/users/{userId}/loan-applications/{loanId}/update-loan-application-guarantor")
-    Call<LoanRest>  updateUserLoanApplicationByGuarantor(@Path("userId") String userId, @Path("loanId") String loanId, @Body GuarantorLoanRequestModel guarantorLoanRequestModel);
+    Call<LoanRest> updateUserLoanApplicationByGuarantor(@Path("userId") String userId, @Path("loanId") String loanId, @Body GuarantorLoanRequestModel guarantorLoanRequestModel);
+
+    @POST("/success-contributions/users/password-reset-request")
+    Call<OperationStatusModel> passwordResetRequestRequest(@Body PasswordResetRequestModel passwordResetRequestModel);
+
 }

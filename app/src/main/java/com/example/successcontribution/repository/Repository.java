@@ -4,10 +4,14 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.successcontribution.model.request.PasswordResetModel;
+import com.example.successcontribution.model.request.PasswordResetRequestModel;
 import com.example.successcontribution.model.request.UserDetailsRequestModel;
 import com.example.successcontribution.model.request.UserLoginRequestModel;
+import com.example.successcontribution.model.response.OperationStatusModel;
 import com.example.successcontribution.model.response.UserRest;
 import com.example.successcontribution.repository.response.HeaderResponse;
+import com.example.successcontribution.repository.response.OperationStatusResponse;
 import com.example.successcontribution.repository.response.UserRestResponse;
 import com.example.successcontribution.retrofit.client.RetrofitClient;
 
@@ -114,4 +118,45 @@ public class Repository {
         return new UserRestResponse(data, networkError);
     }
 
+    public OperationStatusResponse passwordResetRequest(PasswordResetRequestModel requestModel) {
+        MutableLiveData<OperationStatusModel> data = new MutableLiveData<>();
+        MutableLiveData<String> networkError = new MutableLiveData<>();
+
+        mClient.getApi().passwordResetRequestRequest(requestModel).enqueue(new Callback<OperationStatusModel>() {
+            @Override
+            public void onResponse(Call<OperationStatusModel> call, Response<OperationStatusModel> response) {
+                if (response.isSuccessful()){
+                    Log.d(TAG, "onResponse: " + response.body().getOperationName());
+                    Log.d(TAG, "onResponse: " + response.body().getOperationResult());
+                    data.setValue(response.body());
+                } else {
+                    if (response.errorBody() != null) {
+                        try {
+                            String e = response.errorBody().string();
+                            Log.d(TAG, "onResponse: " + e);
+                            networkError.setValue(e);
+                        } catch (IOException e) {
+                            Log.d(TAG, "onResponse: " + e.getMessage());
+                        }
+                    } else {
+                        networkError.setValue("Unknown error, please try again");
+                        Log.d(TAG, "onResponse: Unknown error, please try again");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OperationStatusModel> call, Throwable t) {
+                if (t.getMessage() != null) {
+                    Log.d(TAG, "onFailure: " + t.getMessage());
+                    networkError.setValue(t.getMessage());
+                } else {
+                    networkError.setValue("Unknown Error from server!");
+                    Log.d(TAG, "onFailure: " + "Unknown Error from server!");
+                }
+            }
+        });
+
+        return new OperationStatusResponse(data, networkError);
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.successcontribution.shared;
 
 public class Constant {
-//    public static final String BASE_URL = "https://success-contribution.herokuapp.com";
+    //    public static final String BASE_URL = "https://success-contribution.herokuapp.com";
     public static final String BASE_URL = "https://success-contributions.herokuapp.com";
     public static final String LOGIN_ROLE_KEY = "com.example.successcontribution.utils_LOGIN_ROLE_KEY";
     public static final String LOGIN_ROLE_USER_KEY = "com.example.successcontribution.utils_LOGIN_ROLE_USER_KEY";
@@ -19,8 +19,20 @@ public class Constant {
     public static final String GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY = "com.example.successcontribution.utils_GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY";
     public static final String GUARANTEE_LOAN_KEY = "com.example.successcontribution.utils_GUARANTEE_LOAN_KEY";
     public static final String GUARANTEE_LOAN_VALUE = "guarantor";
+
+    public static final String ADMIN_ROLE_KEY = "com.example.successcontribution.utils_ADMIN_ROLE_KEY";
+    public static final String ADMIN_ROLE_USER_KEY = "com.example.successcontribution.utils_ADMIN_ROLE_USER_KEY";
     public static final String APPROVE_LOAN_KEY = "com.example.successcontribution.utils_APPROVE_LOAN_KEY";
     public static final String APPROVE_LOAN_VALUE = "admin";
+    public static final String APPROVE_LOAN_PARCELABLE_EXTRA_KEY = "com.example.successcontribution.utils_APPROVE_LOAN_PARCELABLE_EXTRA_KEY";
+
+    public static final String LOAN_CHECKER_ROLE_USER_KEY = "com.example.successcontribution.utils_LOAN_CHECKER_ROLE_USER_KEY";
+    public static final String EXCO_ROLE_USER_KEY = "com.example.successcontribution.utils_EXCO_ROLE_USER_KEY";
+    public static final String PRESIDENT_LOAN_KEY = "com.example.successcontribution.utils_PRESIDENT_LOAN_KEY";
+
+    public static final String USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE = "com.example.successcontribution.utils_USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE";
+    public static final String LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE = "com.example.successcontribution.utils_LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE";
+
 
     public static final String FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY = "com.example.successcontribution.utils_FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY";
 
@@ -36,12 +48,18 @@ public class Constant {
     public static final String SELECT_USER_BY_GUARANTOR_STRING_EXTRA_ONE = "com.example.successcontribution.utils_SELECT_USER_BY_GUARANTOR_STRING_EXTRA_ONE";
     public static final String SELECT_USER_BY_GUARANTOR_STRING_EXTRA_TWO = "com.example.successcontribution.utils_SELECT_USER_BY_GUARANTOR_STRING_EXTRA_TWO";
 
+    public static final String SELECT_USER_BY_ADMIN_KEY = "com.example.successcontribution.utils_SELECT_USER_BY_ADMIN_KEY";
+    public static final String SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE = "com.example.successcontribution.utils_SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE";
+    public static final String SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO = "com.example.successcontribution.utils_SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO";
+
+
     public static final String USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE = "com.example.successcontribution.utils_USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE";
     public static final String LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE = "com.example.successcontribution.utils_LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE";
 
     public static final int SEARCH_USER_BY_GUARANTOR_REQUEST_CODE = 333;
+    public static final int SEARCH_USER_BY_ADMIN_REQUEST_CODE = 444;
 
-    public static  final String MY_PREF = "com.example.successcontribution.utils_MY_PREF";
+    public static final String MY_PREF = "com.example.successcontribution.utils_MY_PREF";
     public static final String USER_ID = "UserId";
     public static final String LOGIN_ROLE = "LoginRole";
     public static final String AUTHORIZATION_HEADER_STRING = "Authorization";

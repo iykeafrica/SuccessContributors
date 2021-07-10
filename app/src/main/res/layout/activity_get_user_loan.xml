@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.GetUserLoanActivity">
 
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:src="@color/white" />
+            android:src="@drawable/logo" />
 
         <TextView
             android:layout_width="wrap_content"

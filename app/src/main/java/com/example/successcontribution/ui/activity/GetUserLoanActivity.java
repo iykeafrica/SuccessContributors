@@ -15,20 +15,37 @@ import com.example.successcontribution.databinding.ActivityGetUserLoanBinding;
 import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.ui.viewmodel.GetUserViewModel;
 
+import static com.example.successcontribution.shared.Constant.ADMIN;
+import static com.example.successcontribution.shared.Constant.ADMIN_ROLE_KEY;
+import static com.example.successcontribution.shared.Constant.ADMIN_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_PARCELABLE_EXTRA_KEY;
+import static com.example.successcontribution.shared.Constant.EXCO;
+import static com.example.successcontribution.shared.Constant.EXCO_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.FIRST_NAME_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY;
 import static com.example.successcontribution.shared.Constant.LAST_NAME_KEY;
+import static com.example.successcontribution.shared.Constant.LOAN_CHECKER;
+import static com.example.successcontribution.shared.Constant.LOAN_CHECKER_ROLE_USER_KEY;
+import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_KEY;
 import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.MY_PREF;
+import static com.example.successcontribution.shared.Constant.PRESIDENT;
+import static com.example.successcontribution.shared.Constant.PRESIDENT_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.SEARCH_USER_BY_ADMIN_REQUEST_CODE;
 import static com.example.successcontribution.shared.Constant.SEARCH_USER_BY_GUARANTOR_REQUEST_CODE;
+import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADMIN_KEY;
+import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE;
+import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO;
 import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_GUARANTOR_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_GUARANTOR_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_GUARANTOR_STRING_EXTRA_TWO;
+import static com.example.successcontribution.shared.Constant.SUPER_ADMIN;
 import static com.example.successcontribution.shared.Constant.USER;
+import static com.example.successcontribution.shared.Constant.USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE;
 
 public class GetUserLoanActivity extends AppCompatActivity {
@@ -55,13 +72,23 @@ public class GetUserLoanActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent.hasExtra(GUARANTEE_LOAN_KEY) && intent.hasExtra(LOGIN_ROLE_KEY)) {
-            guaranteeLoan();
+            getUserToGuaranteeLoan(); //User
         } else if (intent.hasExtra(APPROVE_LOAN_KEY)) {
-            guaranteeLoan();
+            getUserSearched(); //Admin
         }
     }
 
-    private void guaranteeLoan() {
+    private void getUserSearched() {
+        mBinding.listUsers.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ListUsersActivity.class);
+            intent.putExtra(SELECT_USER_BY_ADMIN_KEY, true);
+            startActivityForResult(intent, SEARCH_USER_BY_ADMIN_REQUEST_CODE);
+        });
+
+        buttonSearch();
+    }
+
+    private void getUserToGuaranteeLoan() {
         mBinding.listUsers.setOnClickListener(v -> {
             Intent intent = new Intent(this, ListUsersActivity.class);
             intent.putExtra(SELECT_USER_BY_GUARANTOR_KEY, true);
@@ -129,7 +156,38 @@ public class GetUserLoanActivity extends AppCompatActivity {
             }
 
         } else { //Admin
-            Log.d(TAG, "findUserLoan: " + "Admin user");
+            if (mRole.equals(ADMIN) || ADMIN.equals(mPreferences.getString(LOGIN_ROLE_KEY, "")) ||
+                    (mRole.equals(PRESIDENT) || PRESIDENT.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) ||
+                    (mRole.equals(SUPER_ADMIN) || SUPER_ADMIN.equals(mPreferences.getString(LOGIN_ROLE_KEY, "")))) { //Admin or //President //superAdmin
+                Log.d(TAG, "findUserLoan: " + "Admin user");
+                Intent intent = new Intent(this, LoanRequestFormActivity.class);
+                intent.putExtra(APPROVE_LOAN_KEY, true);
+                intent.putExtra(ADMIN_ROLE_USER_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
+                intent.putExtra(PRESIDENT_LOAN_KEY, true);
+                intent.putExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY, loanRest);
+                intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
+                intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
+                startActivity(intent);
+                finish();
+            } else if (mRole.equals(LOAN_CHECKER) || LOAN_CHECKER.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) {
+                Intent intent = new Intent(this, LoanRequestFormActivity.class);
+                intent.putExtra(APPROVE_LOAN_KEY, true);
+                intent.putExtra(LOAN_CHECKER_ROLE_USER_KEY, true);
+                intent.putExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY, loanRest);
+                intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
+                intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
+                startActivity(intent);
+                finish();
+            } else if (mRole.equals(EXCO) || EXCO.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) {
+                Intent intent = new Intent(this, LoanRequestFormActivity.class);
+                intent.putExtra(APPROVE_LOAN_KEY, true);
+                intent.putExtra(EXCO_ROLE_USER_KEY, true);
+                intent.putExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY, loanRest);
+                intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
+                intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -165,6 +223,10 @@ public class GetUserLoanActivity extends AppCompatActivity {
             if (mOwnerFullName.equals(mBinding.userName.getText().toString())) {
                 Toast.makeText(this, "You have selected your own name", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == SEARCH_USER_BY_ADMIN_REQUEST_CODE && resultCode == RESULT_OK) {
+            mFullName = data.getStringExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE);
+            mUserId = data.getStringExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO);
+            mBinding.userName.setText(mFullName);
         }
     }
 }

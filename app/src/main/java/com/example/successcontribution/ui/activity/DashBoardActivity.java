@@ -90,7 +90,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     private void profile() {
         mBinding.profile.setOnClickListener(v -> {
-
+            startActivity(new Intent(this, ProfileActivity.class));
         });
     }
 

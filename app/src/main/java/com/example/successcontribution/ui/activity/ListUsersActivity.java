@@ -23,6 +23,9 @@ import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_O
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_STRING_EXTRA;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_TWO_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_TWO_STRING_EXTRA;
+import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADMIN_KEY;
+import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE;
+import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO;
 import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_GUARANTOR_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_GUARANTOR_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_GUARANTOR_STRING_EXTRA_TWO;
@@ -134,6 +137,23 @@ public class ListUsersActivity extends AppCompatActivity {
                 }
             });
         }
+
+        if (intent.hasExtra(SELECT_USER_BY_ADMIN_KEY)) {
+            mAdapter.setClickListener(new ListUsersAdapter.ClickListener() {
+                @Override
+                public void selectUser(int position, UserRest userRest) {
+                    String fullName = userRest.getFirstName() + " " + userRest.getLastName();
+                    Intent intent = new Intent(ListUsersActivity.this, LoanRequestFormActivity.class);
+                    intent.putExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE, fullName);
+                    intent.putExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO, userRest.getUserId());
+                    setResult(RESULT_OK, intent);
+                    onBackPressed();
+
+                    Toast.makeText(ListUsersActivity.this, fullName + " Selected", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
 
         if (intent.hasExtra(FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY)) {
             Log.d(TAG, "incomingIntent: " + intent.getBooleanExtra(FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY, false));

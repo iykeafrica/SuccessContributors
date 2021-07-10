@@ -26,19 +26,33 @@ public class AdminActivity extends AppCompatActivity {
         searchUserLoan();
         updateUserLoanStatus();
         updateUserSavings();
+        listContributors();
     }
 
     private void updateUserSavings() {
-        startActivity(new Intent(this, UpdateUserSavingsActivity.class));
+        mBinding.searchUserLoan.setOnClickListener(v -> {
+            startActivity(new Intent(this, UpdateUserSavingsActivity.class));
+        });
     }
 
     private void updateUserLoanStatus() {
-        startActivity(new Intent(this, UpdateUserLoanStatusActivity.class));
-    }
+        mBinding.updateUserLoanStatus.setOnClickListener(v -> {
+            startActivity(new Intent(this, UpdateUserLoanStatusActivity.class));
+        });    }
 
     private void searchUserLoan() {
-        Intent intent = new Intent(this, GetUserLoanActivity.class);
-        intent.putExtra(APPROVE_LOAN_KEY, APPROVE_LOAN_VALUE);
-        startActivity(intent);
+        mBinding.searchUserLoan.setOnClickListener(v -> {
+            Intent intent = new Intent(this, GetUserLoanActivity.class);
+            intent.putExtra(APPROVE_LOAN_KEY, APPROVE_LOAN_VALUE);
+            startActivity(intent);
+        });
     }
+
+    private void listContributors() {
+        mBinding.getUsers.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ListUsersActivity.class);
+            startActivity(intent);
+        });
+    }
+
 }

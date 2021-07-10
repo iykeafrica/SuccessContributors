@@ -231,9 +231,21 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
-        Toast.makeText(this, "" + errorMessage, Toast.LENGTH_SHORT).show();
         progressDialog.dismiss();
+
+        if (errorMessage.length() > 15) {
+            String specificMessage = errorMessage.substring(errorMessage.indexOf("message") + 10, errorMessage.length() - 2);
+
+            if (!errorMessage.contains(specificMessage)) {
+                return;
+            } else {
+                errorMessage = specificMessage;
+            }
+        }
+
+        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         getViewModelStore().clear();
+
     }
 
     private void hideOpeningKeyBoard(EditText editText) {

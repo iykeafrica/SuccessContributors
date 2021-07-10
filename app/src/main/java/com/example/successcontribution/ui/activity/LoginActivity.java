@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void forgetPassword() {
         mBinding.tvForgetPassword.setOnClickListener(v -> {
-            startActivity(new Intent(this, ForgetPasswordActivity.class));
+            startActivity(new Intent(this, PasswordResetRequestActivity.class));
         });
     }
 
@@ -158,9 +158,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
-        Toast.makeText(getApplicationContext(), "" + errorMessage, Toast.LENGTH_SHORT).show();
         progressDialog.dismiss();
-            Toast.makeText(LoginActivity.this, "" + errorMessage , Toast.LENGTH_SHORT).show();
+
+        if (errorMessage.length() > 13) {
+            String specificMessage = errorMessage.substring(errorMessage.indexOf("message") + 10, errorMessage.length() - 2);
+            if (!errorMessage.contains(specificMessage)) {
+                return;
+            } else {
+                errorMessage = specificMessage;
+            }
+        }
+
+        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
         getViewModelStore().clear();
     }
 
