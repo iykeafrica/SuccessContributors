@@ -445,7 +445,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     mBinding.officialSubmit.setEnabled(false);
                 }
 
-                mBinding.disableEdit.setEnabled(true);
                 mBinding.officialOne.setEnabled(false);
                 mBinding.officialTwo.setEnabled(false);
                 mBinding.officialThree.setEnabled(false);
@@ -461,7 +460,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.president.setEnabled(false);
                 mBinding.dateStatus.setEnabled(false);
                 mBinding.statusUpdate.setEnabled(false);
-                mBinding.disableEdit.setEnabled(false);
 
                 if(!mBinding.officialOne.getText().toString().trim().isEmpty())
                     mBinding.officialOne.setEnabled(false);
@@ -774,6 +772,10 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 }
             } else {
                 setValues();
+                mBinding.statusHeader.setVisibility(View.VISIBLE);
+                mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+                mBinding.officialSection.setVisibility(View.VISIBLE);
+
                 if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(PRESIDENT_LOAN_KEY)) {
                     mBinding.officialOne.setEnabled(true);
                     mBinding.officialTwo.setEnabled(true);
@@ -781,6 +783,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     mBinding.president.setEnabled(true);
                     mBinding.dateStatus.setEnabled(true);
                     mBinding.statusUpdate.setEnabled(true);
+                    mBinding.disableEdit.setEnabled(true);
                     mBinding.officialSubmit.setEnabled(true);
                     approveLoan();
                 } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(LOAN_CHECKER_ROLE_USER_KEY)) {
@@ -790,10 +793,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     mBinding.officialSubmit.setEnabled(true);
                     approveLoan();
                 }
-                mBinding.disableEdit.setEnabled(false);
-                mBinding.statusHeader.setVisibility(View.VISIBLE);
-                mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-                mBinding.officialSection.setVisibility(View.VISIBLE);
             }
         }
 
