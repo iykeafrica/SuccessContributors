@@ -103,7 +103,11 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding = ActivityLoanRequestFormBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        hasSubmitted = false;
+        if (savedInstanceState == null)
+            hasSubmitted = false;
+        else
+            hasSubmitted = savedInstanceState.getBoolean(HAS_SUBMITTED_SAVED_INSTANCE_STATE);
+
         hideOpeningKeyBoard(mBinding.amount);
         mPreferences = getApplicationContext().getSharedPreferences(MY_PREF, 0);
         mCal1 = Calendar.getInstance();
@@ -578,31 +582,13 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        hasSubmitted = savedInstanceState.getBoolean(HAS_SUBMITTED_SAVED_INSTANCE_STATE);
-
-        if (hasSubmitted) {
-            mBinding.name.setText(NAME_SAVED_INSTANCE_STATE);
-            mBinding.guarantorOne.setText(GUARANTOR_ONE_SAVED_INSTANCE_STATE);
-            mBinding.guarantorTwo.setText(GUARANTOR_TWO_SAVED_INSTANCE_STATE);
-            mBinding.status.setText(STATUS_SAVED_INSTANCE_STATE);
-            mBinding.loanId.setText(LOAN_ID_SAVED_INSTANCE_STATE);
-            mBinding.status.setVisibility(View.VISIBLE);
-            mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-
-            if (mBinding.name.getText().toString().
-                    equals(mPreferences.getString(FIRST_NAME_KEY, "") +
-                            " " + mPreferences.getString(LAST_NAME_KEY, ""))) {
-                mBinding.officialSection.setVisibility(View.VISIBLE);
-
-                mBinding.copyLoanId.setOnClickListener(v -> {
-                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Loan Id", "" + mBinding.loanId.getText().toString());
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(this, clip.getDescription().getLabel() + " copied", Toast.LENGTH_SHORT).show();
-                });
-
-            }
-        }
+        mBinding.name.setText(NAME_SAVED_INSTANCE_STATE);
+        mBinding.guarantorOne.setText(GUARANTOR_ONE_SAVED_INSTANCE_STATE);
+        mBinding.guarantorTwo.setText(GUARANTOR_TWO_SAVED_INSTANCE_STATE);
+        mBinding.status.setText(STATUS_SAVED_INSTANCE_STATE);
+        mBinding.loanId.setText(LOAN_ID_SAVED_INSTANCE_STATE);
+        mBinding.status.setVisibility(View.VISIBLE);
+        mBinding.loanIdHeader.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -633,7 +619,27 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
         mBinding.officialSection.setVisibility(View.GONE);
 
+        if (hasSubmitted) {
+            mBinding.status.setVisibility(View.VISIBLE);
+            mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+
+            if (mBinding.name.getText().toString().
+                    equals(mPreferences.getString(FIRST_NAME_KEY, "") +
+                            " " + mPreferences.getString(LAST_NAME_KEY, ""))) {
+                mBinding.officialSection.setVisibility(View.VISIBLE);
+
+                mBinding.copyLoanId.setOnClickListener(v -> {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Loan Id", "" + mBinding.loanId.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(this, clip.getDescription().getLabel() + " copied", Toast.LENGTH_SHORT).show();
+                });
+
+            }
+        }
+
         incomingUser();
+
     }
 
     private void incomingUser() {
