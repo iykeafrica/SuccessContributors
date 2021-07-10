@@ -125,6 +125,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
                 intent.putExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE, mUserId);
                 intent.putExtra(LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
                 startActivity(intent);
+                finish();
             }
 
         } else { //Admin
@@ -166,10 +167,4 @@ public class GetUserLoanActivity extends AppCompatActivity {
             }
         }
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        startActivity(new Intent(this, DashBoardActivity.class));
-//        finish();
-//    }
 }

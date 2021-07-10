@@ -409,6 +409,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding.guarantorTwoConfirmationHeader.setVisibility(View.VISIBLE);
         mBinding.guarantorTwoConfirmation.setEnabled(false);
         mBinding.guarantorSubmit.setEnabled(false);
+        mBinding.status.setVisibility(View.VISIBLE);
         Toast.makeText(this, "You have successfully guaranteed " + loanRest.getName(), Toast.LENGTH_SHORT).show();
         hasSubmitted = true;
     }
@@ -741,6 +742,5 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
 
 }
