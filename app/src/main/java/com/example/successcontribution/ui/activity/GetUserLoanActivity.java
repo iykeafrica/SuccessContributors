@@ -16,15 +16,13 @@ import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.ui.viewmodel.GetUserViewModel;
 
 import static com.example.successcontribution.shared.Constant.ADMIN;
-import static com.example.successcontribution.shared.Constant.ADMIN_ROLE_KEY;
 import static com.example.successcontribution.shared.Constant.ADMIN_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
-import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_PARCELABLE_EXTRA_KEY;
 import static com.example.successcontribution.shared.Constant.EXCO;
 import static com.example.successcontribution.shared.Constant.EXCO_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.FIRST_NAME_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
-import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY;
+import static com.example.successcontribution.shared.Constant.PARCELABLE_EXTRA_KEY;
 import static com.example.successcontribution.shared.Constant.LAST_NAME_KEY;
 import static com.example.successcontribution.shared.Constant.LOAN_CHECKER;
 import static com.example.successcontribution.shared.Constant.LOAN_CHECKER_ROLE_USER_KEY;
@@ -73,7 +71,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
 
         if (intent.hasExtra(GUARANTEE_LOAN_KEY) && intent.hasExtra(LOGIN_ROLE_KEY)) {
             getUserToGuaranteeLoan(); //User
-        } else if (intent.hasExtra(APPROVE_LOAN_KEY)) {
+        } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(LOGIN_ROLE_KEY)) {
             getUserSearched(); //Admin
         }
     }
@@ -148,7 +146,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, LoanRequestFormActivity.class);
                 intent.putExtra(GUARANTEE_LOAN_KEY, true);
                 intent.putExtra(LOGIN_ROLE_USER_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
-                intent.putExtra(GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY, loanRest);
+                intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
                 intent.putExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE, mUserId);
                 intent.putExtra(LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
                 startActivity(intent);
@@ -164,7 +162,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
                 intent.putExtra(APPROVE_LOAN_KEY, true);
                 intent.putExtra(ADMIN_ROLE_USER_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
                 intent.putExtra(PRESIDENT_LOAN_KEY, true);
-                intent.putExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY, loanRest);
+                intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
                 intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
                 intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
                 startActivity(intent);
@@ -173,7 +171,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, LoanRequestFormActivity.class);
                 intent.putExtra(APPROVE_LOAN_KEY, true);
                 intent.putExtra(LOAN_CHECKER_ROLE_USER_KEY, true);
-                intent.putExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY, loanRest);
+                intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
                 intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
                 intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
                 startActivity(intent);
@@ -182,7 +180,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, LoanRequestFormActivity.class);
                 intent.putExtra(APPROVE_LOAN_KEY, true);
                 intent.putExtra(EXCO_ROLE_USER_KEY, true);
-                intent.putExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY, loanRest);
+                intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
                 intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
                 intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
                 startActivity(intent);

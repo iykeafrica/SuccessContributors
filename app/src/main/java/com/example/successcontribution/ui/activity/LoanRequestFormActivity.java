@@ -1,6 +1,5 @@
 package com.example.successcontribution.ui.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
@@ -29,8 +28,6 @@ import com.example.successcontribution.shared.DatePicker;
 import com.example.successcontribution.ui.viewmodel.LoanRequestViewModel;
 import com.example.successcontribution.ui.viewmodel.UpdateUserLoanApplicationByGuarantorViewModel;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,11 +35,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
-import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_PARCELABLE_EXTRA_KEY;
-import static com.example.successcontribution.shared.Constant.EXCO_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.FIRST_NAME_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
-import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY;
+import static com.example.successcontribution.shared.Constant.PARCELABLE_EXTRA_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_ONE_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_TWO_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.HAS_SUBMITTED_SAVED_INSTANCE_STATE;
@@ -50,7 +45,6 @@ import static com.example.successcontribution.shared.Constant.LOAN_CHECKER_ROLE_
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE;
-import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_KEY;
 import static com.example.successcontribution.shared.Constant.NAME_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.PRESIDENT_LOAN_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_KEY;
@@ -101,6 +95,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private String mUserId;
     private String mLoanId;
     private boolean hasSubmitted;
+    private Boolean mDisableEdit;
 
 
     @Override
@@ -439,99 +434,181 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
 
     private void approveLoan() {
-        mBinding.officialSubmit.setOnClickListener(v -> {
-            mStatus = mBinding.status.getText().toString();
 
-            if (mBinding.officialOne.getText().toString().trim().isEmpty()) {
-                mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
-                mBinding.officialOneRequiredText.setTextColor(getResources().getColor(R.color.white));
-            } else {
-                mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
-                mBinding.officialOneRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mOfficialOne = mBinding.guarantorOne.getText().toString().trim();
-            }
+        if (!mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty() &&
+                !mBinding.guarantorTwoConfirmation.getText().toString().trim().isEmpty()) {
 
-            if (mBinding.officialTwo.getText().toString().trim().isEmpty()) {
-                mBinding.officialTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
-                mBinding.officialTwoRequiredText.setTextColor(getResources().getColor(R.color.white));
-            } else {
-                mBinding.officialTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
-                mBinding.officialTwoRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mOfficialTwo = mBinding.guarantorOne.getText().toString().trim();
-            }
+            if (!mBinding.officialOne.getText().toString().trim().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+            !mBinding.officialThree.getText().toString().trim().isEmpty()) {
 
-            if (mBinding.officialThree.getText().toString().trim().isEmpty()) {
-                mBinding.officialThreeRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
-                mBinding.officialThreeRequiredText.setTextColor(getResources().getColor(R.color.white));
-            } else {
-                mBinding.officialThreeRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
-                mBinding.officialThreeRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mOfficialThree = mBinding.guarantorOne.getText().toString().trim();
-            }
-
-            if (mBinding.president.getText().toString().trim().isEmpty()) {
-                mBinding.presidentRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
-                mBinding.presidentRequiredText.setTextColor(getResources().getColor(R.color.white));
-            } else {
-                mBinding.presidentRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
-                mBinding.presidentRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mPresident = mBinding.guarantorOne.getText().toString().trim();
-            }
-
-            if (mBinding.dateStatus.getText().toString().trim().isEmpty()) {
-                mBinding.dateStatusRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
-                mBinding.dateStatusRequiredText.setTextColor(getResources().getColor(R.color.white));
-            } else {
-                mBinding.dateStatusRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
-                mBinding.dateStatusRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mPresident = mBinding.guarantorOne.getText().toString().trim();
-
-                DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-                mDateStatusString = mBinding.dateApplied.getText().toString();
-                String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
-                try {
-                    Date date = dateFormat.parse(strDate);
-                    mCal3.setTime(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                if (getIntent().hasExtra(LOAN_CHECKER_ROLE_USER_KEY)) {
+                    mBinding.officialSubmit.setEnabled(false);
                 }
-                mDateStatus = mCal3.getTimeInMillis();
-            }
 
-            if (mBinding.statusUpdate.getText().toString().trim().isEmpty()) {
-                mBinding.statusUpdateRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
-                mBinding.statusUpdateRequiredText.setTextColor(getResources().getColor(R.color.white));
+                mBinding.disableEdit.setEnabled(true);
+                mBinding.officialOne.setEnabled(false);
+                mBinding.officialTwo.setEnabled(false);
+                mBinding.officialThree.setEnabled(false);
+
+                mBinding.officialSubmit.setOnClickListener(v -> {
+                    if (getIntent().hasExtra(PRESIDENT_LOAN_KEY)) {
+                        adminPresident();
+                        clickOfficialSubmit();
+                    }
+                });
+
             } else {
-                mBinding.statusUpdateRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
-                mBinding.statusUpdateRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mStatusUpdate = mBinding.guarantorOne.getText().toString().trim();
+                mBinding.president.setEnabled(false);
+                mBinding.dateStatus.setEnabled(false);
+                mBinding.statusUpdate.setEnabled(false);
+                mBinding.disableEdit.setEnabled(false);
+
+                if(!mBinding.officialOne.getText().toString().trim().isEmpty())
+                    mBinding.officialOne.setEnabled(false);
+                if(!mBinding.officialTwo.getText().toString().trim().isEmpty())
+                    mBinding.officialTwo.setEnabled(false);
+                if(!mBinding.officialThree.getText().toString().trim().isEmpty())
+                    mBinding.officialThree.setEnabled(false);
+
+                    mBinding.officialSubmit.setOnClickListener(v -> {
+                        loanChecker();
+                        clickOfficialSubmit();
+                    });
             }
 
-            clickOfficialSubmit();
-
-        });
-    }
-
-    private void approveLoanByPresident() {
-        mBinding.officialSubmit.setOnClickListener(v -> {
-
-        });
-    }
-
-    private void clickOfficialSubmit() {
-
-        if (mOfficialOne.isEmpty() && mOfficialTwo.isEmpty() && mOfficialThree.isEmpty() && mPresident.isEmpty()
-                && mDateStatusString.isEmpty() && !mStatusUpdate.isEmpty()) {
-            Boolean disableEdit = mBinding.disableEdit.isChecked();
-            submitOfficialSection(disableEdit);
         } else {
-            Toast.makeText(this, "Required fields must be filled", Toast.LENGTH_SHORT).show();
+            mBinding.officialOne.setEnabled(false);
+            mBinding.officialTwo.setEnabled(false);
+            mBinding.officialThree.setEnabled(false);
+            mBinding.president.setEnabled(false);
+            mBinding.dateStatus.setEnabled(false);
+            mBinding.statusUpdate.setEnabled(false);
+            mBinding.disableEdit.setEnabled(false);
+            mBinding.officialSubmit.setEnabled(false);
         }
 
     }
 
-    private void submitOfficialSection(Boolean disableEdit) {
+    private void adminPresident() {
+        if (mBinding.president.getText().toString().trim().isEmpty()) {
+            mBinding.presidentRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+            mBinding.presidentRequiredText.setTextColor(getResources().getColor(R.color.white));
+        } else {
+            mBinding.presidentRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+            mBinding.presidentRequiredText.setTextColor(getResources().getColor(R.color.black));
+            mPresident = mBinding.guarantorOne.getText().toString().trim();
+        }
 
+        if (mBinding.dateStatus.getText().toString().trim().isEmpty()) {
+            mBinding.dateStatusRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+            mBinding.dateStatusRequiredText.setTextColor(getResources().getColor(R.color.white));
+        } else {
+            mBinding.dateStatusRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+            mBinding.dateStatusRequiredText.setTextColor(getResources().getColor(R.color.black));
+            mPresident = mBinding.guarantorOne.getText().toString().trim();
+
+            DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+            mDateStatusString = mBinding.dateApplied.getText().toString();
+            String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
+            try {
+                Date date = dateFormat.parse(strDate);
+                mCal3.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            mDateStatus = mCal3.getTimeInMillis();
+        }
+
+        if (mBinding.statusUpdate.getText().toString().trim().isEmpty()) {
+            mBinding.statusUpdateRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+            mBinding.statusUpdateRequiredText.setTextColor(getResources().getColor(R.color.white));
+        } else {
+            mBinding.statusUpdateRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+            mBinding.statusUpdateRequiredText.setTextColor(getResources().getColor(R.color.black));
+            mStatusUpdate = mBinding.guarantorOne.getText().toString().trim();
+        }
+
+    }
+
+    private void loanChecker() {
+        mStatus = mBinding.status.getText().toString();
+
+        if (mBinding.officialOne.getText().toString().trim().isEmpty()) {
+            mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+            mBinding.officialOneRequiredText.setTextColor(getResources().getColor(R.color.white));
+        } else {
+            mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+            mBinding.officialOneRequiredText.setTextColor(getResources().getColor(R.color.black));
+            mOfficialOne = mBinding.guarantorOne.getText().toString().trim();
+        }
+
+        if (mBinding.officialTwo.getText().toString().trim().isEmpty()) {
+            mBinding.officialTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+            mBinding.officialTwoRequiredText.setTextColor(getResources().getColor(R.color.white));
+        } else {
+            mBinding.officialTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+            mBinding.officialTwoRequiredText.setTextColor(getResources().getColor(R.color.black));
+            mOfficialTwo = mBinding.guarantorOne.getText().toString().trim();
+        }
+
+        if (mBinding.officialThree.getText().toString().trim().isEmpty()) {
+            mBinding.officialThreeRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
+            mBinding.officialThreeRequiredText.setTextColor(getResources().getColor(R.color.white));
+        } else {
+            mBinding.officialThreeRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
+            mBinding.officialThreeRequiredText.setTextColor(getResources().getColor(R.color.black));
+            mOfficialThree = mBinding.guarantorOne.getText().toString().trim();
+        }
+
+    }
+
+    private void clickOfficialSubmit() {
+        if (getIntent().hasExtra(PRESIDENT_LOAN_KEY)) {
+            if (!mBinding.president.getText().toString().trim().isEmpty() && !mBinding.dateStatus.getText().toString().trim().isEmpty() &&
+                    !mBinding.statusUpdate.getText().toString().trim().isEmpty()) {
+                mDisableEdit = mBinding.disableEdit.isChecked();
+                submitOfficialSection();
+            } else {
+                Toast.makeText(this, "Cannot submit", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            if (!mBinding.officialOne.getText().toString().trim().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    !mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                submitOfficialSection();
+            }
+            if (!mBinding.officialOne.getText().toString().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                submitOfficialSection();
+            }
+            if (!mBinding.officialOne.getText().toString().trim().isEmpty() && mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    !mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                submitOfficialSection();
+            }
+            if (mBinding.officialOne.getText().toString().trim().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    !mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                submitOfficialSection();
+            }
+            if (mBinding.officialOne.getText().toString().trim().isEmpty() && mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    !mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                submitOfficialSection();
+            }
+            if (!mBinding.officialOne.getText().toString().trim().isEmpty() && mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                submitOfficialSection();
+            }
+            if (mBinding.officialOne.getText().toString().trim().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                submitOfficialSection();
+            }
+            if (mBinding.officialOne.getText().toString().trim().isEmpty() && mBinding.officialTwo.getText().toString().trim().isEmpty() &&
+                    mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "At least one official must confirm", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void submitOfficialSection() {
+        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -704,26 +781,19 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     mBinding.president.setEnabled(true);
                     mBinding.dateStatus.setEnabled(true);
                     mBinding.statusUpdate.setEnabled(true);
-                    mBinding.disableEdit.setEnabled(true);
                     mBinding.officialSubmit.setEnabled(true);
-                    mBinding.statusHeader.setVisibility(View.VISIBLE);
-                    mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-                    mBinding.officialSection.setVisibility(View.VISIBLE);
-                    approveLoanByPresident();
+                    approveLoan();
                 } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(LOAN_CHECKER_ROLE_USER_KEY)) {
                     mBinding.officialOne.setEnabled(true);
                     mBinding.officialTwo.setEnabled(true);
                     mBinding.officialThree.setEnabled(true);
                     mBinding.officialSubmit.setEnabled(true);
-                    mBinding.statusHeader.setVisibility(View.VISIBLE);
-                    mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-                    mBinding.officialSection.setVisibility(View.VISIBLE);
                     approveLoan();
-                } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(EXCO_ROLE_USER_KEY)) {
-                    mBinding.statusHeader.setVisibility(View.VISIBLE);
-                    mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-                    mBinding.officialSection.setVisibility(View.VISIBLE);
                 }
+                mBinding.disableEdit.setEnabled(false);
+                mBinding.statusHeader.setVisibility(View.VISIBLE);
+                mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+                mBinding.officialSection.setVisibility(View.VISIBLE);
             }
         }
 
@@ -733,25 +803,8 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
 
         Intent intent = getIntent();
-        if (intent.hasExtra(GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY)) {
-            LoanRest loanRest = intent.getParcelableExtra(GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY);
-
-            mBinding.status.setText(loanRest.getStatus());
-            mBinding.loanId.setText(loanRest.getLoanId());
-            mBinding.name.setText(loanRest.getName());
-            mBinding.amount.setText(loanRest.getAmount());
-            mBinding.guarantorOne.setText(loanRest.getGuarantorOne());
-            mBinding.guarantorTwo.setText(loanRest.getGuarantorTwo());
-            mBinding.reason.setText(loanRest.getReason());
-            mBinding.dateApplied.setText("" + dateFormat.format(new Date(loanRest.getRequestDate())));
-            mBinding.repayment.setText("" + dateFormat.format(new Date(loanRest.getRepaymentDate())));
-            mBinding.guarantorOneConfirmation.setText(loanRest.getGuarantorOneConfirmation());
-            mBinding.guarantorTwoConfirmation.setText(loanRest.getGuarantorTwoConfirmation());
-
-            mUserId = intent.getStringExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
-            mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
-        } else if (intent.hasExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY)) {
-            LoanRest loanRest = intent.getParcelableExtra(APPROVE_LOAN_PARCELABLE_EXTRA_KEY);
+        if (intent.hasExtra(PARCELABLE_EXTRA_KEY)) {
+            LoanRest loanRest = intent.getParcelableExtra(PARCELABLE_EXTRA_KEY);
 
             mBinding.status.setText(loanRest.getStatus());
             mBinding.loanId.setText(loanRest.getLoanId());
@@ -772,9 +825,17 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             mBinding.statusUpdate.setText(loanRest.getStatus());
             mBinding.disableEdit.setEnabled(loanRest.getEditable());
 
-            mUserId = intent.getStringExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE);
-            mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE);
+            if (intent.hasExtra(GUARANTEE_LOAN_KEY)) {
+                mUserId = intent.getStringExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
+                mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
+            }
+
+            if (intent.hasExtra(APPROVE_LOAN_KEY)) {
+                mUserId = intent.getStringExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE);
+                mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE);
+            }
         }
+
     }
 
     private void hideOpeningKeyBoard(EditText editText) {

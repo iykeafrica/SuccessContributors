@@ -16,15 +16,13 @@ public class Constant {
     public static final String SUPER_ADMIN = "super";
 
 
-    public static final String GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY = "com.example.successcontribution.utils_GUARANTEE_LOAN_PARCELABLE_EXTRA_KEY";
+    public static final String PARCELABLE_EXTRA_KEY = "com.example.successcontribution.utils_PARCELABLE_EXTRA_KEY";
     public static final String GUARANTEE_LOAN_KEY = "com.example.successcontribution.utils_GUARANTEE_LOAN_KEY";
     public static final String GUARANTEE_LOAN_VALUE = "guarantor";
-
-    public static final String ADMIN_ROLE_KEY = "com.example.successcontribution.utils_ADMIN_ROLE_KEY";
+    ;
     public static final String ADMIN_ROLE_USER_KEY = "com.example.successcontribution.utils_ADMIN_ROLE_USER_KEY";
     public static final String APPROVE_LOAN_KEY = "com.example.successcontribution.utils_APPROVE_LOAN_KEY";
     public static final String APPROVE_LOAN_VALUE = "admin";
-    public static final String APPROVE_LOAN_PARCELABLE_EXTRA_KEY = "com.example.successcontribution.utils_APPROVE_LOAN_PARCELABLE_EXTRA_KEY";
 
     public static final String LOAN_CHECKER_ROLE_USER_KEY = "com.example.successcontribution.utils_LOAN_CHECKER_ROLE_USER_KEY";
     public static final String EXCO_ROLE_USER_KEY = "com.example.successcontribution.utils_EXCO_ROLE_USER_KEY";
