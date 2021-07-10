@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import com.example.successcontribution.model.request.GuarantorLoanRequestModel;
 import com.example.successcontribution.model.request.LoanRequestModel;
 import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.shared.DatePicker;
+import com.example.successcontribution.ui.viewmodel.LoanRequestHasSubmittedViewModel;
 import com.example.successcontribution.ui.viewmodel.LoanRequestViewModel;
 import com.example.successcontribution.ui.viewmodel.UpdateUserLoanApplicationByGuarantorViewModel;
 
@@ -61,39 +63,18 @@ import static com.example.successcontribution.shared.Constant.USER_ID_SENT_BY_GU
 
 public class LoanRequestFormActivity extends AppCompatActivity {
 
+    public static final String TAG = LoanRequestFormActivity.class.getSimpleName();
     ActivityLoanRequestFormBinding mBinding;
-    private String mAmount;
-    private String mGuarantorOne;
-    private String mGuarantorTwo;
-    private String mReason;
-    private long mDateApplied;
-    private String mDateAppliedString;
-    private String mGuarantorOneConfirmation;
-    private String mGuarantorTwoConfirmation;
-    private String mOfficialOne;
-    private String mOfficialTwo;
-    private String mOfficialThree;
-    private String mPresident;
-    private long mDateStatus;
-    private String mName;
+
+
+
+    private SharedPreferences mPreferences;
     private DatePicker mDatePicker;
     private Calendar mCal1;
     private Calendar mCal2;
     private Calendar mCal3;
-    private long mRepayment;
-    private String mDateRepayment;
-    private String mStatus;
-    private String mDateStatusString;
-    private String mStatusUpdate;
-    private SharedPreferences mPreferences;
-    private String mSelectedGuarantorOne;
-    private String mSelectedGuarantorTwo;
-    private String mFullName;
-    private String mFormGuarantorOneFullName;
-    private String mFormGuarantorTwoFullName;
-    private String mUserId;
-    private String mLoanId;
-    private boolean hasSubmitted;
+
+    private LoanRequestHasSubmittedViewModel mViewModel;
 
 
     @Override
@@ -103,7 +84,16 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding = ActivityLoanRequestFormBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        hasSubmitted = false;
+        ViewModelProvider provider = new ViewModelProvider(getViewModelStore(), ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
+        mViewModel = provider.get(LoanRequestHasSubmittedViewModel.class);
+
+        if (savedInstanceState != null && mViewModel.mIsNewlyCreated) {
+            mViewModel.restoreState(savedInstanceState);
+        } else {
+            mViewModel.hasSubmitted = false;
+        }
+        mViewModel.mIsNewlyCreated = false;
+
         hideOpeningKeyBoard(mBinding.amount);
         mPreferences = getApplicationContext().getSharedPreferences(MY_PREF, 0);
         mCal1 = Calendar.getInstance();
@@ -154,7 +144,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
         mBinding.userSubmit.setOnClickListener(v -> {
             if (!mBinding.name.getText().toString().trim().isEmpty()) {
-                mName = mBinding.name.getText().toString().trim();
+                mViewModel.mName = mBinding.name.getText().toString().trim();
             }
 
             if (mBinding.amount.getText().toString().trim().isEmpty()) {
@@ -163,7 +153,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.amountRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.amountRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mAmount = mBinding.amount.getText().toString().trim();
+                mViewModel.mAmount = mBinding.amount.getText().toString().trim();
             }
 
             if (mBinding.guarantorOne.getText().toString().trim().isEmpty()) {
@@ -172,7 +162,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.guarantorOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.guarantorOneRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mGuarantorOne = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mGuarantorOne = mBinding.guarantorOne.getText().toString().trim();
             }
 
             if (mBinding.guarantorTwo.getText().toString().trim().isEmpty()) {
@@ -181,7 +171,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.guarantorTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.guarantorTwoRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mGuarantorTwo = mBinding.guarantorTwo.getText().toString().trim();
+                mViewModel.mGuarantorTwo = mBinding.guarantorTwo.getText().toString().trim();
             }
 
             if (mBinding.reason.getText().toString().trim().isEmpty()) {
@@ -190,7 +180,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.reasonRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.reasonRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mReason = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mReason = mBinding.guarantorOne.getText().toString().trim();
             }
 
             if (mBinding.dateApplied.getText().toString().trim().isEmpty()) {
@@ -201,7 +191,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.dateAppliedRequiredText.setTextColor(getResources().getColor(R.color.black));
 
                 DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-                mDateAppliedString = mBinding.dateApplied.getText().toString();
+                mViewModel.mDateAppliedString = mBinding.dateApplied.getText().toString();
                 String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
                 try {
                     Date date = dateFormat.parse(strDate);
@@ -209,7 +199,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                mDateApplied = mCal1.getTimeInMillis();
+                mViewModel.mDateApplied = mCal1.getTimeInMillis();
             }
 
             if (mBinding.repayment.getText().toString().trim().isEmpty()) {
@@ -220,7 +210,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.repaymentRequiredText.setTextColor(getResources().getColor(R.color.black));
 
                 DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-                mDateRepayment = mBinding.repayment.getText().toString();
+                mViewModel.mDateRepayment = mBinding.repayment.getText().toString();
                 String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
                 try {
                     Date date = dateFormat.parse(strDate);
@@ -228,7 +218,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                mRepayment = mCal2.getTimeInMillis();
+                mViewModel.mRepayment = mCal2.getTimeInMillis();
             }
 
             clickSubmitLoanRequest();
@@ -238,9 +228,10 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
     private void clickSubmitLoanRequest() {
 
-        if (!mName.isEmpty() && mAmount != null && mGuarantorOne != null && mGuarantorTwo != null
-                && mReason != null && mDateAppliedString != null && mDateRepayment != null) {
-            submitLoanRequest(mName, mAmount, mGuarantorOne, mGuarantorTwo, mReason, mDateApplied, mRepayment);
+        if (!mViewModel.mName.isEmpty() &&  mViewModel.mAmount != null &&  mViewModel.mGuarantorOne != null &&  mViewModel.mGuarantorTwo != null
+                &&  mViewModel.mReason != null &&  mViewModel.mDateAppliedString != null &&  mViewModel.mDateRepayment != null) {
+            submitLoanRequest( mViewModel.mName,  mViewModel.mAmount,  mViewModel.mGuarantorOne,  mViewModel.mGuarantorTwo,
+                    mViewModel.mReason,  mViewModel.mDateApplied,  mViewModel.mRepayment);
         } else {
             Toast.makeText(this, "All fields required", Toast.LENGTH_SHORT).show();
         }
@@ -314,8 +305,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
         progressDialog.dismiss();
         Toast.makeText(getApplicationContext(), "Loan request sent successfully!", Toast.LENGTH_LONG).show();
-        hasSubmitted = true;
-        getViewModelStore().clear();
+        mViewModel.hasSubmitted = true;
     }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
@@ -336,11 +326,11 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private void guaranteeLoan() {
         mBinding.guarantorSubmit.setOnClickListener(v -> {
 
-            if (mFullName.equals(mFormGuarantorOneFullName) || mFullName.equals(mFormGuarantorTwoFullName)) {
-                mGuarantorOneConfirmation = mBinding.guarantorOneConfirmation.getText().toString().trim();
-                mGuarantorTwoConfirmation = mBinding.guarantorTwoConfirmation.getText().toString().trim();
+            if ( mViewModel.mFullName.equals( mViewModel.mFormGuarantorOneFullName) ||  mViewModel.mFullName.equals( mViewModel.mFormGuarantorTwoFullName)) {
+                mViewModel.mGuarantorOneConfirmation = mBinding.guarantorOneConfirmation.getText().toString().trim();
+                mViewModel.mGuarantorTwoConfirmation = mBinding.guarantorTwoConfirmation.getText().toString().trim();
 
-                if (mFullName.equals(mFormGuarantorOneFullName)) {
+                if ( mViewModel.mFullName.equals( mViewModel.mFormGuarantorOneFullName)) {
                     if (mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
                         Toast.makeText(this, "Please, filling the required field", Toast.LENGTH_SHORT).show();
                         mBinding.guarantorOneConfirmationRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
@@ -349,7 +339,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                         mBinding.guarantorOneConfirmationRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                         mBinding.guarantorOneConfirmationRequiredText.setTextColor(getResources().getColor(R.color.black));
 
-                        attemptToUpdateGuarantor(mGuarantorOneConfirmation, mGuarantorTwoConfirmation);
+                        attemptToUpdateGuarantor( mViewModel.mGuarantorOneConfirmation,  mViewModel.mGuarantorTwoConfirmation);
                     }
                 } else {
                     if (mBinding.guarantorTwoConfirmation.getText().toString().trim().isEmpty()) {
@@ -360,7 +350,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                         mBinding.guarantorTwoConfirmationRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                         mBinding.guarantorTwoConfirmationRequiredText.setTextColor(getResources().getColor(R.color.black));
 
-                        attemptToUpdateGuarantor(mGuarantorOneConfirmation, mGuarantorTwoConfirmation);
+                        attemptToUpdateGuarantor( mViewModel.mGuarantorOneConfirmation,  mViewModel.mGuarantorTwoConfirmation);
                     }
                 }
             }
@@ -381,7 +371,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
 
         UpdateUserLoanApplicationByGuarantorViewModel viewModel = provider.get(UpdateUserLoanApplicationByGuarantorViewModel.class);
-        viewModel.setUpdateLoanByGuarantorCoupleData(mUserId, mLoanId, requestModel);
+        viewModel.setUpdateLoanByGuarantorCoupleData( mViewModel.mUserId,  mViewModel.mLoanId, requestModel);
 
         viewModel.getLoanRestLiveData().observe(this, new Observer<LoanRest>() {
             @Override
@@ -406,7 +396,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding.guarantorTwoConfirmation.setEnabled(false);
         mBinding.guarantorSubmit.setEnabled(false);
         Toast.makeText(this, "You have successfully guaranteed " + loanRest.getName(), Toast.LENGTH_SHORT).show();
-        hasSubmitted = true;
+        mViewModel.hasSubmitted = true;
     }
 
     private void errorConnectionGuarantor(String errorMessage, ProgressDialog progressDialog) {
@@ -428,7 +418,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
         mBinding.officialSubmit.setOnClickListener(v -> {
 
-            mStatus = mBinding.status.getText().toString();
+            mViewModel.mStatus = mBinding.status.getText().toString();
 
             if (mBinding.officialOne.getText().toString().trim().isEmpty()) {
                 mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
@@ -436,7 +426,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.officialOneRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mOfficialOne = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mOfficialOne = mBinding.guarantorOne.getText().toString().trim();
             }
 
             if (mBinding.officialTwo.getText().toString().trim().isEmpty()) {
@@ -445,7 +435,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.officialTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.officialTwoRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mOfficialTwo = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mOfficialTwo = mBinding.guarantorOne.getText().toString().trim();
             }
 
             if (mBinding.officialThree.getText().toString().trim().isEmpty()) {
@@ -454,7 +444,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.officialThreeRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.officialThreeRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mOfficialThree = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mOfficialThree = mBinding.guarantorOne.getText().toString().trim();
             }
 
             if (mBinding.president.getText().toString().trim().isEmpty()) {
@@ -463,7 +453,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.presidentRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.presidentRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mPresident = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mPresident = mBinding.guarantorOne.getText().toString().trim();
             }
 
             if (mBinding.dateStatus.getText().toString().trim().isEmpty()) {
@@ -472,10 +462,10 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.dateStatusRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.dateStatusRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mPresident = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mPresident = mBinding.guarantorOne.getText().toString().trim();
 
                 DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-                mDateStatusString = mBinding.dateApplied.getText().toString();
+                mViewModel.mDateStatusString = mBinding.dateApplied.getText().toString();
                 String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
                 try {
                     Date date = dateFormat.parse(strDate);
@@ -483,7 +473,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                mDateStatus = mCal3.getTimeInMillis();
+                mViewModel.mDateStatus = mCal3.getTimeInMillis();
             }
 
             if (mBinding.statusUpdate.getText().toString().trim().isEmpty()) {
@@ -492,7 +482,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             } else {
                 mBinding.statusUpdateRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.statusUpdateRequiredText.setTextColor(getResources().getColor(R.color.black));
-                mStatusUpdate = mBinding.guarantorOne.getText().toString().trim();
+                mViewModel.mStatusUpdate = mBinding.guarantorOne.getText().toString().trim();
             }
 
             clickOfficialSubmit();
@@ -502,8 +492,8 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
     private void clickOfficialSubmit() {
 
-        if (mOfficialOne.isEmpty() && mOfficialTwo.isEmpty() && mOfficialThree.isEmpty() && mPresident.isEmpty()
-                && mDateStatusString.isEmpty() && !mStatusUpdate.isEmpty()) {
+        if ( mViewModel.mOfficialOne.isEmpty() &&  mViewModel.mOfficialTwo.isEmpty() &&  mViewModel.mOfficialThree.isEmpty() &&  mViewModel.mPresident.isEmpty()
+                &&  mViewModel.mDateStatusString.isEmpty() && ! mViewModel.mStatusUpdate.isEmpty()) {
             Boolean disableEdit = mBinding.disableEdit.isChecked();
             submitOfficialSection(disableEdit);
         } else {
@@ -522,39 +512,39 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SELECT_GUARANTOR_ONE_REQUEST_CODE && resultCode == RESULT_OK) {
-            mSelectedGuarantorOne = data.getStringExtra(SELECT_GUARANTOR_ONE_STRING_EXTRA);
+            mViewModel.mSelectedGuarantorOne = data.getStringExtra(SELECT_GUARANTOR_ONE_STRING_EXTRA);
 
-            if (mSelectedGuarantorOne.equals(mSelectedGuarantorTwo)) {
+            if ( mViewModel.mSelectedGuarantorOne.equals( mViewModel.mSelectedGuarantorTwo)) {
                 mBinding.guarantorOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
                 Toast.makeText(this, "You cannot use the same guarantor", Toast.LENGTH_SHORT).show();
                 mBinding.guarantorOneRequiredText.setTextColor(getResources().getColor(R.color.white));
                 mBinding.guarantorOne.setHint("Select from list");
                 mBinding.guarantorOne.setText("");
-            } else if (mBinding.name.getText().equals(mSelectedGuarantorOne)) {
+            } else if (mBinding.name.getText().equals( mViewModel.mSelectedGuarantorOne)) {
                 Toast.makeText(this, "You cannot serve as your own guarantor", Toast.LENGTH_SHORT).show();
                 mBinding.guarantorOne.setHint("Select from list");
                 mBinding.guarantorOne.setText("");
             } else {
-                mBinding.guarantorOne.setText(mSelectedGuarantorOne);
+                mBinding.guarantorOne.setText( mViewModel.mSelectedGuarantorOne);
                 mBinding.guarantorOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.guarantorOneRequiredText.setTextColor(getResources().getColor(R.color.black));
             }
 
         } else if (requestCode == SELECT_GUARANTOR_TWO_REQUEST_CODE && resultCode == RESULT_OK) {
-            mSelectedGuarantorTwo = data.getStringExtra(SELECT_GUARANTOR_TWO_STRING_EXTRA);
+            mViewModel.mSelectedGuarantorTwo = data.getStringExtra(SELECT_GUARANTOR_TWO_STRING_EXTRA);
 
-            if (mSelectedGuarantorTwo.equals(mSelectedGuarantorOne)) {
+            if ( mViewModel.mSelectedGuarantorTwo.equals( mViewModel.mSelectedGuarantorOne)) {
                 mBinding.guarantorTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
                 mBinding.guarantorTwoRequiredText.setTextColor(getResources().getColor(R.color.white));
                 Toast.makeText(this, "You cannot use the same guarantor", Toast.LENGTH_SHORT).show();
                 mBinding.guarantorTwo.setHint("Select from list");
                 mBinding.guarantorTwo.setText("");
-            } else if (mBinding.name.getText().equals(mSelectedGuarantorTwo)) {
+            } else if (mBinding.name.getText().equals( mViewModel.mSelectedGuarantorTwo)) {
                 Toast.makeText(this, "You cannot serve as your own guarantor", Toast.LENGTH_SHORT).show();
                 mBinding.guarantorTwo.setHint("Select from list");
                 mBinding.guarantorTwo.setText("");
             } else {
-                mBinding.guarantorTwo.setText(mSelectedGuarantorTwo);
+                mBinding.guarantorTwo.setText( mViewModel.mSelectedGuarantorTwo);
                 mBinding.guarantorTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.guarantorTwoRequiredText.setTextColor(getResources().getColor(R.color.black));
             }
@@ -566,48 +556,15 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(HAS_SUBMITTED_SAVED_INSTANCE_STATE, hasSubmitted);
-        outState.putString(NAME_SAVED_INSTANCE_STATE, mBinding.name.getText().toString());
-        outState.putString(GUARANTOR_ONE_SAVED_INSTANCE_STATE, mBinding.guarantorOne.getText().toString());
-        outState.putString(GUARANTOR_TWO_SAVED_INSTANCE_STATE, mBinding.guarantorTwo.getText().toString());
-        outState.putString(STATUS_SAVED_INSTANCE_STATE, mBinding.status.getText().toString());
-        outState.putString(LOAN_ID_SAVED_INSTANCE_STATE, mBinding.loanId.getText().toString());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        hasSubmitted = savedInstanceState.getBoolean(HAS_SUBMITTED_SAVED_INSTANCE_STATE);
-
-        if (hasSubmitted) {
-            mBinding.name.setText(NAME_SAVED_INSTANCE_STATE);
-            mBinding.guarantorOne.setText(GUARANTOR_ONE_SAVED_INSTANCE_STATE);
-            mBinding.guarantorTwo.setText(GUARANTOR_TWO_SAVED_INSTANCE_STATE);
-            mBinding.status.setText(STATUS_SAVED_INSTANCE_STATE);
-            mBinding.loanId.setText(LOAN_ID_SAVED_INSTANCE_STATE);
-            mBinding.status.setVisibility(View.VISIBLE);
-            mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-
-            if (mBinding.name.getText().toString().
-                    equals(mPreferences.getString(FIRST_NAME_KEY, "") +
-                            " " + mPreferences.getString(LAST_NAME_KEY, ""))) {
-                mBinding.officialSection.setVisibility(View.VISIBLE);
-
-                mBinding.copyLoanId.setOnClickListener(v -> {
-                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Loan Id", "" + mBinding.loanId.getText().toString());
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(this, clip.getDescription().getLabel() + " copied", Toast.LENGTH_SHORT).show();
-                });
-
-            }
+        if (outState != null) {
+            mViewModel.saveState(outState);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         mBinding.statusHeader.setVisibility(View.GONE);
         mBinding.loanIdHeader.setVisibility(View.GONE);
         mBinding.amount.setEnabled(false);
@@ -633,26 +590,46 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
         mBinding.officialSection.setVisibility(View.GONE);
 
+        if ( mViewModel.hasSubmitted) {
+            mBinding.status.setVisibility(View.VISIBLE);
+            mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+
+            if (mBinding.name.getText().toString().
+                    equals(mPreferences.getString(FIRST_NAME_KEY, "") +
+                            " " + mPreferences.getString(LAST_NAME_KEY, ""))) {
+
+                mBinding.officialSection.setVisibility(View.VISIBLE);
+
+                mBinding.copyLoanId.setOnClickListener(v -> {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Loan Id", "" + mBinding.loanId.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(this, clip.getDescription().getLabel() + " copied", Toast.LENGTH_SHORT).show();
+                });
+
+            }
+        }
+
         incomingUser();
     }
 
     private void incomingUser() {
         Intent intent = getIntent();
 
-        if (!hasSubmitted) {
+        if (! mViewModel.hasSubmitted) {
             if (intent.hasExtra(LOGIN_ROLE_USER_KEY)) {
                 if (intent.hasExtra(GUARANTEE_LOAN_KEY)) {
                     setValues();
-                    mFullName = mPreferences.getString(FIRST_NAME_KEY, "") + " " + mPreferences.getString(LAST_NAME_KEY, "");
-                    mFormGuarantorOneFullName = mBinding.guarantorOne.getText().toString().trim();
-                    mFormGuarantorTwoFullName = mBinding.guarantorTwo.getText().toString().trim();
+                    mViewModel.mFullName = mPreferences.getString(FIRST_NAME_KEY, "") + " " + mPreferences.getString(LAST_NAME_KEY, "");
+                    mViewModel.mFormGuarantorOneFullName = mBinding.guarantorOne.getText().toString().trim();
+                    mViewModel.mFormGuarantorTwoFullName = mBinding.guarantorTwo.getText().toString().trim();
 
-                    if (mFullName.equals(mFormGuarantorOneFullName) || mFullName.equals(mFormGuarantorTwoFullName)) {
-                        if (mFullName.equals(mFormGuarantorOneFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
+                    if ( mViewModel.mFullName.equals( mViewModel.mFormGuarantorOneFullName) ||  mViewModel.mFullName.equals( mViewModel.mFormGuarantorTwoFullName)) {
+                        if ( mViewModel.mFullName.equals( mViewModel.mFormGuarantorOneFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
                             mBinding.guarantorOneConfirmation.setEnabled(true);
                             mBinding.guarantorTwoConfirmationHeader.setVisibility(View.GONE);
                             mBinding.guarantorSubmit.setEnabled(true);
-                        } else if (mFullName.equals(mFormGuarantorTwoFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
+                        } else if ( mViewModel.mFullName.equals( mViewModel.mFormGuarantorTwoFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
                             mBinding.guarantorTwoConfirmation.setEnabled(true);
                             mBinding.guarantorOneConfirmationHeader.setVisibility(View.GONE);
                             mBinding.guarantorSubmit.setEnabled(true);
@@ -712,8 +689,8 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             mBinding.guarantorOneConfirmation.setText(loanRest.getGuarantorOneConfirmation());
             mBinding.guarantorTwoConfirmation.setText(loanRest.getGuarantorTwoConfirmation());
 
-            mUserId = intent.getStringExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
-            mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
+            mViewModel.mUserId = intent.getStringExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
+            mViewModel.mLoanId = intent.getStringExtra(LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
         }
     }
 
