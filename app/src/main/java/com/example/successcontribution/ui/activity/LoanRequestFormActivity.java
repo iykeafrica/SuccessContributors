@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivityLoanRequestFormBinding;
+import com.example.successcontribution.model.request.AdminLoanRequestModel;
 import com.example.successcontribution.model.request.GuarantorLoanRequestModel;
 import com.example.successcontribution.model.request.LoanRequestModel;
 import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.shared.DatePicker;
 import com.example.successcontribution.ui.viewmodel.LoanRequestViewModel;
+import com.example.successcontribution.ui.viewmodel.UpdateUserLoanApplicationByAdminViewModel;
 import com.example.successcontribution.ui.viewmodel.UpdateUserLoanApplicationByGuarantorViewModel;
 
 import java.text.DateFormat;
@@ -71,11 +73,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private String mDateAppliedString;
     private String mGuarantorOneConfirmation;
     private String mGuarantorTwoConfirmation;
-    private String mOfficialOne;
-    private String mOfficialTwo;
-    private String mOfficialThree;
-    private String mPresident;
-    private long mDateStatus;
     private String mName;
     private DatePicker mDatePicker;
     private Calendar mCal1;
@@ -83,9 +80,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private Calendar mCal3;
     private long mRepayment;
     private String mDateRepayment;
-    private String mStatus;
-    private String mDateStatusString;
-    private String mStatusUpdate;
     private SharedPreferences mPreferences;
     private String mSelectedGuarantorOne;
     private String mSelectedGuarantorTwo;
@@ -95,8 +89,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private String mUserId;
     private String mLoanId;
     private boolean hasSubmitted;
-    private Boolean mDisableEdit;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,6 +290,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private void successConnection(LoanRest loanRest, ProgressDialog progressDialog) {
         mBinding.statusHeader.setVisibility(View.VISIBLE);
         mBinding.loanIdHeader.setVisibility(View.VISIBLE);
+        mBinding.status.setText(loanRest.getStatus());
         mBinding.amount.setEnabled(false);
         mBinding.guarantorOne.setEnabled(false);
         mBinding.guarantorOneListUsers.setEnabled(false);
@@ -420,12 +413,15 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
     private void errorConnectionGuarantor(String errorMessage, ProgressDialog progressDialog) {
         progressDialog.dismiss();
-        String specificMessage = errorMessage.substring(errorMessage.indexOf("message") + 10, errorMessage.length() - 2);
 
-        if (!errorMessage.contains(specificMessage)) {
-            return;
-        } else {
-            errorMessage = specificMessage;
+        if (errorMessage.length() > 15) {
+            String specificMessage = errorMessage.substring(errorMessage.indexOf("message") + 10, errorMessage.length() - 2);
+
+            if (!errorMessage.contains(specificMessage)) {
+                return;
+            } else {
+                errorMessage = specificMessage;
+            }
         }
 
         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
@@ -494,7 +490,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         } else {
             mBinding.presidentRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
             mBinding.presidentRequiredText.setTextColor(getResources().getColor(R.color.black));
-            mPresident = mBinding.guarantorOne.getText().toString().trim();
         }
 
         if (mBinding.dateStatus.getText().toString().trim().isEmpty()) {
@@ -503,18 +498,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         } else {
             mBinding.dateStatusRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
             mBinding.dateStatusRequiredText.setTextColor(getResources().getColor(R.color.black));
-            mPresident = mBinding.guarantorOne.getText().toString().trim();
-
-            DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-            mDateStatusString = mBinding.dateApplied.getText().toString();
-            String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
-            try {
-                Date date = dateFormat.parse(strDate);
-                mCal3.setTime(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            mDateStatus = mCal3.getTimeInMillis();
         }
 
         if (mBinding.statusUpdate.getText().toString().trim().isEmpty()) {
@@ -523,21 +506,17 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         } else {
             mBinding.statusUpdateRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
             mBinding.statusUpdateRequiredText.setTextColor(getResources().getColor(R.color.black));
-            mStatusUpdate = mBinding.guarantorOne.getText().toString().trim();
         }
 
     }
 
     private void loanChecker() {
-        mStatus = mBinding.status.getText().toString();
-
         if (mBinding.officialOne.getText().toString().trim().isEmpty()) {
             mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required_red));
             mBinding.officialOneRequiredText.setTextColor(getResources().getColor(R.color.white));
         } else {
             mBinding.officialOneRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
             mBinding.officialOneRequiredText.setTextColor(getResources().getColor(R.color.black));
-            mOfficialOne = mBinding.guarantorOne.getText().toString().trim();
         }
 
         if (mBinding.officialTwo.getText().toString().trim().isEmpty()) {
@@ -546,7 +525,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         } else {
             mBinding.officialTwoRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
             mBinding.officialTwoRequiredText.setTextColor(getResources().getColor(R.color.black));
-            mOfficialTwo = mBinding.guarantorOne.getText().toString().trim();
         }
 
         if (mBinding.officialThree.getText().toString().trim().isEmpty()) {
@@ -555,7 +533,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         } else {
             mBinding.officialThreeRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
             mBinding.officialThreeRequiredText.setTextColor(getResources().getColor(R.color.black));
-            mOfficialThree = mBinding.guarantorOne.getText().toString().trim();
         }
 
     }
@@ -564,7 +541,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         if (getIntent().hasExtra(PRESIDENT_LOAN_KEY)) {
             if (!mBinding.president.getText().toString().trim().isEmpty() && !mBinding.dateStatus.getText().toString().trim().isEmpty() &&
                     !mBinding.statusUpdate.getText().toString().trim().isEmpty()) {
-                mDisableEdit = mBinding.disableEdit.isChecked();
                 submitOfficialSection();
             } else {
                 Toast.makeText(this, "Cannot submit", Toast.LENGTH_LONG).show();
@@ -606,9 +582,66 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     }
 
     private void submitOfficialSection() {
-        Toast.makeText(this, "Sent", Toast.LENGTH_SHORT).show();
+        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+        String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
+        try {
+            Date date = dateFormat.parse(strDate);
+            mCal3.setTime(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        AdminLoanRequestModel requestModel = new AdminLoanRequestModel();
+        requestModel.setOfficialOne(mBinding.officialOne.getText().toString());
+        requestModel.setOfficialTwo(mBinding.officialTwo.getText().toString());
+        requestModel.setOfficialThree(mBinding.officialThree.getText().toString());
+        requestModel.setPresident(mBinding.president.getText().toString());
+        requestModel.setStatus(mBinding.statusUpdate.getText().toString());
+        requestModel.setStatusDate(mCal3.getTimeInMillis());
+        requestModel.setEditable(mBinding.disableEdit.isChecked());
+
+        ViewModelProvider provider = new ViewModelProvider(getViewModelStore(),
+                ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
+
+        UpdateUserLoanApplicationByAdminViewModel viewModel = provider.get(UpdateUserLoanApplicationByAdminViewModel.class);
+
+        attemptToUpdateAdmin(viewModel, requestModel);
     }
 
+    private void attemptToUpdateAdmin(UpdateUserLoanApplicationByAdminViewModel viewModel, AdminLoanRequestModel requestModel) {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Authenticating please wait...");
+        progressDialog.show();
+
+        viewModel.setUpdateLoanByAdminCoupleData(mUserId, mLoanId, requestModel);
+
+        viewModel.getLoanRestLiveData().observe(this, new Observer<LoanRest>() {
+            @Override
+            public void onChanged(LoanRest loanRest) {
+                successConnectionAdmin(loanRest, progressDialog);
+            }
+        });
+
+        viewModel.getNetworkError().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String errorMessage) {
+                errorConnectionAdmin(errorMessage, progressDialog);
+            }
+        });
+
+    }
+
+    private void successConnectionAdmin(LoanRest loanRest, ProgressDialog progressDialog) {
+        progressDialog.dismiss();
+        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+        setReturnValues(loanRest, dateFormat);
+        Toast.makeText(this, "Successful Update", Toast.LENGTH_LONG).show();
+    }
+
+    private void errorConnectionAdmin(String errorMessage, ProgressDialog progressDialog) {
+        progressDialog.dismiss();
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -805,24 +838,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         if (intent.hasExtra(PARCELABLE_EXTRA_KEY)) {
             LoanRest loanRest = intent.getParcelableExtra(PARCELABLE_EXTRA_KEY);
 
-            mBinding.status.setText(loanRest.getStatus());
-            mBinding.loanId.setText(loanRest.getLoanId());
-            mBinding.name.setText(loanRest.getName());
-            mBinding.amount.setText(loanRest.getAmount());
-            mBinding.guarantorOne.setText(loanRest.getGuarantorOne());
-            mBinding.guarantorTwo.setText(loanRest.getGuarantorTwo());
-            mBinding.reason.setText(loanRest.getReason());
-            mBinding.dateApplied.setText("" + dateFormat.format(new Date(loanRest.getRequestDate())));
-            mBinding.repayment.setText("" + dateFormat.format(new Date(loanRest.getRepaymentDate())));
-            mBinding.guarantorOneConfirmation.setText(loanRest.getGuarantorOneConfirmation());
-            mBinding.guarantorTwoConfirmation.setText(loanRest.getGuarantorTwoConfirmation());
-            mBinding.officialOne.setText(loanRest.getOfficialOne());
-            mBinding.officialTwo.setText(loanRest.getOfficialTwo());
-            mBinding.officialThree.setText(loanRest.getOfficialThree());
-            mBinding.president.setText(loanRest.getPresident());
-            mBinding.dateStatus.setText("" + dateFormat.format(new Date(loanRest.getStatusDate())));
-            mBinding.statusUpdate.setText(loanRest.getStatus());
-            mBinding.disableEdit.setEnabled(loanRest.getEditable());
+            setReturnValues(loanRest, dateFormat);
 
             if (intent.hasExtra(GUARANTEE_LOAN_KEY)) {
                 mUserId = intent.getStringExtra(USER_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE);
@@ -835,6 +851,27 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void setReturnValues(LoanRest loanRest, DateFormat dateFormat) {
+        mBinding.status.setText(loanRest.getStatus());
+        mBinding.loanId.setText(loanRest.getLoanId());
+        mBinding.name.setText(loanRest.getName());
+        mBinding.amount.setText(loanRest.getAmount());
+        mBinding.guarantorOne.setText(loanRest.getGuarantorOne());
+        mBinding.guarantorTwo.setText(loanRest.getGuarantorTwo());
+        mBinding.reason.setText(loanRest.getReason());
+        mBinding.dateApplied.setText("" + dateFormat.format(new Date(loanRest.getRequestDate())));
+        mBinding.repayment.setText("" + dateFormat.format(new Date(loanRest.getRepaymentDate())));
+        mBinding.guarantorOneConfirmation.setText(loanRest.getGuarantorOneConfirmation());
+        mBinding.guarantorTwoConfirmation.setText(loanRest.getGuarantorTwoConfirmation());
+        mBinding.officialOne.setText(loanRest.getOfficialOne());
+        mBinding.officialTwo.setText(loanRest.getOfficialTwo());
+        mBinding.officialThree.setText(loanRest.getOfficialThree());
+        mBinding.president.setText(loanRest.getPresident());
+        mBinding.dateStatus.setText("" + dateFormat.format(new Date(loanRest.getStatusDate())));
+        mBinding.statusUpdate.setText(loanRest.getStatus());
+        mBinding.disableEdit.setEnabled(loanRest.getEditable());
     }
 
     private void hideOpeningKeyBoard(EditText editText) {

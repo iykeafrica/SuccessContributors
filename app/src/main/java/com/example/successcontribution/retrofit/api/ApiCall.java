@@ -1,5 +1,6 @@
 package com.example.successcontribution.retrofit.api;
 
+import com.example.successcontribution.model.request.AdminLoanRequestModel;
 import com.example.successcontribution.model.request.GuarantorLoanRequestModel;
 import com.example.successcontribution.model.request.LoanRequestModel;
 import com.example.successcontribution.model.request.PasswordResetModel;
@@ -41,6 +42,9 @@ public interface ApiCall {
     @POST("/success-contributions/users/login")
     Call<ResponseBody> login(@Body UserLoginRequestModel loginRequestModel);
 
+    @POST("/success-contributions/users/password-reset-request")
+    Call<OperationStatusModel> passwordResetRequestRequest(@Body PasswordResetRequestModel passwordResetRequestModel);
+
     @POST("/success-contributions/users/{userId}/loan-applications")
     Call<LoanRest> requestLoan(@Path("userId") String userId, @Body LoanRequestModel loanRequestModel);
 
@@ -59,7 +63,7 @@ public interface ApiCall {
     @PUT("/success-contributions/users/{userId}/loan-applications/{loanId}/update-loan-application-guarantor")
     Call<LoanRest> updateUserLoanApplicationByGuarantor(@Path("userId") String userId, @Path("loanId") String loanId, @Body GuarantorLoanRequestModel guarantorLoanRequestModel);
 
-    @POST("/success-contributions/users/password-reset-request")
-    Call<OperationStatusModel> passwordResetRequestRequest(@Body PasswordResetRequestModel passwordResetRequestModel);
+    @PUT("/success-contributions/users/{userId}/loan-applications/{loanId}/update-loan-application-admin")
+    Call<LoanRest> updateUserLoanApplicationByAdmin(@Path("userId") String userId, @Path("loanId") String loanId, @Body AdminLoanRequestModel adminLoanRequestModel);
 
 }
