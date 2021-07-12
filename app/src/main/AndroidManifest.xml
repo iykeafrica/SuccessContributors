@@ -27,13 +27,15 @@
 
         </activity>
         <activity android:name=".ui.activity.LoginActivity">
+        </activity>
+        <activity android:name=".ui.activity.SplashScreenActivity"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SplashScreenActivity" />
         <activity android:name=".ui.activity.RegistrationActivity" />
 
         <meta-data

@@ -154,37 +154,41 @@ public class GetUserLoanActivity extends AppCompatActivity {
             }
 
         } else { //Admin
-            if (mRole.equals(ADMIN) || ADMIN.equals(mPreferences.getString(LOGIN_ROLE_KEY, "")) ||
-                    (mRole.equals(PRESIDENT) || PRESIDENT.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) ||
-                    (mRole.equals(SUPER_ADMIN) || SUPER_ADMIN.equals(mPreferences.getString(LOGIN_ROLE_KEY, "")))) { //Admin or //President //superAdmin
-                Log.d(TAG, "findUserLoan: " + "Admin user");
-                Intent intent = new Intent(this, LoanRequestFormActivity.class);
-                intent.putExtra(APPROVE_LOAN_KEY, true);
-                intent.putExtra(ADMIN_ROLE_USER_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
-                intent.putExtra(PRESIDENT_LOAN_KEY, true);
-                intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
-                intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
-                intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
-                startActivity(intent);
-                finish();
-            } else if (mRole.equals(LOAN_CHECKER) || LOAN_CHECKER.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) {
-                Intent intent = new Intent(this, LoanRequestFormActivity.class);
-                intent.putExtra(APPROVE_LOAN_KEY, true);
-                intent.putExtra(LOAN_CHECKER_ROLE_USER_KEY, true);
-                intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
-                intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
-                intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
-                startActivity(intent);
-                finish();
-            } else if (mRole.equals(EXCO) || EXCO.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) {
-                Intent intent = new Intent(this, LoanRequestFormActivity.class);
-                intent.putExtra(APPROVE_LOAN_KEY, true);
-                intent.putExtra(EXCO_ROLE_USER_KEY, true);
-                intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
-                intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
-                intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
-                startActivity(intent);
-                finish();
+            if (!mFullName.equals(loanRest.getName())) {
+                Toast.makeText(this, "Please, select the correct person", Toast.LENGTH_SHORT).show();
+            } else {
+                if (mRole.equals(ADMIN) || ADMIN.equals(mPreferences.getString(LOGIN_ROLE_KEY, "")) ||
+                        (mRole.equals(PRESIDENT) || PRESIDENT.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) ||
+                        (mRole.equals(SUPER_ADMIN) || SUPER_ADMIN.equals(mPreferences.getString(LOGIN_ROLE_KEY, "")))) { //Admin or //President //superAdmin
+                    Log.d(TAG, "findUserLoan: " + "Admin user");
+                    Intent intent = new Intent(this, LoanRequestFormActivity.class);
+                    intent.putExtra(APPROVE_LOAN_KEY, true);
+                    intent.putExtra(ADMIN_ROLE_USER_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
+                    intent.putExtra(PRESIDENT_LOAN_KEY, true);
+                    intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
+                    intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
+                    intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
+                    startActivity(intent);
+                    finish();
+                } else if (mRole.equals(LOAN_CHECKER) || LOAN_CHECKER.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) {
+                    Intent intent = new Intent(this, LoanRequestFormActivity.class);
+                    intent.putExtra(APPROVE_LOAN_KEY, true);
+                    intent.putExtra(LOAN_CHECKER_ROLE_USER_KEY, true);
+                    intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
+                    intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
+                    intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
+                    startActivity(intent);
+                    finish();
+                } else if (mRole.equals(EXCO) || EXCO.equals(mPreferences.getString(LOGIN_ROLE_KEY, ""))) {
+                    Intent intent = new Intent(this, LoanRequestFormActivity.class);
+                    intent.putExtra(APPROVE_LOAN_KEY, true);
+                    intent.putExtra(EXCO_ROLE_USER_KEY, true);
+                    intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
+                    intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
+                    intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
+                    startActivity(intent);
+                    finish();
+                }
             }
         }
     }

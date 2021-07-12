@@ -54,6 +54,9 @@ public class ListUsersAdapter extends ListAdapter<UserRest, ListUsersAdapter.Vie
         } else {
             holder.cardHeader.setVisibility(View.VISIBLE);
             holder.bind(getItem(position));
+            holder.itemView.setOnClickListener(v -> {
+                mClickListener.selectUser(position, getItem(position));
+            });
         }
     }
 
@@ -72,10 +75,6 @@ public class ListUsersAdapter extends ListAdapter<UserRest, ListUsersAdapter.Vie
             name = itemView.findViewById(R.id.name);
             department = itemView.findViewById(R.id.department);
             cardHeader = itemView.findViewById(R.id.card_header);
-
-            itemView.setOnClickListener(v -> {
-                mClickListener.selectUser(getAdapterPosition(), getItem(getAdapterPosition()));
-            });
         }
 
         public void bind(UserRest userRest) {

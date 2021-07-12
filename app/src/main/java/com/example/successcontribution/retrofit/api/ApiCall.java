@@ -21,6 +21,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiCall {
     //baseUrl -> https://success-contributions.herokuapp.com
@@ -49,7 +50,7 @@ public interface ApiCall {
     Call<LoanRest> requestLoan(@Path("userId") String userId, @Body LoanRequestModel loanRequestModel);
 
     @GET("/success-contributions/users")
-    Call<List<UserRest>> getUsers();
+    Call<List<UserRest>> getUsers(@Query("page") int page, @Query("limit") int limit);
 
     @GET("/success-contributions/users/{userId}")
     Call<UserRest> getUser(@Path("userId") String userId);

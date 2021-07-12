@@ -3,6 +3,8 @@
     <color name="primary_dark">#3B1C0A</color>
     <color name="primary_dark_2">#5D4037</color>
     <color name="primary">#5A2C11</color>
+    <color name="primary__">#933C0B</color>
+    <color name="primary_">#5A2C11</color>
     <color name="primary_light_2">#8A624A</color>
     <color name="primary_light">#BF760B</color>
     <color name="primary_light_one">#DDA450</color>

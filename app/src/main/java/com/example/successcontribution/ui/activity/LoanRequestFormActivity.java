@@ -1,5 +1,6 @@
 package com.example.successcontribution.ui.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
@@ -10,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,6 +41,7 @@ import java.util.Date;
 import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
 import static com.example.successcontribution.shared.Constant.FIRST_NAME_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_KEY;
 import static com.example.successcontribution.shared.Constant.PARCELABLE_EXTRA_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_ONE_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_TWO_SAVED_INSTANCE_STATE;
@@ -301,6 +304,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding.repayment.setEnabled(false);
         mBinding.userSubmit.setEnabled(false);
         mBinding.officialSection.setVisibility(View.VISIBLE);
+        mBinding.enableEdit.setChecked(loanRest.getEditable());
 
         mBinding.loanId.setText(loanRest.getLoanId());
         mBinding.copyLoanId.setOnClickListener(v -> {
@@ -435,7 +439,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 !mBinding.guarantorTwoConfirmation.getText().toString().trim().isEmpty()) {
 
             if (!mBinding.officialOne.getText().toString().trim().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty() &&
-            !mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                    !mBinding.officialThree.getText().toString().trim().isEmpty()) {
 
                 if (getIntent().hasExtra(LOAN_CHECKER_ROLE_USER_KEY)) {
                     mBinding.officialSubmit.setEnabled(false);
@@ -456,18 +460,19 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.president.setEnabled(false);
                 mBinding.dateStatus.setEnabled(false);
                 mBinding.statusUpdate.setEnabled(false);
+                mBinding.enableEdit.setEnabled(false);
 
-                if(!mBinding.officialOne.getText().toString().trim().isEmpty())
+                if (!mBinding.officialOne.getText().toString().trim().isEmpty())
                     mBinding.officialOne.setEnabled(false);
-                if(!mBinding.officialTwo.getText().toString().trim().isEmpty())
+                if (!mBinding.officialTwo.getText().toString().trim().isEmpty())
                     mBinding.officialTwo.setEnabled(false);
-                if(!mBinding.officialThree.getText().toString().trim().isEmpty())
+                if (!mBinding.officialThree.getText().toString().trim().isEmpty())
                     mBinding.officialThree.setEnabled(false);
 
-                    mBinding.officialSubmit.setOnClickListener(v -> {
-                        loanChecker();
-                        clickOfficialSubmit();
-                    });
+                mBinding.officialSubmit.setOnClickListener(v -> {
+                    loanChecker();
+                    clickOfficialSubmit();
+                });
             }
 
         } else {
@@ -477,7 +482,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             mBinding.president.setEnabled(false);
             mBinding.dateStatus.setEnabled(false);
             mBinding.statusUpdate.setEnabled(false);
-            mBinding.disableEdit.setEnabled(false);
+            mBinding.enableEdit.setEnabled(false);
             mBinding.officialSubmit.setEnabled(false);
         }
 
@@ -598,7 +603,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         requestModel.setPresident(mBinding.president.getText().toString());
         requestModel.setStatus(mBinding.statusUpdate.getText().toString());
         requestModel.setStatusDate(mCal3.getTimeInMillis());
-        requestModel.setEditable(mBinding.disableEdit.isChecked());
+        requestModel.setEditable(mBinding.enableEdit.isChecked());
 
         ViewModelProvider provider = new ViewModelProvider(getViewModelStore(),
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
@@ -636,11 +641,25 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
         setReturnValues(loanRest, dateFormat);
         Toast.makeText(this, "Successful Update", Toast.LENGTH_LONG).show();
+
+        if (!mBinding.officialOne.getText().toString().trim().isEmpty())
+            mBinding.officialOne.setEnabled(false);
+        if (!mBinding.officialTwo.getText().toString().trim().isEmpty())
+            mBinding.officialTwo.setEnabled(false);
+        if (!mBinding.officialThree.getText().toString().trim().isEmpty())
+            mBinding.officialThree.setEnabled(false);
+        
+        mBinding.president.setEnabled(false);
+        mBinding.statusUpdate.setEnabled(false);
+        mBinding.dateStatus.setEnabled(false);
+        mBinding.enableEdit.setEnabled(false);
+        getViewModelStore().clear();
     }
 
     private void errorConnectionAdmin(String errorMessage, ProgressDialog progressDialog) {
         progressDialog.dismiss();
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        getViewModelStore().clear();
     }
 
     @Override
@@ -736,7 +755,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding.president.setEnabled(false);
         mBinding.dateStatus.setEnabled(false);
         mBinding.statusUpdate.setEnabled(false);
-        mBinding.disableEdit.setEnabled(false);
+        mBinding.enableEdit.setEnabled(false);
         mBinding.officialSubmit.setEnabled(false);
 
         mBinding.officialSection.setVisibility(View.GONE);
@@ -771,23 +790,26 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             if (intent.hasExtra(LOGIN_ROLE_USER_KEY)) {
                 if (intent.hasExtra(GUARANTEE_LOAN_KEY)) {
                     setValues();
-                    mFullName = mPreferences.getString(FIRST_NAME_KEY, "") + " " + mPreferences.getString(LAST_NAME_KEY, "");
-                    mFormGuarantorOneFullName = mBinding.guarantorOne.getText().toString().trim();
-                    mFormGuarantorTwoFullName = mBinding.guarantorTwo.getText().toString().trim();
+                    mBinding.statusHeader.setVisibility(View.VISIBLE);
+                    mBinding.loanIdHeader.setVisibility(View.VISIBLE);
 
-                    if (mFullName.equals(mFormGuarantorOneFullName) || mFullName.equals(mFormGuarantorTwoFullName)) {
-                        if (mFullName.equals(mFormGuarantorOneFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
-                            mBinding.guarantorOneConfirmation.setEnabled(true);
-                            mBinding.guarantorTwoConfirmationHeader.setVisibility(View.GONE);
-                            mBinding.guarantorSubmit.setEnabled(true);
-                        } else if (mFullName.equals(mFormGuarantorTwoFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
-                            mBinding.guarantorTwoConfirmation.setEnabled(true);
-                            mBinding.guarantorOneConfirmationHeader.setVisibility(View.GONE);
-                            mBinding.guarantorSubmit.setEnabled(true);
+                    if (mBinding.enableEdit.isChecked()) {
+                        mFullName = mPreferences.getString(FIRST_NAME_KEY, "") + " " + mPreferences.getString(LAST_NAME_KEY, "");
+                        mFormGuarantorOneFullName = mBinding.guarantorOne.getText().toString().trim();
+                        mFormGuarantorTwoFullName = mBinding.guarantorTwo.getText().toString().trim();
+
+                        if (mFullName.equals(mFormGuarantorOneFullName) || mFullName.equals(mFormGuarantorTwoFullName)) {
+                            if (mFullName.equals(mFormGuarantorOneFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
+                                mBinding.guarantorOneConfirmation.setEnabled(true);
+                                mBinding.guarantorTwoConfirmationHeader.setVisibility(View.GONE);
+                                mBinding.guarantorSubmit.setEnabled(true);
+                            } else if (mFullName.equals(mFormGuarantorTwoFullName) && mBinding.guarantorOneConfirmation.getText().toString().trim().isEmpty()) {
+                                mBinding.guarantorTwoConfirmation.setEnabled(true);
+                                mBinding.guarantorOneConfirmationHeader.setVisibility(View.GONE);
+                                mBinding.guarantorSubmit.setEnabled(true);
+                            }
+                            guaranteeLoan();
                         }
-                        mBinding.statusHeader.setVisibility(View.VISIBLE);
-                        mBinding.loanIdHeader.setVisibility(View.VISIBLE);
-                        guaranteeLoan();
                     } else {
                         Toast.makeText(this, "You are not entitled to guarantee this loan", Toast.LENGTH_SHORT).show();
                     }
@@ -809,22 +831,27 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.loanIdHeader.setVisibility(View.VISIBLE);
                 mBinding.officialSection.setVisibility(View.VISIBLE);
 
-                if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(PRESIDENT_LOAN_KEY)) {
-                    mBinding.officialOne.setEnabled(true);
-                    mBinding.officialTwo.setEnabled(true);
-                    mBinding.officialThree.setEnabled(true);
-                    mBinding.president.setEnabled(true);
-                    mBinding.dateStatus.setEnabled(true);
-                    mBinding.statusUpdate.setEnabled(true);
-                    mBinding.disableEdit.setEnabled(true);
-                    mBinding.officialSubmit.setEnabled(true);
-                    approveLoan();
-                } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(LOAN_CHECKER_ROLE_USER_KEY)) {
-                    mBinding.officialOne.setEnabled(true);
-                    mBinding.officialTwo.setEnabled(true);
-                    mBinding.officialThree.setEnabled(true);
-                    mBinding.officialSubmit.setEnabled(true);
-                    approveLoan();
+                if (mBinding.enableEdit.isChecked()) {
+                    if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(PRESIDENT_LOAN_KEY)) {
+                        if (!mBinding.officialOne.getText().toString().trim().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty()
+                                && !mBinding.officialThree.getText().toString().trim().isEmpty()) {
+                            mBinding.officialOne.setEnabled(true);
+                            mBinding.officialTwo.setEnabled(true);
+                            mBinding.officialThree.setEnabled(true);
+                            mBinding.president.setEnabled(true);
+                            mBinding.dateStatus.setEnabled(true);
+                            mBinding.statusUpdate.setEnabled(true);
+                            mBinding.enableEdit.setEnabled(true);
+                            mBinding.officialSubmit.setEnabled(true);
+                        }
+                        approveLoan();
+                    } else if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(LOAN_CHECKER_ROLE_USER_KEY)) {
+                        mBinding.officialOne.setEnabled(true);
+                        mBinding.officialTwo.setEnabled(true);
+                        mBinding.officialThree.setEnabled(true);
+                        mBinding.officialSubmit.setEnabled(true);
+                        approveLoan();
+                    }
                 }
             }
         }
@@ -871,7 +898,8 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding.president.setText(loanRest.getPresident());
         mBinding.dateStatus.setText("" + dateFormat.format(new Date(loanRest.getStatusDate())));
         mBinding.statusUpdate.setText(loanRest.getStatus());
-        mBinding.disableEdit.setEnabled(loanRest.getEditable());
+        mBinding.enableEdit.setEnabled(loanRest.getEditable());
+        mBinding.enableEdit.setChecked(loanRest.getEditable());
     }
 
     private void hideOpeningKeyBoard(EditText editText) {
@@ -891,6 +919,30 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Do you want to Exit?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(), DashBoardActivity.class);
+                intent.putExtra(LOGIN_ROLE_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user select "No", just cancel this dialog and continue with app
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

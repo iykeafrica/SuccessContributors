@@ -86,7 +86,7 @@ public class AuthRepository {
         MutableLiveData<List<UserRest>> data = new MutableLiveData<>();
         MutableLiveData<String> networkError = new MutableLiveData<>();
 
-        mClient.getApi().getUsers().enqueue(new Callback<List<UserRest>>() {
+        mClient.getApi().getUsers(0, 70).enqueue(new Callback<List<UserRest>>() {
             @Override
             public void onResponse(Call<List<UserRest>> call, Response<List<UserRest>> response) {
                 if (response.isSuccessful()){

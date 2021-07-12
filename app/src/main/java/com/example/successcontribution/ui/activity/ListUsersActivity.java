@@ -154,9 +154,14 @@ public class ListUsersActivity extends AppCompatActivity {
             });
         }
 
-
         if (intent.hasExtra(FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY)) {
-            Log.d(TAG, "incomingIntent: " + intent.getBooleanExtra(FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY, false));
+            mAdapter.setClickListener(new ListUsersAdapter.ClickListener() {
+                @Override
+                public void selectUser(int position, UserRest userRest) {
+                    Toast.makeText(ListUsersActivity.this, userRest.getFirstName(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "incomingIntent: " + intent.getBooleanExtra(FROM_DASH_BOARD_ACTIVITY_TO_LIST_USERS_ACTIVITY, false));
+                }
+            });
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.successcontribution.shared;
 
 public class Constant {
+    public static final int TIMER = 5000;
     //    public static final String BASE_URL = "https://success-contribution.herokuapp.com";
     public static final String BASE_URL = "https://success-contributions.herokuapp.com";
     public static final String LOGIN_ROLE_KEY = "com.example.successcontribution.utils_LOGIN_ROLE_KEY";
