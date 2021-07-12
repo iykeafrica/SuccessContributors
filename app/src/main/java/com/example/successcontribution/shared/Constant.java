@@ -27,7 +27,7 @@ public class Constant {
 
     public static final String LOAN_CHECKER_ROLE_USER_KEY = "com.example.successcontribution.utils_LOAN_CHECKER_ROLE_USER_KEY";
     public static final String EXCO_ROLE_USER_KEY = "com.example.successcontribution.utils_EXCO_ROLE_USER_KEY";
-    public static final String PRESIDENT_LOAN_KEY = "com.example.successcontribution.utils_PRESIDENT_LOAN_KEY";
+    public static final String LOAN_PRESIDENT_ROLE_USER_KEY = "com.example.successcontribution.utils_LOAN_PRESIDENT_ROLE_USER_KEY";
 
     public static final String USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE = "com.example.successcontribution.utils_USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE";
     public static final String LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE = "com.example.successcontribution.utils_LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE";

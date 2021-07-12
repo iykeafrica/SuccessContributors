@@ -51,7 +51,7 @@ import static com.example.successcontribution.shared.Constant.LOAN_ID_SAVED_INST
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.LOAN_ID_SENT_BY_GUARANTOR_STRING_EXTRA_ONE;
 import static com.example.successcontribution.shared.Constant.NAME_SAVED_INSTANCE_STATE;
-import static com.example.successcontribution.shared.Constant.PRESIDENT_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.LOAN_PRESIDENT_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_KEY;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_REQUEST_CODE;
 import static com.example.successcontribution.shared.Constant.SELECT_GUARANTOR_ONE_STRING_EXTRA;
@@ -450,7 +450,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.officialThree.setEnabled(false);
 
                 mBinding.officialSubmit.setOnClickListener(v -> {
-                    if (getIntent().hasExtra(PRESIDENT_LOAN_KEY)) {
+                    if (getIntent().hasExtra(LOAN_PRESIDENT_ROLE_USER_KEY)) {
                         adminPresident();
                         clickOfficialSubmit();
                     }
@@ -543,7 +543,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     }
 
     private void clickOfficialSubmit() {
-        if (getIntent().hasExtra(PRESIDENT_LOAN_KEY)) {
+        if (getIntent().hasExtra(LOAN_PRESIDENT_ROLE_USER_KEY)) {
             if (!mBinding.president.getText().toString().trim().isEmpty() && !mBinding.dateStatus.getText().toString().trim().isEmpty() &&
                     !mBinding.statusUpdate.getText().toString().trim().isEmpty()) {
                 submitOfficialSection();
@@ -603,7 +603,10 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         requestModel.setPresident(mBinding.president.getText().toString());
         requestModel.setStatus(mBinding.statusUpdate.getText().toString());
         requestModel.setStatusDate(mCal3.getTimeInMillis());
-        requestModel.setEditable(mBinding.enableEdit.isChecked());
+        if (getIntent().hasExtra(LOAN_PRESIDENT_ROLE_USER_KEY))
+            requestModel.setEditable(!mBinding.enableEdit.isChecked());
+        else
+            requestModel.setEditable(mBinding.enableEdit.isChecked());
 
         ViewModelProvider provider = new ViewModelProvider(getViewModelStore(),
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
@@ -633,7 +636,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 errorConnectionAdmin(errorMessage, progressDialog);
             }
         });
-
     }
 
     private void successConnectionAdmin(LoanRest loanRest, ProgressDialog progressDialog) {
@@ -648,11 +650,18 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             mBinding.officialTwo.setEnabled(false);
         if (!mBinding.officialThree.getText().toString().trim().isEmpty())
             mBinding.officialThree.setEnabled(false);
-        
+        if (getIntent().hasExtra(LOAN_CHECKER_ROLE_USER_KEY) && !mBinding.officialOne.getText().toString().trim().isEmpty() &&
+                !mBinding.officialTwo.getText().toString().trim().isEmpty() && !mBinding.officialThree.getText().toString().trim().isEmpty()) {
+            mBinding.officialSubmit.setEnabled(false);
+        }
+
         mBinding.president.setEnabled(false);
         mBinding.statusUpdate.setEnabled(false);
         mBinding.dateStatus.setEnabled(false);
         mBinding.enableEdit.setEnabled(false);
+        if (getIntent().hasExtra(LOAN_PRESIDENT_ROLE_USER_KEY))
+            mBinding.officialSubmit.setEnabled(false);
+
         getViewModelStore().clear();
     }
 
@@ -832,7 +841,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.officialSection.setVisibility(View.VISIBLE);
 
                 if (mBinding.enableEdit.isChecked()) {
-                    if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(PRESIDENT_LOAN_KEY)) {
+                    if (intent.hasExtra(APPROVE_LOAN_KEY) && intent.hasExtra(LOAN_PRESIDENT_ROLE_USER_KEY)) {
                         if (!mBinding.officialOne.getText().toString().trim().isEmpty() && !mBinding.officialTwo.getText().toString().trim().isEmpty()
                                 && !mBinding.officialThree.getText().toString().trim().isEmpty()) {
                             mBinding.officialOne.setEnabled(true);

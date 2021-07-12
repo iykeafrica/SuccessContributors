@@ -32,7 +32,7 @@ import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_KEY;
 import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.MY_PREF;
 import static com.example.successcontribution.shared.Constant.PRESIDENT;
-import static com.example.successcontribution.shared.Constant.PRESIDENT_LOAN_KEY;
+import static com.example.successcontribution.shared.Constant.LOAN_PRESIDENT_ROLE_USER_KEY;
 import static com.example.successcontribution.shared.Constant.SEARCH_USER_BY_ADMIN_REQUEST_CODE;
 import static com.example.successcontribution.shared.Constant.SEARCH_USER_BY_GUARANTOR_REQUEST_CODE;
 import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADMIN_KEY;
@@ -123,6 +123,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
             @Override
             public void onChanged(LoanRest loanRest) {
                 successConnection(loanRest, progressDialog);
+                getViewModelStore().clear();
             }
         });
 
@@ -164,7 +165,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, LoanRequestFormActivity.class);
                     intent.putExtra(APPROVE_LOAN_KEY, true);
                     intent.putExtra(ADMIN_ROLE_USER_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
-                    intent.putExtra(PRESIDENT_LOAN_KEY, true);
+                    intent.putExtra(LOAN_PRESIDENT_ROLE_USER_KEY, true);
                     intent.putExtra(PARCELABLE_EXTRA_KEY, loanRest);
                     intent.putExtra(USER_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mUserId);
                     intent.putExtra(LOAN_ID_SENT_BY_ADMIN_STRING_EXTRA_ONE, mBinding.etLoanId.getText().toString().trim());
