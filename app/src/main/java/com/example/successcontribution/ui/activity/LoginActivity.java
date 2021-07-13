@@ -154,7 +154,6 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra(SAVINGS_BALANCE_KEY, balance);
         intent.putExtra(FIRST_NAME_KEY, firstName);
         startActivity(intent);
-        finish();
         getViewModelStore().clear();
     }
 

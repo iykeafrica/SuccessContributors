@@ -1,12 +1,23 @@
 package com.example.successcontribution.model.response;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Objects;
 
+@Entity(tableName = "users")
 public class UserRest {
+
+    @NonNull
+    @PrimaryKey
+    @SerializedName("_id")
+    @Expose
+    public String _id;
 
     @SerializedName("userId")
     @Expose

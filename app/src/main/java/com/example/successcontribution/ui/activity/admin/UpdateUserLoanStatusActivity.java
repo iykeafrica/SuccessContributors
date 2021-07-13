@@ -26,7 +26,6 @@ import static com.example.successcontribution.shared.Constant.SELECT_USER_BY_ADM
 public class UpdateUserLoanStatusActivity extends AppCompatActivity {
 
     ActivityUpdateUserLoanStatusBinding mBinding;
-    private String mFullName;
     private String mUserId;
 
     @Override
@@ -91,6 +90,7 @@ public class UpdateUserLoanStatusActivity extends AppCompatActivity {
         mBinding.userName.setText("");
         mBinding.userName.setHint("Select user from list");
         mBinding.eligibilityChecker.setChecked(false);
+        getViewModelStore().clear();
     }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
@@ -113,16 +113,16 @@ public class UpdateUserLoanStatusActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SEARCH_USER_BY_ADMIN_REQUEST_CODE && resultCode == RESULT_OK) {
-            mFullName = data.getStringExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE);
+            String fullName = data.getStringExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_ONE);
             mUserId = data.getStringExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO);
-            mBinding.userName.setText(mFullName);
+            mBinding.userName.setText(fullName);
         }
     }
 
     private void confirmUpdate() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setCancelable(false);
-        builder.setMessage("Confirm you want to update user savings?");
+        builder.setMessage("Confirm you want to update user loan eligibility?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

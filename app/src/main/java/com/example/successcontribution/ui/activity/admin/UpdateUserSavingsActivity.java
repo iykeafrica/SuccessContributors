@@ -120,8 +120,6 @@ public class UpdateUserSavingsActivity extends AppCompatActivity {
             mUserId = data.getStringExtra(SELECT_USER_BY_ADMIN_STRING_EXTRA_TWO);
 
             mBinding.userName.setText(fullName);
-
-            confirmUpdate();
         }
     }
 
