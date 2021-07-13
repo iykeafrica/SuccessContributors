@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivityListUsersBinding;
 import com.example.successcontribution.model.response.UserRest;
 import com.example.successcontribution.ui.adapter.ListUsersAdapter;
@@ -60,7 +61,7 @@ public class ListUsersActivity extends AppCompatActivity {
     }
 
     private void attemptConnection(ListUsersViewModel viewModel) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 

@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         mBinding.scrollview.setBackground(ContextCompat.getDrawable(this, R.drawable.background_two));
         mBinding.layoutMain.setVisibility(View.GONE);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Retrieving your information please wait...");
         progressDialog.show();
 

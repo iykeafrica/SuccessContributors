@@ -201,7 +201,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void attemptConnection(CreateUserViewModel viewModel) {
         hideKeyboard(this);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivityGetUserLoanBinding;
 import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.ui.viewmodel.GetUserViewModel;
@@ -109,7 +110,7 @@ public class GetUserLoanActivity extends AppCompatActivity {
     }
 
     private void findUserLoan(String userId, String loanId) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 

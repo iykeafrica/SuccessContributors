@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivityPasswordResetRequestBinding;
 import com.example.successcontribution.model.request.PasswordResetRequestModel;
 import com.example.successcontribution.model.response.OperationStatusModel;
@@ -39,13 +40,15 @@ public class PasswordResetRequestActivity extends AppCompatActivity {
         mBinding.btnSubmit.setOnClickListener(v -> {
             if (!mBinding.etEmail.getText().toString().trim().isEmpty()) {
                 sendResetLink();
+            } else {
+                Toast.makeText(this, "Please, enter your email address", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void sendResetLink() {
         hideKeyboard(this);
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 

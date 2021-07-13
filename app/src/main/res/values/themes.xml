@@ -18,4 +18,9 @@
         <item name="android:windowBackground">@drawable/splash_screen_background_2</item>
     </style>
 
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/primary_light</item>
+    </style>
+
+
 </resources>

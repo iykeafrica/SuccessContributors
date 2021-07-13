@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.successcontribution.R;
 import com.example.successcontribution.databinding.ActivityLoginBinding;
 import com.example.successcontribution.model.request.UserLoginRequestModel;
 import com.example.successcontribution.shared.Utils;
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptConnection(UserLoginRequestModel loginRequestModel) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 

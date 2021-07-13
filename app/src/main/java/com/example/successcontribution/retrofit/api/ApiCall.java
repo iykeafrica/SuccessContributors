@@ -5,7 +5,9 @@ import com.example.successcontribution.model.request.GuarantorLoanRequestModel;
 import com.example.successcontribution.model.request.LoanRequestModel;
 import com.example.successcontribution.model.request.PasswordResetModel;
 import com.example.successcontribution.model.request.PasswordResetRequestModel;
+import com.example.successcontribution.model.request.UserDepositedFundRequestModel;
 import com.example.successcontribution.model.request.UserDetailsRequestModel;
+import com.example.successcontribution.model.request.UserLoanEligibilityRequestModel;
 import com.example.successcontribution.model.request.UserLoginRequestModel;
 import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.model.response.OperationStatusModel;
@@ -34,6 +36,8 @@ public interface ApiCall {
     //selectSpecificLoan -> https://success-contributions.herokuapp.com/success-contributions/users/{userId}/loan-applications/{loanId}
     //updateLoanByGuarantor -> https://success-contributions.herokuapp.com/success-contributions/{userId}/loan-applications/{loanId}/update-loan-application-guarantor
     //passwordResetRequest -> https://success-contributions.herokuapp.com/success-contributions/success-contributions/users/password-reset-request
+    //updateUserLoanEligibility -> https://success-contributions.herokuapp.com/success-contributions/users/{userId}/update-loan-eligibility
+    //updateUserSavings -> https://success-contributions.herokuapp.com/success-contributions/users/{userId}/update-deposited-fund
 
 
 
@@ -67,4 +71,9 @@ public interface ApiCall {
     @PUT("/success-contributions/users/{userId}/loan-applications/{loanId}/update-loan-application-admin")
     Call<LoanRest> updateUserLoanApplicationByAdmin(@Path("userId") String userId, @Path("loanId") String loanId, @Body AdminLoanRequestModel adminLoanRequestModel);
 
+    @PUT("/success-contributions/users/{userId}/update-loan-eligibility")
+    Call<UserRest> updateUserLoanEligibility(@Path("userId") String userId, @Body UserLoanEligibilityRequestModel requestModel);
+
+    @PUT("/success-contributions/users/{userId}/update-deposited-fund")
+    Call<UserRest> updateUserSavings(@Path("userId") String userId, @Body UserDepositedFundRequestModel requestModel);
 }

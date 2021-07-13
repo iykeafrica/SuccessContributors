@@ -48,7 +48,7 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
 
     private void attemptConnection(ListUserLoanApplicationsViewModel viewModel) {
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 

@@ -271,7 +271,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         hideKeyboard(this);
         viewModel.setLoanRequestModelData(loanRequestModel);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 
@@ -374,7 +374,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
     private void attemptToUpdateGuarantor(String guarantorOneConfirmation, String guarantorTwoConfirmation) {
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 
@@ -617,7 +617,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     }
 
     private void attemptToUpdateAdmin(UpdateUserLoanApplicationByAdminViewModel viewModel, AdminLoanRequestModel requestModel) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 
