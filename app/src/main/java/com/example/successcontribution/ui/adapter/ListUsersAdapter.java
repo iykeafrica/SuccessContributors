@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.paging.PagedList;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +21,7 @@ import static com.example.successcontribution.shared.Constant.LOAN_CHECKER;
 import static com.example.successcontribution.shared.Constant.PRESIDENT;
 import static com.example.successcontribution.shared.Constant.SUPER_ADMIN;
 
-public class ListUsersAdapter extends ListAdapter<UserRest, ListUsersAdapter.ViewHolder> {
+public class ListUsersAdapter extends PagedListAdapter<UserRest, ListUsersAdapter.ViewHolder> { //changed from List Adapter to PagedListAdapter
 
     private ClickListener mClickListener;
 
@@ -47,16 +49,19 @@ public class ListUsersAdapter extends ListAdapter<UserRest, ListUsersAdapter.Vie
 
     @Override
     public void onBindViewHolder(ListUsersAdapter.ViewHolder holder, int position) {
-        if (getItem(position).getFirstName().equals(EXCO) || getItem(position).getFirstName().equals(LOAN_CHECKER)
-                || getItem(position).getFirstName().equals(PRESIDENT) || (getItem(position).getFirstName().equals(ADMIN)
-                || getItem(position).getFirstName().equals(SUPER_ADMIN))) {
-            holder.cardHeader.setVisibility(View.GONE);
-        } else {
-            holder.cardHeader.setVisibility(View.VISIBLE);
-            holder.bind(getItem(position));
-            holder.itemView.setOnClickListener(v -> {
-                mClickListener.selectUser(position, getItem(position));
-            });
+        UserRest userRest = getItem(position);
+        if (userRest != null) {
+            if (EXCO.equals(userRest.getFirstName()) || LOAN_CHECKER.equals(userRest.getFirstName())
+                    || PRESIDENT.equals(userRest.getFirstName()) || ADMIN.equals(userRest.getFirstName())
+                    || SUPER_ADMIN.equals(userRest.getFirstName())) {
+                holder.cardHeader.setVisibility(View.GONE);
+            }  else {
+                holder.cardHeader.setVisibility(View.VISIBLE);
+                holder.bind(userRest);
+                holder.itemView.setOnClickListener(v -> {
+                    mClickListener.selectUser(position, getItem(position));
+                });
+            }
         }
     }
 

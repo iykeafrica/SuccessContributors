@@ -11,6 +11,7 @@
     <color name="accent">#C6964F</color>
     <color name="accent_one">#95D5D3D0</color>
     <color name="accent_dark">#C6964F</color>
+    <color name="accent_dark_two">#DABE94</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorAccent">#469E9E9E</color>

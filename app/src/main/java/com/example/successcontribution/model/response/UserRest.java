@@ -15,10 +15,6 @@ public class UserRest {
 
     @NonNull
     @PrimaryKey
-    @SerializedName("_id")
-    @Expose
-    public String _id;
-
     @SerializedName("userId")
     @Expose
     private String userId;
