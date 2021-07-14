@@ -11,7 +11,7 @@ import com.example.successcontribution.model.response.UserRest;
 import com.example.successcontribution.repository.response.PagedUsersRestResponse;
 
 public class UsersRepository {
-    private static final String TAG = AuthRepository.class.getSimpleName();
+    private static final String TAG = UsersRepository.class.getSimpleName();
     private final UsersBoundaryCallback mBoundaryCallback;
     public static final int STORAGE_PAGE_SIZE = 5;
 
@@ -19,10 +19,10 @@ public class UsersRepository {
         mBoundaryCallback = new UsersBoundaryCallback(application);
     }
 
-    public PagedUsersRestResponse getAllRestResponse() {
+    public PagedUsersRestResponse getAllUsers() {
         LiveData<String> networkError = mBoundaryCallback.getNetworkError();
 
-        DataSource.Factory<Integer, UserRest> factory = mBoundaryCallback.getAllUserRepo();
+        DataSource.Factory<Integer, UserRest> factory = mBoundaryCallback.getAllUsers();
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setPageSize(STORAGE_PAGE_SIZE)
@@ -35,10 +35,10 @@ public class UsersRepository {
         return new PagedUsersRestResponse(data, networkError);
     }
 
-    public PagedUsersRestResponse getRestResponse(String query) {
+    public PagedUsersRestResponse getUser(String query) {
         LiveData<String> networkError = mBoundaryCallback.getNetworkError();
 
-        DataSource.Factory<Integer, UserRest> factory = mBoundaryCallback.getUserRepo(query);
+        DataSource.Factory<Integer, UserRest> factory = mBoundaryCallback.getUser(query);
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setPageSize(STORAGE_PAGE_SIZE)

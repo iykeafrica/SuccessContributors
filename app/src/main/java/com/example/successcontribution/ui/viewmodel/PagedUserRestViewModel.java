@@ -30,12 +30,12 @@ public class PagedUserRestViewModel extends AndroidViewModel {
         UsersRepository repository = new UsersRepository(application);
         mQueryMutableLiveData = new MutableLiveData<>();
 
-        PagedUsersRestResponse pagedUsersRestResponse = repository.getAllRestResponse();
+        PagedUsersRestResponse pagedUsersRestResponse = repository.getAllUsers();
         mPagedListLiveData = pagedUsersRestResponse.getData();
         mNetworkError = pagedUsersRestResponse.getNetworkError();
 
         LiveData<PagedUsersRestResponse> liveData = Transformations.map(mQueryMutableLiveData,
-                repository::getRestResponse);
+                repository::getUser);
 
         mPagedListByUserLiveData = Transformations.switchMap(liveData,
                 PagedUsersRestResponse::getData);

@@ -3,17 +3,24 @@ package com.example.successcontribution.model.response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
+@Entity(tableName = "loans")
 public class LoanRest implements Parcelable {
 
     @SerializedName("name")
     @Expose
     private String name;
 
+    @NonNull
+    @PrimaryKey
     @SerializedName("loanId")
     @Expose
     private String loanId;
@@ -77,6 +84,9 @@ public class LoanRest implements Parcelable {
     @SerializedName("editable")
     @Expose
     private Boolean isEditable;
+
+    public LoanRest() {
+    }
 
     protected LoanRest(Parcel in) {
         name = in.readString();

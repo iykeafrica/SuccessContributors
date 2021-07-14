@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +20,7 @@ import static com.example.successcontribution.shared.Constant.LOAN_CHECKER;
 import static com.example.successcontribution.shared.Constant.PRESIDENT;
 import static com.example.successcontribution.shared.Constant.SUPER_ADMIN;
 
-public class ListLoanApplicationsAdapter extends ListAdapter<LoanRest, ListLoanApplicationsAdapter.ViewHolder> {
+public class ListLoanApplicationsAdapter extends PagedListAdapter<LoanRest, ListLoanApplicationsAdapter.ViewHolder> {
 
     private ClickListener mClickListener;
 

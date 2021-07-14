@@ -23,7 +23,7 @@ public interface UsersDao {
 
     @Query("SELECT * FROM users WHERE (firstName LIKE :queryString) OR " +
             "(lastName LIKE :queryString) ORDER BY firstName ASC, sapNo DESC")
-    DataSource.Factory<Integer, UserRest> getUsers(String queryString);
+    DataSource.Factory<Integer, UserRest> getUser(String queryString);
 
     @Query("SELECT * FROM users WHERE (firstName LIKE '%' || :name || '%' ) OR " +
             "(lastName LIKE '%' || :name || '%' )")

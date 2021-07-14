@@ -28,13 +28,13 @@ public class UsersLocalCache {
         });
     }
 
-    public DataSource.Factory<Integer, UserRest> getUserRepo(String query) {
+    public DataSource.Factory<Integer, UserRest> getUser(String query) {
         String formatQuery = "%" + query.replace(' ', '%') + "%";
-        return mUsersDao.getUsers(formatQuery);
+        return mUsersDao.getUser(formatQuery);
         //return mDao.getRecipeRepo(query);
     }
 
-    public DataSource.Factory<Integer, UserRest> getAllUserRepo() {
+    public DataSource.Factory<Integer, UserRest> getAllUsers() {
         return mUsersDao.getAllUsers();
     }
 

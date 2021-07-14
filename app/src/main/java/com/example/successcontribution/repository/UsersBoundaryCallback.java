@@ -41,15 +41,15 @@ public class UsersBoundaryCallback extends PagedList.BoundaryCallback<UserRest> 
         }
         isStillSearching = true;
 
-        mClientServiceResult.networkCall(this, lastPageRequested, NETWORK_PAGE_SIZE);
+        mClientServiceResult.networkCallUserRest(this, lastPageRequested, NETWORK_PAGE_SIZE);
     }
 
-    public DataSource.Factory<Integer, UserRest> getUserRepo(String query) {
-        return mUsersLocalCache.getUserRepo(query);
+    public DataSource.Factory<Integer, UserRest> getUser(String query) {
+        return mUsersLocalCache.getUser(query);
     }
 
-    public DataSource.Factory<Integer, UserRest> getAllUserRepo() {
-        return mUsersLocalCache.getAllUserRepo();
+    public DataSource.Factory<Integer, UserRest> getAllUsers() {
+        return mUsersLocalCache.getAllUsers();
     }
 
     @Override
