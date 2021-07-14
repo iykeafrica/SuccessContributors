@@ -1,5 +1,6 @@
 package com.example.successcontribution.db;
 
+import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -22,4 +23,8 @@ public interface LoansDao {
     @Query("SELECT * FROM loans WHERE (requestDate LIKE :queryString) OR " +
             "(statusDate LIKE :queryString) ORDER BY requestDate DESC")
     DataSource.Factory<Integer, LoanRest> getLoan(long queryString);
+
+    @Query("SELECT * FROM loans WHERE (requestDate LIKE :queryString ) OR (statusDate LIKE :queryString )")
+    LiveData<List<LoanRest>> getOneLoan(long queryString);
+
 }

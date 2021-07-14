@@ -3,6 +3,7 @@ package com.example.successcontribution.db;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 
 import com.example.successcontribution.model.response.LoanRest;
@@ -34,6 +35,10 @@ public class LoansLocalCache {
 
     public DataSource.Factory<Integer, LoanRest> getAllLoans() {
         return mLoansDao.getAllLoans();
+    }
+
+    public LiveData<List<LoanRest>> getOneLoan(long query) {
+        return mLoansDao.getOneLoan(query);
     }
 
     public interface Callback {

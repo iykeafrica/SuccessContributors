@@ -201,9 +201,10 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.dateAppliedRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.dateAppliedRequiredText.setTextColor(getResources().getColor(R.color.black));
 
-                DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
                 mDateAppliedString = mBinding.dateApplied.getText().toString();
-                String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
+
+                String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear() + " " + "00" + ":" + "00" + ":" + "00");
                 try {
                     Date date = dateFormat.parse(strDate);
                     mCal1.setTime(date);
@@ -220,9 +221,9 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                 mBinding.repaymentRequired.setBackground(ContextCompat.getDrawable(this, R.drawable.required));
                 mBinding.repaymentRequiredText.setTextColor(getResources().getColor(R.color.black));
 
-                DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
                 mDateRepayment = mBinding.repayment.getText().toString();
-                String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
+                String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear() + " " + "00" + ":" + "00" + ":" + "00");
                 try {
                     Date date = dateFormat.parse(strDate);
                     mCal2.setTime(date);
@@ -587,8 +588,8 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     }
 
     private void submitOfficialSection() {
-        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-        String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
+        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear() + " " + "00" + ":" + "00" + ":" + "00");
         try {
             Date date = dateFormat.parse(strDate);
             mCal3.setTime(date);

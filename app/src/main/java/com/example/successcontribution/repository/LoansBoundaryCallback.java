@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.PagedList;
@@ -19,7 +20,7 @@ public class LoansBoundaryCallback extends PagedList.BoundaryCallback<LoanRest> 
     private static final String TAG = UsersBoundaryCallback.class.getSimpleName();
     private final LoansLocalCache mLoansLocalCache;
     private final ClientServiceResult mClientServiceResult;
-    private int lastPageRequested = 1;
+//    private int lastPageRequested = 1;
     //    private final String mQuery;
     public static final int NETWORK_PAGE_SIZE = 3;
     boolean isStillSearching = false;
@@ -46,6 +47,10 @@ public class LoansBoundaryCallback extends PagedList.BoundaryCallback<LoanRest> 
         return mLoansLocalCache.getAllLoans();
     }
 
+    public LiveData<List<LoanRest>> getOneLoan(long query) {
+        return mLoansLocalCache.getOneLoan(query);
+    }
+
     @Override
     public void onZeroItemsLoaded() {
         Log.d(TAG, "onZeroItemsLoaded: Started");
@@ -68,7 +73,6 @@ public class LoansBoundaryCallback extends PagedList.BoundaryCallback<LoanRest> 
             @Override
             public void insertFinished() {
                 searchAndSave();
-                lastPageRequested++;
                 isStillSearching = false;
             }
         });

@@ -15,6 +15,8 @@ import com.example.successcontribution.repository.response.PagedLoansRestRespons
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class PagedLoanRestViewModel extends AndroidViewModel {
 
     private final MutableLiveData<Long> mQueryMutableLiveData;
@@ -22,6 +24,7 @@ public class PagedLoanRestViewModel extends AndroidViewModel {
     private final LiveData<String> mNetworkError;
     private final LiveData<PagedList<LoanRest>> mPagedListByLoanLiveData;
     private final LiveData<String> mNetworkByLoanError;
+    private LiveData<List<LoanRest>> mListLiveData;
 
 
     public PagedLoanRestViewModel(@NonNull @NotNull Application application) {
@@ -42,6 +45,8 @@ public class PagedLoanRestViewModel extends AndroidViewModel {
 
         mNetworkByLoanError = Transformations.switchMap(liveData,
                 PagedLoansRestResponse::getNetworkError);
+
+        mListLiveData = Transformations.switchMap(mQueryMutableLiveData, repository::getOneLoan);
     }
 
     public void setQueryMutableLiveData(Long query) {
@@ -62,5 +67,9 @@ public class PagedLoanRestViewModel extends AndroidViewModel {
 
     public LiveData<String> getNetworkByLoanError() {
         return mNetworkByLoanError;
+    }
+
+    public LiveData<List<LoanRest>> getListLiveData() {
+        return mListLiveData;
     }
 }

@@ -29,6 +29,7 @@ import com.example.successcontribution.databinding.ActivityListLoanApplicationsB
 import com.example.successcontribution.model.response.LoanRest;
 import com.example.successcontribution.shared.DatePicker;
 import com.example.successcontribution.ui.adapter.ListLoanApplicationsAdapter;
+import com.example.successcontribution.ui.adapter.ListLoanApplicationsAdapter2;
 import com.example.successcontribution.ui.adapter.ListUsersAdapter;
 import com.example.successcontribution.ui.viewmodel.ListUserLoanApplicationsViewModel;
 import com.example.successcontribution.ui.viewmodel.PagedLoanRestViewModel;
@@ -188,8 +189,8 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
 
         PagedLoanRestViewModel viewModel = provider.get(PagedLoanRestViewModel.class);
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-        String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear());
+        DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear() + " " + "00" + ":" + "00" + ":" + "00");
         try {
             Date date = dateFormat.parse(strDate);
             mCal.setTime(date);
@@ -199,19 +200,32 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
         viewModel.setQueryMutableLiveData(mCal.getTimeInMillis());
         Log.d(TAG, "searchLoan: time in milliseconds " + mCal.getTimeInMillis());
 
-        viewModel.getPagedListByLoanLiveData().observe(this, new Observer<PagedList<LoanRest>>() {
+        viewModel.getListLiveData().observe(this, new Observer<List<LoanRest>>() {
             @Override
-            public void onChanged(PagedList<LoanRest> loanRests) {
+            public void onChanged(List<LoanRest> loanRests) {
                 mAdapter.submitList(loanRests);
             }
         });
 
-        viewModel.getNetworkByLoanError().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String errorMessage) {
-                Toast.makeText(ListLoanApplicationsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        viewModel.getPagedListByLoanLiveData().observe(this, new Observer<PagedList<LoanRest>>() {
+//            @Override
+//            public void onChanged(PagedList<LoanRest> loanRests) {
+//                if (loanRests == null) {
+//                    Toast.makeText(ListLoanApplicationsActivity.this, "You don't a loan on this date", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    mAdapter.submitList(loanRests);
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//                getViewModelStore().clear();
+//            }
+//        });
+
+//        viewModel.getNetworkByLoanError().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(String errorMessage) {
+//                Toast.makeText(ListLoanApplicationsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private final TextWatcher mTextWatcher = new TextWatcher() {

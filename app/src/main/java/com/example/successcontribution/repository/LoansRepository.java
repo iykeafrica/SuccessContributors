@@ -3,20 +3,29 @@ package com.example.successcontribution.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+import com.example.successcontribution.db.LoansDao;
+import com.example.successcontribution.db.UsersDB;
 import com.example.successcontribution.model.response.LoanRest;
+import com.example.successcontribution.repository.response.ListLoanRestResponse;
 import com.example.successcontribution.repository.response.PagedLoansRestResponse;
+
+import java.util.List;
 
 public class LoansRepository {
     private static final String TAG = LoansRepository.class.getSimpleName();
     private final LoansBoundaryCallback mBoundaryCallback;
     public static final int STORAGE_PAGE_SIZE = 5;
+    private LoansDao mLoansDao;
 
     public LoansRepository(Application application) {
         mBoundaryCallback = new LoansBoundaryCallback(application);
+        UsersDB db = UsersDB.getInstance(application);
+        mLoansDao = db.loansDao();
     }
 
     public PagedLoansRestResponse getAllLoans() {
@@ -49,6 +58,20 @@ public class LoansRepository {
                 .build();
 
         return new PagedLoansRestResponse(data, networkError);
+    }
+
+//    public ListLoanRestResponse getOneLoan (long query) {
+//        MutableLiveData<List<LoanRest>> data = new MutableLiveData<>();
+//        MutableLiveData<String> networkError = new MutableLiveData<>();
+//
+//        mBoundaryCallback.getOneLoan(query);
+//
+//
+//        return new ListLoanRestResponse(data,networkError);
+//    }
+
+    public LiveData<List<LoanRest>> getOneLoan(long query) {
+        return mLoansDao.getOneLoan(query);
     }
 
 }

@@ -165,8 +165,12 @@ public class ListUsersActivity extends AppCompatActivity {
         viewModel.getPagedListByUserLiveData().observe(this, new Observer<PagedList<UserRest>>() {
             @Override
             public void onChanged(PagedList<UserRest> userRests) {
-                mAdapter.submitList(userRests);
-                mAdapter.notifyDataSetChanged();
+                if (userRests == null) {
+                    Toast.makeText(ListUsersActivity.this, "The user you are looking for, does not exist", Toast.LENGTH_SHORT).show();
+                } else {
+                    mAdapter.submitList(userRests);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
 
