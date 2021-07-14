@@ -20,7 +20,7 @@ public class LoansRepository {
     private static final String TAG = LoansRepository.class.getSimpleName();
     private final LoansBoundaryCallback mBoundaryCallback;
     public static final int STORAGE_PAGE_SIZE = 5;
-    private LoansDao mLoansDao;
+    private final LoansDao mLoansDao;
 
     public LoansRepository(Application application) {
         mBoundaryCallback = new LoansBoundaryCallback(application);

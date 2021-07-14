@@ -24,6 +24,9 @@ public interface LoansDao {
             "(statusDate LIKE :queryString) ORDER BY requestDate DESC")
     DataSource.Factory<Integer, LoanRest> getLoan(long queryString);
 
+    @Query("SELECT * FROM loans")
+    LiveData<List<LoanRest>> getManyLoans();
+
     @Query("SELECT * FROM loans WHERE (requestDate LIKE :queryString ) OR (statusDate LIKE :queryString )")
     LiveData<List<LoanRest>> getOneLoan(long queryString);
 

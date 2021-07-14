@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -42,6 +43,7 @@ import static com.example.successcontribution.shared.Constant.APPROVE_LOAN_KEY;
 import static com.example.successcontribution.shared.Constant.FIRST_NAME_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTEE_LOAN_KEY;
 import static com.example.successcontribution.shared.Constant.LOGIN_ROLE_KEY;
+import static com.example.successcontribution.shared.Constant.OPEN_LOAN_DETAILS;
 import static com.example.successcontribution.shared.Constant.PARCELABLE_EXTRA_KEY;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_ONE_SAVED_INSTANCE_STATE;
 import static com.example.successcontribution.shared.Constant.GUARANTOR_TWO_SAVED_INSTANCE_STATE;
@@ -67,6 +69,7 @@ import static com.example.successcontribution.shared.Constant.USER_ID_SENT_BY_GU
 
 public class LoanRequestFormActivity extends AppCompatActivity {
 
+    public static final String TAG = LoanRequestFormActivity.class.getSimpleName();
     ActivityLoanRequestFormBinding mBinding;
     private String mAmount;
     private String mGuarantorOne;
@@ -92,6 +95,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
     private String mUserId;
     private String mLoanId;
     private boolean hasSubmitted;
+    private long mBackPressed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -308,18 +312,22 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding.enableEdit.setChecked(loanRest.getEditable());
 
         mBinding.loanId.setText(loanRest.getLoanId());
-        mBinding.copyLoanId.setOnClickListener(v -> {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Loan Id", "" + loanRest.getLoanId());
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(this, clip.getDescription().getLabel() + " copied", Toast.LENGTH_SHORT).show();
-        });
+        copyLoanId(loanRest);
         mBinding.status.setText(loanRest.getStatus());
 
         progressDialog.dismiss();
         Toast.makeText(getApplicationContext(), "Loan request sent successfully!", Toast.LENGTH_LONG).show();
         hasSubmitted = true;
         getViewModelStore().clear();
+    }
+
+    private void copyLoanId(LoanRest loanRest) {
+        mBinding.copyLoanId.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Loan Id", "" + loanRest.getLoanId());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(this, clip.getDescription().getLabel() + " copied", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
@@ -823,7 +831,12 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "You are not entitled to guarantee this loan", Toast.LENGTH_SHORT).show();
                     }
-                } else {
+                } else if (intent.hasExtra(OPEN_LOAN_DETAILS)) { //open requested loan details
+                    mBinding.loanIdHeader.setEnabled(true);
+                    setValues();
+                    LoanRest loanRest = getIntent().getParcelableExtra(OPEN_LOAN_DETAILS);
+                    copyLoanId(loanRest);
+                } else { //request loan
                     mBinding.amount.setEnabled(true);
                     mBinding.guarantorOne.setEnabled(true);
                     mBinding.guarantorTwo.setEnabled(true);
@@ -835,7 +848,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     mBinding.userSubmit.setEnabled(true);
                     requestLoan();
                 }
-            } else {
+            } else { //Admin
                 setValues();
                 mBinding.statusHeader.setVisibility(View.VISIBLE);
                 mBinding.loanIdHeader.setVisibility(View.VISIBLE);
@@ -888,6 +901,10 @@ public class LoanRequestFormActivity extends AppCompatActivity {
             }
         }
 
+        if (intent.hasExtra(OPEN_LOAN_DETAILS)) {
+            LoanRest loanRest = intent.getParcelableExtra(OPEN_LOAN_DETAILS);
+            setReturnValues(loanRest, dateFormat);
+        }
     }
 
     private void setReturnValues(LoanRest loanRest, DateFormat dateFormat) {
@@ -908,7 +925,6 @@ public class LoanRequestFormActivity extends AppCompatActivity {
         mBinding.president.setText(loanRest.getPresident());
         mBinding.dateStatus.setText("" + dateFormat.format(new Date(loanRest.getStatusDate())));
         mBinding.statusUpdate.setText(loanRest.getStatus());
-        mBinding.enableEdit.setEnabled(loanRest.getEditable());
         mBinding.enableEdit.setChecked(loanRest.getEditable());
     }
 
@@ -933,26 +949,18 @@ public class LoanRequestFormActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        builder.setCancelable(false);
-        builder.setMessage("Do you want to Exit?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getApplicationContext(), DashBoardActivity.class);
-                intent.putExtra(LOGIN_ROLE_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
-                finish();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //if user select "No", just cancel this dialog and continue with app
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
+        long time = System.currentTimeMillis();
+        Log.i(TAG, "onBackPressed: " + time);
+
+        if (time - mBackPressed > 2500) {
+            mBackPressed = time;
+            Toast.makeText(this, "Press back again to return to main page", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), DashBoardActivity.class);
+            intent.putExtra(LOGIN_ROLE_KEY, mPreferences.getString(LOGIN_ROLE_KEY, ""));
+            finish();
+//            moveTaskToBack(true);
+        }
     }
 
 }

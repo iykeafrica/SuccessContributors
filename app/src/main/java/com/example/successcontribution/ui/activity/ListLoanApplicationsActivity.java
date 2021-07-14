@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -41,11 +42,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.successcontribution.shared.Constant.OPEN_LOAN_DETAILS;
+
 public class ListLoanApplicationsActivity extends AppCompatActivity {
 
     public static final String TAG = ListLoanApplicationsActivity.class.getSimpleName();
     private ActivityListLoanApplicationsBinding mBinding;
-    private ListLoanApplicationsAdapter mAdapter;
+//    private ListLoanApplicationsAdapter mAdapter;
+    private ListLoanApplicationsAdapter2 mAdapter;
     private DatePicker mDatePicker;
     private Calendar mCal;
 
@@ -57,7 +61,8 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
         mBinding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new ListLoanApplicationsAdapter();
+//        mAdapter = new ListLoanApplicationsAdapter();
+        mAdapter = new ListLoanApplicationsAdapter2();
         mBinding.recyclerview.setAdapter(mAdapter);
 
         hideOpeningKeyBoard(mBinding.searchLoan);
@@ -102,21 +107,62 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
         ViewModelProvider provider = new ViewModelProvider(getViewModelStore(),
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
 
-//        ListUserLoanApplicationsViewModel viewModel = provider.get(ListUserLoanApplicationsViewModel.class);
-        PagedLoanRestViewModel viewModel = provider.get(PagedLoanRestViewModel.class);
+        ListUserLoanApplicationsViewModel viewModel = provider.get(ListUserLoanApplicationsViewModel.class);
+//        PagedLoanRestViewModel viewModel = provider.get(PagedLoanRestViewModel.class);
 
         attemptConnection(viewModel);
     }
 
-    private void attemptConnection(PagedLoanRestViewModel viewModel) {
+//    private void attemptConnection(PagedLoanRestViewModel viewModel) {
+//        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
+//        progressDialog.setMessage("Authenticating please wait...");
+//        progressDialog.show();
+//
+//
+//        viewModel.getPagedListLiveData().observe(this, new Observer<PagedList<LoanRest>>() {
+//            @Override
+//            public void onChanged(PagedList<LoanRest> loanRests) {
+//                successConnection(loanRests, progressDialog);
+//            }
+//        });
+//
+//        viewModel.getNetworkError().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(String errorMessage) {
+//                errorConnection(errorMessage, progressDialog);
+//            }
+//        });
+//    }
+//
+//    private void successConnection(PagedList<LoanRest> loanRests, ProgressDialog progressDialog) {
+//        progressDialog.dismiss();
+//        mAdapter.submitList(loanRests);
+//        mAdapter.notifyDataSetChanged();
+//
+//        mAdapter.setClickListener(new ListLoanApplicationsAdapter.ClickListener() {
+//            @Override
+//            public void selectLoan(int position, LoanRest loanRest) {
+//                Toast.makeText(ListLoanApplicationsActivity.this, "" + loanRest.getLoanId(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+    private void attemptConnection(ListUserLoanApplicationsViewModel viewModel) {
+
         final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         progressDialog.setMessage("Authenticating please wait...");
         progressDialog.show();
 
+//        viewModel.getListLiveData().observe(this, new Observer<List<LoanRest>>() {
+//            @Override
+//            public void onChanged(List<LoanRest> loanRests) {
+//                successConnection(loanRests, progressDialog);
+//            }
+//        });
 
-        viewModel.getPagedListLiveData().observe(this, new Observer<PagedList<LoanRest>>() {
+        viewModel.getLoanRestLiveData().observe(this, new Observer<List<LoanRest>>() {
             @Override
-            public void onChanged(PagedList<LoanRest> loanRests) {
+            public void onChanged(List<LoanRest> loanRests) {
                 successConnection(loanRests, progressDialog);
             }
         });
@@ -129,53 +175,27 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
         });
     }
 
-    private void successConnection(PagedList<LoanRest> loanRests, ProgressDialog progressDialog) {
+    private void successConnection(List<LoanRest> loanRests, ProgressDialog progressDialog) {
         progressDialog.dismiss();
         mAdapter.submitList(loanRests);
         mAdapter.notifyDataSetChanged();
 
-        mAdapter.setClickListener(new ListLoanApplicationsAdapter.ClickListener() {
+        mAdapter.setClickListener(new ListLoanApplicationsAdapter2.ClickListener() {
             @Override
             public void selectLoan(int position, LoanRest loanRest) {
-                Toast.makeText(ListLoanApplicationsActivity.this, "" + loanRest.getLoanId(), Toast.LENGTH_SHORT).show();
+                openLoanDetails(loanRest);
+//                Toast.makeText(ListLoanApplicationsActivity.this, "" + loanRest.getLoanId(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-//    private void attemptConnection(ListUserLoanApplicationsViewModel viewModel) {
-//
-//        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
-//        progressDialog.setMessage("Authenticating please wait...");
-//        progressDialog.show();
-//
-//        viewModel.getListLiveData().observe(this, new Observer<List<LoanRest>>() {
-//            @Override
-//            public void onChanged(List<LoanRest> loanRests) {
-//                successConnection(loanRests, progressDialog);
-//            }
-//        });
-//
-//        viewModel.getNetworkError().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(String errorMessage) {
-//                errorConnection(errorMessage, progressDialog);
-//            }
-//        });
-//
-//    }
-
-//    private void successConnection(List<LoanRest> loanRests, ProgressDialog progressDialog) {
-//        progressDialog.dismiss();
-//        mAdapter.submitList(loanRests);
-//
 //        mAdapter.setClickListener(new ListLoanApplicationsAdapter.ClickListener() {
 //            @Override
 //            public void selectLoan(int position, LoanRest loanRest) {
 //                Toast.makeText(ListLoanApplicationsActivity.this, "" + loanRest.getLoanId(), Toast.LENGTH_SHORT).show();
 //            }
 //        });
-//        getViewModelStore().clear();
-//    }
+        getViewModelStore().clear();
+    }
 
     private void errorConnection(String errorMessage, ProgressDialog progressDialog) {
         progressDialog.dismiss();
@@ -183,11 +203,18 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
         getViewModelStore().clear();
     }
 
+    private void openLoanDetails(LoanRest loanRest) {
+        Intent intent = new Intent(this, LoanRequestFormActivity.class);
+        intent.putExtra(OPEN_LOAN_DETAILS, loanRest);
+        startActivity(intent);
+    }
+
     private void searchLoan() {
         ViewModelProvider provider = new ViewModelProvider(getViewModelStore(),
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()));
 
-        PagedLoanRestViewModel viewModel = provider.get(PagedLoanRestViewModel.class);
+//        PagedLoanRestViewModel viewModel = provider.get(PagedLoanRestViewModel.class);
+        ListUserLoanApplicationsViewModel viewModel = provider.get(ListUserLoanApplicationsViewModel.class);
 
         DateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String strDate = (mDatePicker.getDay() + "-" + mDatePicker.getMonth() + "-" + mDatePicker.getYear() + " " + "00" + ":" + "00" + ":" + "00");
@@ -197,16 +224,16 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        viewModel.setQueryMutableLiveData(mCal.getTimeInMillis());
+//        viewModel.setQueryMutableLiveData(mCal.getTimeInMillis());
+        viewModel.setLoanMutableLiveData(mCal.getTimeInMillis());
         Log.d(TAG, "searchLoan: time in milliseconds " + mCal.getTimeInMillis());
 
-        viewModel.getListLiveData().observe(this, new Observer<List<LoanRest>>() {
+        viewModel.getOneLoanRestLiveData().observe(this, new Observer<List<LoanRest>>() {
             @Override
             public void onChanged(List<LoanRest> loanRests) {
                 mAdapter.submitList(loanRests);
             }
         });
-
 //        viewModel.getPagedListByLoanLiveData().observe(this, new Observer<PagedList<LoanRest>>() {
 //            @Override
 //            public void onChanged(PagedList<LoanRest> loanRests) {

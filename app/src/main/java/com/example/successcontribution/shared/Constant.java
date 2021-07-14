@@ -16,6 +16,7 @@ public class Constant {
     public static final String ADMIN = "admin";
     public static final String SUPER_ADMIN = "super";
 
+    public static final String OPEN_LOAN_DETAILS = "com.example.successcontribution.utils_OPEN_LOAN_DETAILS";
 
     public static final String PARCELABLE_EXTRA_KEY = "com.example.successcontribution.utils_PARCELABLE_EXTRA_KEY";
     public static final String GUARANTEE_LOAN_KEY = "com.example.successcontribution.utils_GUARANTEE_LOAN_KEY";

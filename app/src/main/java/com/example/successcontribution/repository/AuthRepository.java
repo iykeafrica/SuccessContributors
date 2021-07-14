@@ -4,8 +4,11 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.successcontribution.db.LoansDao;
+import com.example.successcontribution.db.UsersDB;
 import com.example.successcontribution.model.request.AdminLoanRequestModel;
 import com.example.successcontribution.model.request.GuarantorLoanRequestModel;
 import com.example.successcontribution.model.request.LoanRequestModel;
@@ -34,10 +37,14 @@ public class AuthRepository {
     private static final String TAG = AuthRepository.class.getSimpleName();
     private final AuthServiceClient mClient;
     private final SharedPreferences mSharedPreferences;
+    private final LoansDao mLoansDao;
 
     public AuthRepository(Application application) {
         mClient = new AuthServiceClient(application);
         mSharedPreferences = application.getSharedPreferences(MY_PREF, 0);
+
+        UsersDB db = UsersDB.getInstance(application);
+        mLoansDao = db.loansDao();
     }
 
     public LoanRestResponse requestLoan(LoanRequestModel loanRequestModel) {
@@ -137,6 +144,9 @@ public class AuthRepository {
                 if (response.isSuccessful()){
                     Log.d(TAG, "onResponse: " + response.body());
                     data.setValue(response.body());
+                    UsersDB.ioExecutor.execute(() -> {
+                        mLoansDao.insert(response.body());
+                    });
                 } else {
                     if (response.errorBody() != null) {
                         try {
@@ -166,6 +176,14 @@ public class AuthRepository {
         });
 
         return new ListLoanRestResponse(data, networkError);
+    }
+
+    public LiveData<List<LoanRest>> getOneLoan(long query) {
+        return mLoansDao.getOneLoan(query);
+    }
+
+    public LiveData<List<LoanRest>> getManyLoans() {
+        return mLoansDao.getManyLoans();
     }
 
     public LoanRestResponse getLoanApplication(String userId, String loanId) {

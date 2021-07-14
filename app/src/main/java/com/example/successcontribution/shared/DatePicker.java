@@ -33,6 +33,9 @@ public class DatePicker {
                 mCal.set(Calendar.YEAR, year);
                 mCal.set(Calendar.MONTH, month);
                 mCal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                mCal.set(Calendar.HOUR_OF_DAY, 0);
+                mCal.set(Calendar.MINUTE, 0);
+                mCal.set(Calendar.SECOND, 0);
 
                 updateDateLabel();
 
@@ -59,6 +62,8 @@ public class DatePicker {
     private void updateDateLabel() {
         String myFormat = "dd-M-yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+        mEditTextDate.setText("");
 
         mEditTextDate.setText(sdf.format(mCal.getTime()));
         Log.d(TAG, "updateDateLabel: " + mCal.getTime());
