@@ -20,7 +20,7 @@ public class LoansLocalCache {
     }
 
     public void insert(List<LoanRest> loans, Callback callback) {
-        Log.d(TAG, "insert: inserting " + loans.size() + " users");
+        Log.d(TAG, "insert: inserting " + loans.size() + " loans");
 
         UsersDB.ioExecutor.execute(() -> {
             mLoansDao.insert(loans);

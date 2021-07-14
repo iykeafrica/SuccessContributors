@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -41,6 +42,7 @@ import java.util.List;
 
 public class ListLoanApplicationsActivity extends AppCompatActivity {
 
+    public static final String TAG = ListLoanApplicationsActivity.class.getSimpleName();
     private ActivityListLoanApplicationsBinding mBinding;
     private ListLoanApplicationsAdapter mAdapter;
     private DatePicker mDatePicker;
@@ -195,6 +197,7 @@ public class ListLoanApplicationsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         viewModel.setQueryMutableLiveData(mCal.getTimeInMillis());
+        Log.d(TAG, "searchLoan: time in milliseconds " + mCal.getTimeInMillis());
 
         viewModel.getPagedListByLoanLiveData().observe(this, new Observer<PagedList<LoanRest>>() {
             @Override
