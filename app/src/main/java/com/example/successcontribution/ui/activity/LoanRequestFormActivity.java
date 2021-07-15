@@ -836,6 +836,7 @@ public class LoanRequestFormActivity extends AppCompatActivity {
                     setValues();
                     LoanRest loanRest = getIntent().getParcelableExtra(OPEN_LOAN_DETAILS);
                     copyLoanId(loanRest);
+
                 } else { //request loan
                     mBinding.amount.setEnabled(true);
                     mBinding.guarantorOne.setEnabled(true);
